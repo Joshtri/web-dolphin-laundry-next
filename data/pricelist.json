@@ -1,0 +1,303 @@
+[
+  {
+    "category": "Laundry Reguler",
+    "icon": "Droplet",
+    "description": "Paket cuci kering lipat standar dengan harga terjangkau",
+    "items": [
+      {
+        "name": "Laundry",
+        "price": "Rp 12.000 / Kg",
+        "duration": "2 hari"
+      },
+      {
+        "name": "Paket Hemat (di atas 10 kg)",
+        "price": "Rp 11.000 / Kg",
+        "duration": "2 hari"
+      },
+      {
+        "name": "Taplak Meja Besar",
+        "price": "Rp 20.000 / Kg",
+        "duration": "2 hari"
+      },
+      {
+        "name": "Taplak Meja Kecil",
+        "price": "Rp 17.000 / Kg",
+        "duration": "2 hari"
+      },
+      {
+        "name": "Karpet Besar",
+        "price": "Rp 20.000 / Kg",
+        "duration": "4 hari"
+      },
+      {
+        "name": "Karpet Kecil",
+        "price": "Rp 17.000 / Kg",
+        "duration": "3-4 hari"
+      },
+      {
+        "name": "Setrika Saja",
+        "price": "Rp 9.000 / Kg",
+        "duration": "1-2 hari"
+      },
+      {
+        "name": "Cuci Lembab (bisa ditunggu)",
+        "price": "Rp 6.500 / Kg",
+        "duration": ""
+      },
+      {
+        "name": "Cuci Kering",
+        "price": "Rp 9.000 / Kg",
+        "duration": "1 hari"
+      },
+      {
+        "name": "Sepatu",
+        "price": "Rp 20.000 / psg",
+        "duration": "3-4 hari"
+      },
+      {
+        "name": "Bantal Guling & Kepala",
+        "price": "Rp 20.000",
+        "duration": "2-3 hari"
+      },
+      {
+        "name": "Boneka",
+        "price": "Estimasi harga dan waktu tergantung ukuran",
+        "duration": ""
+      }
+    ]
+  },
+  {
+    "category": "Express",
+    "icon": "Zap",
+    "description": "Layanan cuci cepat untuk kebutuhan mendesak",
+    "items": [
+      {
+        "name": "Express",
+        "price": "Rp 25.000 / Kg",
+        "duration": "24 jam"
+      },
+      {
+        "name": "Super Express",
+        "price": "Rp 35.000 / Kg",
+        "duration": "12 jam"
+      },
+      {
+        "name": "Super Duper Express",
+        "price": "Rp 45.000 / Kg",
+        "duration": "3 jam"
+      },
+      {
+        "name": "Setrika Kilat (langsung dikerjakan, estimasi waktu sesuai jumlah)",
+        "price": "Rp 11.000 / Kg",
+        "duration": ""
+      }
+    ]
+  },
+  {
+    "category": "Dry Clean & Laundry Khusus",
+    "icon": "ShirtIcon",
+    "description": "Layanan pembersihan untuk berbagai jenis pakaian",
+    "items": [
+      {
+        "name": "Kemeja Panjang",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 45.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 20.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Kemeja Pendek",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 40.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 18.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Celana Panjang",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 45.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 20.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Celana Pendek",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 40.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 18.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Rok Pendek",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 45.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 20.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Terusan Panjang",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 60.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 25.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Terusan Pendek",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 50.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 22.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Kaos Pendek",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 35.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 15.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Kaos Panjang",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 40.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 18.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "T-Shirt Pendek",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 35.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 15.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "T-Shirt Panjang",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 40.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 18.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Jas Panjang",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 50.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Jaket",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 50.000 / Pcs",
+            "duration": "1-2 hari"
+          },
+          {
+            "type": "Laundry Khusus",
+            "price": "Rp 25.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      },
+      {
+        "name": "Gaun Pengantin",
+        "services": [
+          {
+            "type": "Dry Clean",
+            "price": "Rp 100.000 - 150.000 / Pcs",
+            "duration": "1-2 hari"
+          }
+        ]
+      }
+    ]
+  }
+]

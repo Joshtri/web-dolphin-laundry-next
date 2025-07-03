@@ -1,0 +1,21 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.clock-spin {
+    animation: spin 10s linear infinite;
+}
+
+.clock-spin-slow {
+    animation: spin 20s linear infinite;
+}
+
+.clock-spin-fast {
+    animation: spin 5s linear infinite;
+}

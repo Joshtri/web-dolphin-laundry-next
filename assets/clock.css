@@ -1,0 +1,30 @@
+/* Rotasi Jam */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin-clock {
+  animation: spin 2s linear infinite;
+}
+
+/* Berdenyut untuk ikon lainnya */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-pulse-icon {
+  animation: pulse 1.5s infinite;
+}
