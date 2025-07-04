@@ -49,7 +49,7 @@ const Services: React.FC = () => {
   ];
 
   return (
-    <section id="layanan" className="py-20 bg-gray-100 text-center">
+    <section id="services" className="py-20 bg-gray-100 text-center">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-blue-500 animate-fade-in mb-4">
           Layanan Kami

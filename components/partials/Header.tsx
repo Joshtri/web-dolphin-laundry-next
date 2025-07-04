@@ -31,22 +31,22 @@ const Header = () => {
         <div className="hidden md:flex items-center space-x-8">
           <ul className="flex space-x-8 text-sm font-medium">
             <li>
-              <a href="#beranda" className="hover:text-yellow-300">
+              <a href="#home" className="hover:text-yellow-300">
                 Beranda
               </a>
             </li>
             <li>
-              <a href="#layanan" className="hover:text-yellow-300">
+              <a href="#services" className="hover:text-yellow-300">
                 Layanan Kami
               </a>
             </li>
             <li>
-              <a href="#lokasi" className="hover:text-yellow-300">
+              <a href="#location" className="hover:text-yellow-300">
                 Lokasi
               </a>
             </li>
             <li>
-              <a href="#hubungi-kami" className="hover:text-yellow-300">
+              <a href="#contact-us" className="hover:text-yellow-300">
                 Kontak Kami
               </a>
             </li>
@@ -87,7 +87,7 @@ const Header = () => {
         <ul className="space-y-2 py-4">
           <li>
             <a
-              href="#beranda"
+              href="#home"
               className="block text-left pl-4 hover:text-yellow-300"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -96,7 +96,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#layanan"
+              href="#services"
               className="block text-left pl-4 hover:text-yellow-300"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -105,7 +105,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#lokasi"
+              href="#location"
               className="block text-left pl-4 hover:text-yellow-300"
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -114,7 +114,7 @@ const Header = () => {
           </li>
           <li>
             <a
-              href="#hubungi-kami"
+              href="#contact-us"
               className="block text-left pl-4 hover:text-yellow-300"
               onClick={() => setMobileMenuOpen(false)}
             >

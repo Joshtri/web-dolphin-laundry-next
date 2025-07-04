@@ -2,7 +2,7 @@
 
 const Testimonials: React.FC = () => {
   return (
-    <section id="testimoni" className="py-20 p-5 bg-gray-100">
+    <section className="py-20 p-5 bg-gray-100">
       <div className="container mx-auto text-center">
         <h2 className="text-4xl font-bold text-blue-500 mb-6">
           Testimoni Pelanggan
