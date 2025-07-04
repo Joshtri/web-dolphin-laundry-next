@@ -269,15 +269,15 @@ const Hero: React.FC = () => {
 
       {/* Animated Decorative Elements */}
       <div
-        ref={(el) => (decorativeRefs.current[0] = el)}
+        ref={(el) => { decorativeRefs.current[0] = el }}
         className="absolute top-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl"
       />
       <div
-        ref={(el) => (decorativeRefs.current[1] = el)}
+        ref={(el) => { decorativeRefs.current[1] = el }}
         className="absolute bottom-20 right-10 w-40 h-40 bg-yellow-400/20 rounded-full blur-2xl"
       />
       <div
-        ref={(el) => (decorativeRefs.current[2] = el)}
+        ref={(el) => { decorativeRefs.current[2] = el }}
         className="absolute top-1/2 left-1/4 w-24 h-24 bg-green-400/15 rounded-full blur-xl"
       />
 
