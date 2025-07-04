@@ -1,52 +1,121 @@
-"use client"
-import type React from "react"
-import { useState, useEffect, useRef } from "react"
-import { MessageCircle, X, MapPin } from "lucide-react"
-import { gsap } from "gsap"
+"use client";
+import type React from "react";
+import { useState, useEffect, useRef } from "react";
+import { MessageCircle, X, MapPin } from "lucide-react";
+import { gsap } from "gsap";
 
 const Hero: React.FC = () => {
-  const [currentText, setCurrentText] = useState<number>(0)
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+  const [currentText, setCurrentText] = useState<number>(0);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   // Refs for GSAP animations
-  const heroRef = useRef<HTMLElement>(null)
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const textSwitchRef = useRef<HTMLSpanElement>(null)
-  const subtitleRef = useRef<HTMLParagraphElement>(null)
-  const featuresRef = useRef<HTMLDivElement>(null)
-  const ctaRef = useRef<HTMLDivElement>(null)
-  const modalRef = useRef<HTMLDivElement>(null)
-  const bubblesRef = useRef<HTMLDivElement>(null)
-  const decorativeRefs = useRef<(HTMLDivElement | null)[]>([])
+  const heroRef = useRef<HTMLElement>(null);
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const textSwitchRef = useRef<HTMLSpanElement>(null);
+  const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const bubblesRef = useRef<HTMLDivElement>(null);
+  const decorativeRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const texts: string[] = ["Dolphin Laundry", "Dolphin Dry Cleaning"]
+  const texts: string[] = ["Dolphin Laundry", "Dolphin Dry Cleaning"];
 
   // Initialize animations on mount
   useEffect(() => {
+    // Floating bubbles animation function (defined outside of context)
+    const createBubbles = () => {
+      if (!bubblesRef.current) return;
+
+      // Clear existing bubbles
+      bubblesRef.current.innerHTML = "";
+
+      // Create new bubbles
+      const bubbleCount = 100;
+      const containerWidth = window.innerWidth;
+      const containerHeight = window.innerHeight;
+
+      for (let i = 0; i < bubbleCount; i++) {
+        const bubble = document.createElement("div");
+        bubble.className = "absolute rounded-full bg-white/20";
+
+        // Random size between 10px and 40px
+        const size = 10 + Math.random() * 30;
+
+        // Random position at bottom
+        const left = Math.random() * containerWidth;
+
+        // Random animation duration between 10s and 20s
+        const duration = 10 + Math.random() * 10;
+
+        // Random delay between 0s and 5s
+        const delay = Math.random() * 5;
+
+        // Random opacity between 0.1 and 0.3
+        const opacity = 0.1 + Math.random() * 0.2;
+
+        bubble.style.width = `${size}px`;
+        bubble.style.height = `${size}px`;
+        bubble.style.left = `${left}px`;
+        bubble.style.bottom = `-${size}px`;
+        bubble.style.opacity = `${opacity}`;
+
+        bubblesRef.current.appendChild(bubble);
+
+        // Animate bubble
+        gsap.to(bubble, {
+          y: -containerHeight - size,
+          duration: duration,
+          delay: delay,
+          ease: "none",
+          onComplete: () => {
+            // Reset bubble position when it reaches the top
+            bubble.style.bottom = `-${size}px`;
+            gsap.set(bubble, { y: 0 });
+            gsap.to(bubble, {
+              y: -containerHeight - size,
+              duration: duration,
+              ease: "none",
+              repeat: -1,
+              delay: 2 + Math.random() * 3, // Random delay before restarting
+            });
+          },
+        });
+      }
+    };
+
     const ctx = gsap.context(() => {
       // Initial setup
-      gsap.set([titleRef.current, subtitleRef.current, featuresRef.current, ctaRef.current], {
-        opacity: 0,
-        y: 50,
-      })
+      gsap.set(
+        [
+          titleRef.current,
+          subtitleRef.current,
+          featuresRef.current,
+          ctaRef.current,
+        ],
+        {
+          opacity: 0,
+          y: 50,
+        }
+      );
 
       // Main timeline
-      const tl = gsap.timeline()
+      const tl = gsap.timeline();
 
       // Decorative elements animation
       decorativeRefs.current.forEach((ref, index) => {
         if (ref) {
           gsap.to(ref, {
             scale: 1.2,
-            opacity: 0.6,
+            opacity: 1,
             duration: 4,
             repeat: -1,
             yoyo: true,
             ease: "power2.inOut",
             delay: index * 0.5,
-          })
+          });
         }
-      })
+      });
 
       // Main entrance animation
       tl.to(titleRef.current, {
@@ -63,7 +132,7 @@ const Hero: React.FC = () => {
             duration: 0.8,
             ease: "back.out(1.7)",
           },
-          "-=0.5",
+          "-=0.5"
         )
         .to(
           subtitleRef.current,
@@ -73,7 +142,7 @@ const Hero: React.FC = () => {
             duration: 0.8,
             ease: "power2.out",
           },
-          "-=0.3",
+          "-=0.3"
         )
         .to(
           featuresRef.current?.children || [],
@@ -85,7 +154,7 @@ const Hero: React.FC = () => {
             stagger: 0.1,
             ease: "back.out(1.7)",
           },
-          "-=0.2",
+          "-=0.2"
         )
         .to(
           ctaRef.current,
@@ -95,8 +164,8 @@ const Hero: React.FC = () => {
             duration: 0.8,
             ease: "power2.out",
           },
-          "-=0.3",
-        )
+          "-=0.3"
+        );
 
       // Feature dots animation
       gsap.to(".feature-dot", {
@@ -107,42 +176,18 @@ const Hero: React.FC = () => {
         yoyo: true,
         stagger: 0.2,
         ease: "power2.inOut",
-      })
+      });
 
-      // Floating bubbles
-      const bubbles = bubblesRef.current?.children
-      if (bubbles) {
-        Array.from(bubbles).forEach((bubble, index) => {
-          gsap.fromTo(
-            bubble as HTMLElement,
-            {
-              y: "100vh",
-              opacity: 0,
-              scale: 0,
-            },
-            {
-              y: "-100vh",
-              opacity: 1,
-              scale: 1,
-              duration: 8 + Math.random() * 4,
-              repeat: -1,
-              delay: Math.random() * 5,
-              ease: "none",
-              keyframes: {
-                "25%": { opacity: 0.3 },
-                "50%": { opacity: 1 },
-                "75%": { opacity: 0.7 },
-                "100%": { opacity: 0, scale: 0 },
-              },
-            },
-          )
-        })
-      }
+      // Initial creation of bubbles
+      createBubbles();
+
+      // Recreate bubbles on window resize
+      window.addEventListener("resize", createBubbles);
 
       // CTA button hover animation setup
-      const ctaButton = ctaRef.current?.querySelector(".cta-button")
+      const ctaButton = ctaRef.current?.querySelector(".cta-button");
       if (ctaButton) {
-        const icon = ctaButton.querySelector(".cta-icon")
+        const icon = ctaButton.querySelector(".cta-icon");
 
         // Icon rotation animation
         gsap.to(icon, {
@@ -150,7 +195,7 @@ const Hero: React.FC = () => {
           duration: 4,
           repeat: -1,
           ease: "none",
-        })
+        });
 
         // Button hover effects
         ctaButton.addEventListener("mouseenter", () => {
@@ -159,8 +204,8 @@ const Hero: React.FC = () => {
             boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
             duration: 0.3,
             ease: "power2.out",
-          })
-        })
+          });
+        });
 
         ctaButton.addEventListener("mouseleave", () => {
           gsap.to(ctaButton, {
@@ -168,13 +213,16 @@ const Hero: React.FC = () => {
             boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
             duration: 0.3,
             ease: "power2.out",
-          })
-        })
+          });
+        });
       }
-    }, heroRef)
+    }, heroRef);
 
-    return () => ctx.revert()
-  }, [])
+    return () => {
+      ctx.revert();
+      window.removeEventListener("resize", createBubbles);
+    };
+  }, []);
 
   // Text switching animation
   useEffect(() => {
@@ -186,19 +234,19 @@ const Hero: React.FC = () => {
           duration: 0.4,
           ease: "power2.in",
           onComplete: () => {
-            setCurrentText((prev) => (prev + 1) % texts.length)
+            setCurrentText((prev) => (prev + 1) % texts.length);
             gsap.fromTo(
               textSwitchRef.current,
               { rotationX: 90, opacity: 0 },
-              { rotationX: 0, opacity: 1, duration: 0.4, ease: "power2.out" },
-            )
+              { rotationX: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
+            );
           },
-        })
+        });
       }
-    }, 3000)
+    }, 3000);
 
-    return () => clearInterval(interval)
-  }, [texts.length])
+    return () => clearInterval(interval);
+  }, [texts.length]);
 
   // Modal animations
   useEffect(() => {
@@ -206,19 +254,27 @@ const Hero: React.FC = () => {
       gsap.fromTo(
         modalRef.current,
         { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" },
-      )
+        { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }
+      );
 
-      const modalContent = modalRef.current.querySelectorAll(".modal-content > *")
+      const modalContent =
+        modalRef.current.querySelectorAll(".modal-content > *");
       gsap.fromTo(
         modalContent,
         { opacity: 0, y: 20 },
-        { opacity: 1, y: 0, duration: 0.4, stagger: 0.1, delay: 0.2, ease: "power2.out" },
-      )
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.4,
+          stagger: 0.1,
+          delay: 0.2,
+          ease: "power2.out",
+        }
+      );
     }
-  }, [isModalOpen])
+  }, [isModalOpen]);
 
-  const openModal = (): void => setIsModalOpen(true)
+  const openModal = (): void => setIsModalOpen(true);
 
   const closeModal = (): void => {
     if (modalRef.current) {
@@ -228,15 +284,21 @@ const Hero: React.FC = () => {
         duration: 0.2,
         ease: "power2.in",
         onComplete: () => setIsModalOpen(false),
-      })
+      });
     }
-  }
+  };
 
   const handleWhatsAppClick = (phoneNumber: string): void => {
-    const message = encodeURIComponent("Halo Dolphin Laundry, saya ingin memesan layanan laundry")
-    window.open(`https://wa.me/${phoneNumber}?text=${message}`, "_blank", "noopener,noreferrer")
-    closeModal()
-  }
+    const message = encodeURIComponent(
+      "Halo Dolphin Laundry, saya ingin memesan layanan laundry"
+    );
+    window.open(
+      `https://wa.me/${phoneNumber}?text=${message}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+    closeModal();
+  };
 
   // Feature hover handlers
   const handleFeatureHover = (element: HTMLElement, isEntering: boolean) => {
@@ -245,8 +307,8 @@ const Hero: React.FC = () => {
       y: isEntering ? -2 : 0,
       duration: 0.3,
       ease: "power2.out",
-    })
-  }
+    });
+  };
 
   return (
     <section
@@ -269,15 +331,21 @@ const Hero: React.FC = () => {
 
       {/* Animated Decorative Elements */}
       <div
-        ref={(el) => { decorativeRefs.current[0] = el }}
+        ref={(el) => {
+          decorativeRefs.current[0] = el;
+        }}
         className="absolute top-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl"
       />
       <div
-        ref={(el) => { decorativeRefs.current[1] = el }}
+        ref={(el) => {
+          decorativeRefs.current[1] = el;
+        }}
         className="absolute bottom-20 right-10 w-40 h-40 bg-yellow-400/20 rounded-full blur-2xl"
       />
       <div
-        ref={(el) => { decorativeRefs.current[2] = el }}
+        ref={(el) => {
+          decorativeRefs.current[2] = el;
+        }}
         className="absolute top-1/2 left-1/4 w-24 h-24 bg-green-400/15 rounded-full blur-xl"
       />
 
@@ -285,7 +353,10 @@ const Hero: React.FC = () => {
       <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
         {/* Main Heading */}
         <div className="mb-8">
-          <h1 ref={titleRef} className="text-5xl md:text-6xl font-bold mb-4 leading-tight">
+          <h1
+            ref={titleRef}
+            className="text-5xl md:text-6xl font-bold mb-4 leading-tight"
+          >
             Selamat Datang di
           </h1>
           <div className="text-6xl md:text-7xl font-extrabold">
@@ -300,13 +371,19 @@ const Hero: React.FC = () => {
         </div>
 
         {/* Subtitle */}
-        <p ref={subtitleRef} className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed">
-          Solusi terpercaya untuk kebutuhan laundry dan dry cleaning Anda di Kupang dengan kualitas premium dan
-          pelayanan terbaik
+        <p
+          ref={subtitleRef}
+          className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed"
+        >
+          Solusi terpercaya untuk kebutuhan laundry dan dry cleaning Anda di
+          Kupang dengan kualitas premium dan pelayanan terbaik
         </p>
 
         {/* Features */}
-        <div ref={featuresRef} className="flex flex-wrap justify-center gap-6 mb-10 text-sm md:text-base">
+        <div
+          ref={featuresRef}
+          className="flex flex-wrap justify-center gap-6 mb-10 text-sm md:text-base"
+        >
           {[
             { text: "Buka Setiap Hari", color: "bg-green-400" },
             { text: "Antar Jemput Gratis", color: "bg-yellow-400" },
@@ -318,7 +395,9 @@ const Hero: React.FC = () => {
               onMouseEnter={(e) => handleFeatureHover(e.currentTarget, true)}
               onMouseLeave={(e) => handleFeatureHover(e.currentTarget, false)}
             >
-              <div className={`feature-dot w-2 h-2 ${feature.color} rounded-full opacity-70`} />
+              <div
+                className={`feature-dot w-2 h-2 ${feature.color} rounded-full opacity-70`}
+              />
               <span>{feature.text}</span>
             </div>
           ))}
@@ -339,10 +418,10 @@ const Hero: React.FC = () => {
             <span className="text-lg">Pesan Sekarang</span>
           </button>
 
-          <div className="flex items-center space-x-2 text-blue-100">
+          {/* <div className="flex items-center space-x-2 text-blue-100">
             <MapPin size={18} />
             <span className="text-sm">Jl. R. W. Monginsidi I No.2, Kupang</span>
-          </div>
+          </div> */}
         </div>
       </div>
 
@@ -357,7 +436,9 @@ const Hero: React.FC = () => {
             {/* Modal Header */}
             <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
               <h2 className="text-2xl font-bold mb-2">Hubungi Kami</h2>
-              <p className="text-blue-100">Pilih nomor WhatsApp untuk menghubungi kami</p>
+              <p className="text-blue-100">
+                Pilih nomor WhatsApp untuk menghubungi kami
+              </p>
             </div>
 
             {/* Modal Content */}
@@ -376,7 +457,9 @@ const Hero: React.FC = () => {
                   </div>
                   <div className="text-left">
                     <div className="font-semibold">{contact.label}</div>
-                    <div className="text-sm text-green-100">{contact.phone}</div>
+                    <div className="text-sm text-green-100">
+                      {contact.phone}
+                    </div>
                   </div>
                 </button>
               ))}
@@ -394,29 +477,24 @@ const Hero: React.FC = () => {
       )}
 
       {/* Animated Floating Bubbles */}
-      <div ref={bubblesRef} className="absolute inset-0 pointer-events-none">
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-white/20"
-            style={{
-              width: `${20 + Math.random() * 40}px`,
-              height: `${20 + Math.random() * 40}px`,
-              left: `${Math.random() * 100}%`,
-            }}
-          />
-        ))}
-      </div>
+      <div
+        ref={bubblesRef}
+        className="absolute inset-0 pointer-events-none overflow-hidden"
+      />
 
       {/* Animated Wave Bottom */}
-      <div className="absolute bottom-0 left-0 w-full">
-        <svg className="w-full h-20 md:h-32" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+      {/* <div className="absolute bottom-0 left-0 w-full">
+        <svg
+          className="w-full h-20 md:h-32"
+          viewBox="0 0 1440 320"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             fill="rgba(255,255,255,0.1)"
             d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,117.3C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
           />
         </svg>
-      </div>
+      </div> */}
 
       <style jsx>{`
         .hover\\:scale-102:hover {
@@ -424,7 +502,7 @@ const Hero: React.FC = () => {
         }
       `}</style>
     </section>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;
