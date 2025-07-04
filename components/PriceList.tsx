@@ -1,63 +1,93 @@
-"use client"
-import type React from "react"
-import { useState } from "react"
-import { Droplet, Zap, Leaf, ShirtIcon, ClipboardList, Clock } from "lucide-react"
-import pricelistData from "@/data/pricelist.json" // Adjust the path as necessary
+"use client";
+import type React from "react";
+import { useState } from "react";
+import {
+  Droplet,
+  Zap,
+  Leaf,
+  ShirtIcon,
+  ClipboardList,
+  Clock,
+  Sparkles,
+} from "lucide-react";
+import pricelistData from "@/data/pricelist.json"; // Adjust the path as necessary
 // Real data from user
 interface PriceItem {
-  name: string
-  price?: string
-  duration?: string
+  name: string;
+  price?: string;
+  duration?: string;
   services?: {
-    type: string
-    price: string
-    duration: string
-  }[]
+    type: string;
+    price: string;
+    duration: string;
+  }[];
 }
 
 interface PriceCategory {
-  category: string
-  icon: React.ReactNode
-  description: string
-  items: PriceItem[]
+  category: string;
+  icon: React.ReactNode;
+  description: string;
+  items: PriceItem[];
 }
 
 const PriceList: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>("Tampilkan Semua")
+  const [activeCategory, setActiveCategory] =
+    useState<string>("Tampilkan Semua");
 
   const getIcon = (iconName: string) => {
     switch (iconName) {
       case "Droplet":
-        return <Droplet />
+        return <Droplet />;
       case "Zap":
-        return <Zap />
+        return <Zap />;
       case "Leaf":
-        return <Leaf />
+        return <Leaf />;
       case "ShirtIcon":
-        return <ShirtIcon />
+        return <ShirtIcon />;
       default:
-        return <Droplet />
+        return <Droplet />;
     }
-  }
+  };
 
   const pricelist: PriceCategory[] = pricelistData.map((category) => ({
     ...category,
     icon: getIcon(category.icon),
-  }))
+  }));
 
   const handleCategoryChange = (category: string): void => {
-    setActiveCategory(category)
-  }
+    setActiveCategory(category);
+  };
 
   return (
-    <section id="daftar-harga" className="py-16 bg-gradient-to-b from-gray-50 to-white">
+    <section
+      id="daftar-harga"
+      className="py-16 bg-gradient-to-b from-gray-50 to-white"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">Daftar Harga Laundry</h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+            Daftar Harga Laundry
+          </h2>
           <div className="w-20 h-1 bg-blue-500 mx-auto mb-4 rounded"></div>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Pilih layanan yang sesuai dengan kebutuhan Anda dengan harga terjangkau dan kualitas terbaik
+            Pilih layanan yang sesuai dengan kebutuhan Anda dengan harga
+            terjangkau dan kualitas terbaik
           </p>
+
+          <div className="mt-6">
+            <button
+              onClick={() => {
+                const el = document.getElementById("perfume-selection");
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+              }}
+              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full shadow transition-all duration-300"
+            >
+              <Sparkles size={16} />
+              <span>Cek Parfum</span>
+            </button>
+          </div>
         </div>
 
         {/* Navigation Buttons */}
@@ -92,12 +122,16 @@ const PriceList: React.FC = () => {
         {/* Pricelist Cards */}
         {(() => {
           const filtered = pricelist.filter(
-            (category) => activeCategory === "Tampilkan Semua" || category.category === activeCategory,
-          )
+            (category) =>
+              activeCategory === "Tampilkan Semua" ||
+              category.category === activeCategory
+          );
           return (
             <div
               className={`${
-                filtered.length === 1 ? "flex justify-center" : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                filtered.length === 1
+                  ? "flex justify-center"
+                  : "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
               } gap-6 max-w-6xl mx-auto`}
             >
               {filtered.map((category, index) => (
@@ -111,11 +145,17 @@ const PriceList: React.FC = () => {
                   <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
                     <div className="flex items-center justify-center mb-4">
                       <div className="p-3 bg-blue-500 rounded-lg shadow-sm">
-                        <span className="text-white text-xl">{category.icon}</span>
+                        <span className="text-white text-xl">
+                          {category.icon}
+                        </span>
                       </div>
                     </div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2 text-center">{category.category}</h3>
-                    <p className="text-sm text-gray-600 text-center leading-relaxed">{category.description}</p>
+                    <h3 className="text-xl font-bold text-gray-800 mb-2 text-center">
+                      {category.category}
+                    </h3>
+                    <p className="text-sm text-gray-600 text-center leading-relaxed">
+                      {category.description}
+                    </p>
                   </div>
 
                   {/* Card Content */}
@@ -126,7 +166,9 @@ const PriceList: React.FC = () => {
                           key={idx}
                           className="p-4 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition-colors duration-200"
                         >
-                          <div className="text-gray-800 font-semibold text-sm mb-3">{item.name}</div>
+                          <div className="text-gray-800 font-semibold text-sm mb-3">
+                            {item.name}
+                          </div>
 
                           {item.price && (
                             <div className="flex flex-col space-y-2">
@@ -136,17 +178,24 @@ const PriceList: React.FC = () => {
                                   {item.duration}
                                 </span>
                               )}
-                              <span className="text-green-600 font-bold text-sm">{item.price}</span>
+                              <span className="text-green-600 font-bold text-sm">
+                                {item.price}
+                              </span>
                             </div>
                           )}
 
                           {item.services && (
                             <div className="space-y-2">
                               {item.services.map((service, serviceIdx) => (
-                                <div key={serviceIdx} className="bg-white p-3 rounded border border-gray-200">
+                                <div
+                                  key={serviceIdx}
+                                  className="bg-white p-3 rounded border border-gray-200"
+                                >
                                   <div className="flex justify-between items-start">
                                     <div className="flex-1">
-                                      <div className="font-semibold text-gray-700 text-xs mb-1">{service.type}</div>
+                                      <div className="font-semibold text-gray-700 text-xs mb-1">
+                                        {service.type}
+                                      </div>
                                       {service.duration && (
                                         <span className="text-blue-600 font-medium flex items-center text-xs">
                                           <Clock size={10} className="mr-1" />
@@ -154,7 +203,9 @@ const PriceList: React.FC = () => {
                                         </span>
                                       )}
                                     </div>
-                                    <span className="text-green-600 font-bold text-xs ml-2">{service.price}</span>
+                                    <span className="text-green-600 font-bold text-xs ml-2">
+                                      {service.price}
+                                    </span>
                                   </div>
                                 </div>
                               ))}
@@ -167,7 +218,7 @@ const PriceList: React.FC = () => {
                 </div>
               ))}
             </div>
-          )
+          );
         })()}
       </div>
 
@@ -196,7 +247,7 @@ const PriceList: React.FC = () => {
         }
       `}</style>
     </section>
-  )
-}
+  );
+};
 
-export default PriceList
+export default PriceList;

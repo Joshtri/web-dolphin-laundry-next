@@ -7,19 +7,7 @@ import dlLogo from "@/public/assets/images/dl-logo.png";
 const Header = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-
-  // Handle scroll effect
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const [activeSection, setActiveSection] = useState<string>("#beranda");
 
   const navItems = [
     { href: "#beranda", label: "Beranda" },
@@ -27,6 +15,35 @@ const Header = () => {
     { href: "#daftar-harga", label: "Daftar Harga" },
     { href: "#lokasi", label: "Lokasi" },
   ];
+
+  // Handle scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      const sections = navItems.map((item) =>
+        document.querySelector(item.href)
+      );
+
+      const scrollY = window.scrollY + 120; // add offset for sticky header
+
+      sections.forEach((section, i) => {
+        if (section) {
+          const top = (section as HTMLElement).offsetTop;
+          const height = (section as HTMLElement).clientHeight;
+
+          if (scrollY >= top && scrollY < top + height) {
+            setActiveSection(navItems[i].href);
+          }
+        }
+      });
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    handleScroll(); // run on mount
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
     <header
@@ -97,7 +114,11 @@ const Header = () => {
                   <a
                     href={item.href}
                     className={`relative text-sm font-semibold transition-all duration-300 hover:scale-105 group px-3 py-2 rounded-lg ${
-                      isScrolled
+                      activeSection === item.href
+                        ? isScrolled
+                          ? "text-blue-600 bg-blue-50"
+                          : "text-yellow-300 bg-white/10"
+                        : isScrolled
                         ? "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
                         : "text-white hover:text-yellow-300 hover:bg-white/10"
                     }`}
@@ -152,7 +173,11 @@ const Header = () => {
                 <a
                   href={item.href}
                   className={`block mx-4 px-6 py-4 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:translate-x-2 ${
-                    isScrolled
+                    activeSection === item.href
+                      ? isScrolled
+                        ? "text-blue-600 bg-blue-50"
+                        : "text-yellow-300 bg-white/10"
+                      : isScrolled
                       ? "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
                       : "text-white hover:text-yellow-300 hover:bg-white/20"
                   }`}

@@ -12,143 +12,78 @@ import {
 const Services: React.FC = () => {
   const services = [
     {
-      icon: <ShirtIcon size={40} className="text-blue-600 mx-auto" />,
+      icon: <ShirtIcon size={28} className="text-blue-600" />,
       title: "Laundry Reguler",
-      description:
-        "Paket cuci kering lipat standar dengan hasil yang bersih dan wangi. Cocok untuk pakaian sehari-hari.",
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
+      description: "Cuci kering lipat standar. Bersih & wangi.",
     },
     {
-      icon: <Timer size={40} className="text-blue-600 mx-auto" />,
+      icon: <Timer size={28} className="text-blue-600" />,
       title: "Laundry Express",
-      description:
-        "Layanan cuci cepat 3-6 jam untuk kebutuhan mendesak. Kualitas tetap terjaga dengan hasil maksimal.",
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
+      description: "Cuci cepat 3–6 jam. Tetap maksimal.",
     },
     {
-      icon: <Droplets size={40} className="text-blue-600 mx-auto" />,
+      icon: <Droplets size={28} className="text-blue-600" />,
       title: "Dry Cleaning",
-      description:
-        "Pembersihan khusus untuk pakaian berbahan sensitif seperti jas, gaun, dan pakaian formal lainnya.",
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
+      description: "Untuk jas & bahan sensitif.",
     },
     {
-      icon: <Package size={40} className="text-blue-600 mx-auto" />,
+      icon: <Package size={28} className="text-blue-600" />,
       title: "Cuci Sepatu",
-      description:
-        "Layanan pembersihan sepatu dengan teknik khusus untuk berbagai jenis material sepatu.",
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
+      description: "Aman untuk berbagai jenis sepatu.",
     },
     {
-      icon: <Sparkles size={40} className="text-blue-600 mx-auto" />,
+      icon: <Sparkles size={28} className="text-blue-600" />,
       title: "Cuci Karpet",
-      description:
-        "Pembersihan karpet dengan mesin khusus yang dapat menghilangkan noda membandel dan bau tidak sedap.",
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
+      description: "Bersih & harum dengan mesin khusus.",
     },
     {
-      icon: <Zap size={40} className="text-blue-600 mx-auto" />,
+      icon: <Zap size={28} className="text-blue-600" />,
       title: "Setrika Saja",
-      description:
-        "Layanan setrika profesional untuk pakaian yang sudah bersih namun perlu dirapikan.",
-      color: "from-blue-500 to-blue-600",
-      bgColor: "bg-blue-50",
+      description: "Rapi dengan setrika profesional.",
     },
   ];
 
   return (
     <section
       id="services"
-      className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100 relative overflow-hidden"
+      className="py-16 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100 relative overflow-hidden"
     >
-      {/* Background decorative elements */}
+      {/* Decorative Background */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 left-10 w-64 h-64 bg-blue-400 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-300 rounded-full blur-3xl animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/3 w-72 h-72 bg-blue-200 rounded-full blur-3xl animate-pulse delay-500"></div>
       </div>
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        {/* Header Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-transparent mb-6">
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-transparent mb-3">
             Layanan Kami
           </h2>
-          <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6 rounded-full"></div>
-          <p className="text-lg text-gray-600 mb-4 max-w-3xl mx-auto leading-relaxed">
-            Kami menyediakan berbagai layanan laundry berkualitas tinggi untuk
-            memenuhi kebutuhan Anda
-          </p>
-          <p className="text-sm text-blue-600 font-medium">
-            ✨ Semua layanan dengan jaminan kualitas terbaik
+          <div className="w-20 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-3 rounded-full"></div>
+          <p className="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
+            Beragam layanan laundry profesional untuk berbagai kebutuhan Anda.
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
           {services.map((service, index) => (
             <div
               key={index}
-              className="group relative bg-white/80 backdrop-blur-sm rounded-3xl shadow-lg border border-white/50 hover:shadow-2xl transition-all duration-500 overflow-hidden hover:scale-105 hover:-translate-y-2"
-              style={{
-                animationDelay: `${index * 100}ms`,
-              }}
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300 cursor-pointer max-w-xs sm:max-w-none"
             >
-              {/* Card Background Gradient */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}
-              ></div>
-
-              {/* Icon Container */}
-              <div className="relative p-8">
-                <div
-                  className={`w-20 h-20 ${service.bgColor} rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl`}
-                >
-                  <div className="group-hover:scale-110 transition-transform duration-300">
-                    {service.icon}
-                  </div>
-                </div>
-
-                {/* Content */}
-                <h3 className="text-xl font-bold text-gray-800 mb-4 group-hover:text-blue-700 transition-colors duration-300">
+              <div className="shrink-0">{service.icon}</div>
+              <div>
+                <h3 className="text-sm font-semibold text-gray-800">
                   {service.title}
                 </h3>
-                <p className="text-gray-600 leading-relaxed group-hover:text-gray-700 transition-colors duration-300">
-                  {service.description}
-                </p>
-
-                {/* Hover Indicator */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 w-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full group-hover:w-16 transition-all duration-500"></div>
+                <p className="text-xs text-gray-600">{service.description}</p>
               </div>
-
-              {/* Decorative corner */}
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-100/50 to-transparent rounded-bl-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
             </div>
           ))}
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
-            opacity: 0;
-            transform: translateY(30px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .animate-fade-in {
-          animation: fadeInUp 0.8s ease-out;
-        }
-      `}</style>
     </section>
   );
 };
