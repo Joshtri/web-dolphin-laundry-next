@@ -6,6 +6,7 @@ import "../public/assets/css/clock.css";
 import Header from "@/components/partials/Header";
 import Footer from "@/components/partials/Footer";
 import { WhatsAppProvider } from "@/context/WhatsAppContext";
+import StructuredData from "@/components/StructuredData";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,30 +19,138 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik",
+  title: {
+    default:
+      "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik di Kupang",
+    template: "%s | Dolphin Laundry Kupang",
+  },
   description:
-    "Layanan laundry express 3 jam, dry cleaning profesional di Kupang. Harga mulai 11rb/kg, gratis antar jemput. Hubungi 082144500030",
+    "🏆 Dolphin Laundry Kupang - Layanan laundry express 3 jam, dry cleaning profesional, parfum berkualitas. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang. ☎️ 082144500030 - 081529500130",
+  keywords: [
+    // Primary Keywords
+    "laundry kupang",
+    "dry cleaning kupang",
+    "laundry express kupang",
+    "dolphin laundry kupang",
+
+    // Service Keywords
+    "laundry 24 jam kupang",
+    "laundry murah kupang",
+    "laundry antar jemput kupang",
+    "cuci kering kupang",
+    "setrika kupang",
+
+    // Location Keywords
+    "laundry di kupang",
+    "tempat laundry kupang",
+    "jasa laundry kupang",
+    "laundry terdekat kupang",
+    "laundry ntt",
+
+    // Product Keywords
+    "parfum laundry kupang",
+    "kenzo laundry",
+    "laundry sepatu kupang",
+    "cuci boneka kupang",
+    "laundry karpet kupang",
+
+    // Long-tail Keywords
+    "laundry express 3 jam kupang",
+    "harga laundry kupang 2024",
+    "laundry terpercaya kupang",
+    "laundry berkualitas kupang",
+  ],
+  authors: [{ name: "Dolphin Laundry Kupang" }],
+  creator: "Dolphin Laundry Kupang",
+  publisher: "Dolphin Laundry Kupang",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: new URL("https://www.dolphin-laundry-kupang.biz.id"),
+  alternates: {
+    canonical: "/",
+  },
   manifest: "/manifest.json",
-  viewport: "width=device-width, initial-scale=1",
+  viewport: {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 1,
+  },
   themeColor: "#3B82F6",
+  colorScheme: "light",
+  robots: {
+    index: true,
+    follow: true,
+    nocache: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      noimageindex: false,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   other: {
     "mobile-web-app-capable": "yes",
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
     "apple-mobile-web-app-title": "Dolphin Laundry",
+    "application-name": "Dolphin Laundry Kupang",
+    "msapplication-TileColor": "#3B82F6",
+    "msapplication-config": "/browserconfig.xml",
   },
-  alternates: {
-    canonical: "https://www.dolphin-laundry-kupang.biz.id/",
+  verification: {
+    google: "your-google-verification-code-here", // Ganti dengan kode verifikasi Google Search Console
+    // yandex: "your-yandex-verification-code",
+    // yahoo: "your-yahoo-verification-code",
+    // other: {
+    //   me: ["your-verification-code"],
+    // },
   },
   openGraph: {
-    title: "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik",
-    description:
-      "Layanan laundry express 3 jam, dry cleaning profesional di Kupang. Harga mulai 11rb/kg, gratis antar jemput.",
+    type: "website",
+    locale: "id_ID",
     url: "https://www.dolphin-laundry-kupang.biz.id/",
     siteName: "Dolphin Laundry Kupang",
-    locale: "id_ID",
-    type: "website",
+    title:
+      "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik di Kupang",
+    description:
+      "🏆 Layanan laundry express 3 jam, dry cleaning profesional, parfum berkualitas. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang. Hubungi kami sekarang!",
+    images: [
+      {
+        url: "/og-image.jpg", // Buat gambar ini nanti
+        width: 1200,
+        height: 630,
+        alt: "Dolphin Laundry Kupang - Layanan Laundry Terbaik",
+      },
+      {
+        url: "/og-image-square.jpg", // Untuk format square
+        width: 1080,
+        height: 1080,
+        alt: "Dolphin Laundry Kupang",
+      },
+    ],
   },
+  twitter: {
+    card: "summary_large_image",
+    title: "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik",
+    description:
+      "🏆 Layanan laundry express 3 jam, dry cleaning profesional. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang.",
+    images: ["/og-image.jpg"],
+    creator: "@dolphinlaundry", // Ganti dengan handle Twitter jika ada
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Dolphin Laundry",
+    startupImage: ["/apple-touch-icon.png"],
+  },
+  applicationName: "Dolphin Laundry Kupang",
+  referrer: "origin-when-cross-origin",
+  category: "business",
 };
 
 export default function RootLayout({
@@ -51,6 +160,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
+      <head>
+        <StructuredData />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

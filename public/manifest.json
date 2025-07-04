@@ -1,15 +1,17 @@
 {
-  "name": "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning",
+  "name": "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik",
   "short_name": "Dolphin Laundry",
-  "description": "Layanan laundry express 3 jam, dry cleaning profesional, dan cuci setrika terbaik di Kupang dengan harga terjangkau mulai 11rb/kg",
+  "description": "🏆 Layanan laundry express 3 jam, dry cleaning profesional, parfum berkualitas. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang. ☎️ 082144500030",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#3B82F6",
+  "background_color": "#ffffff",
   "theme_color": "#3B82F6",
   "orientation": "portrait-primary",
   "categories": ["business", "lifestyle", "utilities"],
   "lang": "id",
+  "dir": "ltr",
   "scope": "/",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/img/dolphinLogoheader.png",
@@ -26,24 +28,31 @@
   ],
   "shortcuts": [
     {
+      "name": "Daftar Harga",
+      "short_name": "Harga",
+      "description": "Lihat daftar harga laundry terbaru",
+      "url": "/#daftar-harga",
+      "icons": [{ "src": "/img/price-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Pilihan Parfum",
+      "short_name": "Parfum",
+      "description": "Pilih parfum untuk laundry Anda",
+      "url": "/#perfume-selection",
+      "icons": [{ "src": "/img/perfume-icon.png", "sizes": "96x96" }]
+    },
+    {
       "name": "Hubungi WhatsApp",
       "short_name": "WhatsApp",
       "description": "Hubungi kami langsung via WhatsApp",
-      "url": "https://wa.me/6282144500030",
+      "url": "https://wa.me/6282144500030?text=Halo%20Dolphin%20Laundry,%20saya%20ingin%20memesan%20layanan%20laundry",
       "icons": [{ "src": "/img/whatsapp-icon.png", "sizes": "96x96" }]
-    },
-    {
-      "name": "Lihat Harga",
-      "short_name": "Harga",
-      "description": "Lihat daftar harga layanan",
-      "url": "/#pricelist",
-      "icons": [{ "src": "/img/price-icon.png", "sizes": "96x96" }]
     },
     {
       "name": "Lokasi Kami",
       "short_name": "Lokasi",
-      "description": "Lihat lokasi dan alamat",
-      "url": "/#location",
+      "description": "Lihat lokasi dan alamat toko",
+      "url": "/#lokasi",
       "icons": [{ "src": "/img/location-icon.png", "sizes": "96x96" }]
     }
   ]
