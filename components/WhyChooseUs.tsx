@@ -5,6 +5,12 @@ import type React from "react"
 import { DollarSign, Clock, Leaf, Shield, Users, Settings, ChevronLeft, ChevronRight } from "lucide-react"
 import Image from "next/image"
 
+import img1 from "@/public/assets/images/2021-05-05.jpg"
+import img2 from "@/public/assets/images/PoTaTo$999plutoGhost88.jpg"
+import img3 from "@/public/assets/images/jellyHorse73ZpQ.jpg"
+import img4 from "@/public/assets/images/klwh38dnbvOQpwlaksA29x.jpg"
+import img5 from "@/public/assets/images/n4gg4bl3_r4in93ck_zuul.jpg"
+
 const WhyChooseUs: React.FC = () => {
   const features = [
     {
@@ -43,11 +49,13 @@ const WhyChooseUs: React.FC = () => {
 
   // Using placeholder images since we can't access the actual files
   const images = [
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
-    "/placeholder.svg?height=400&width=600",
+    img1,
+    img2,
+    img3,
+    img4,
+    img5,
+    // Placeholder for additional images
+    
   ]
 
   const [currentIndex, setCurrentIndex] = useState(0)
