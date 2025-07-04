@@ -59,6 +59,10 @@ export default function RootLayout({
           <main>{children}</main>
           <Footer />
         </WhatsAppProvider>
+        <script
+          src="https://static.elfsight.com/platform/platform.js"
+          async
+        ></script>
       </body>
     </html>
   );
