@@ -29,21 +29,11 @@ const WhyChooseUs: React.FC = () => {
       title: "Harga Terjangkau",
       description: "Tarif yang kompetitif dengan kualitas premium. Berbagai paket sesuai kebutuhan dan budget.",
     },
-    {
-      icon: <Leaf size={30} className="text-yellow-500" />,
-      title: "Antar Jemput Gratis",
-      description: "Layanan antar jemput gratis untuk area Kupang dan sekitarnya dengan minimum pembelian tertentu.",
-    },
+
     {
       icon: <Users size={30} className="text-yellow-500" />,
       title: "Staff Profesional",
       description: "Tenaga kerja terlatih dan berpengalaman yang menangani pakaian Anda dengan hati-hati.",
-    },
-    {
-      icon: <Settings size={30} className="text-yellow-500" />,
-      title: "Peralatan Modern",
-      description:
-        "Menggunakan mesin cuci dan pengering modern untuk hasil yang optimal dan perawatan pakaian yang baik.",
     },
   ]
 
