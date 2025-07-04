@@ -6,7 +6,7 @@ import dLPlace from "@/public/assets/images/2021-05-05.jpg";
 
 const Location: React.FC = () => {
   return (
-    <section id="location" className="py-20 bg-gray-50">
+    <section id="lokasi" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-blue-600 text-center mb-10">
           Lokasi Kami
@@ -67,7 +67,7 @@ const Location: React.FC = () => {
             ></iframe>
 
             <p className="mt-4 font-semibold">
-              Jam Buka: Setiap Hari, 07:00 - 21:00
+              Jam Buka: Setiap Hari, 05:45 - 22:00
             </p>
             <button className="mt-4 bg-blue-500 px-4 py-2 rounded text-white hover:bg-blue-600">
               <a

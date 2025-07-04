@@ -41,7 +41,7 @@ const ContactUs: React.FC = () => {
   };
 
   return (
-    <section id="contact-us" className="py-20 bg-gray-50">
+    <section id="hubungi-kami" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 text-center">
         <h2 className="text-4xl font-bold text-blue-500 mb-8">Hubungi Kami</h2>
         <p className="text-gray-600 mb-12">

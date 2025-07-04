@@ -33,6 +33,7 @@ const Hero: React.FC = () => {
 
   return (
     <section
+      id="beranda"
       className="relative bg-blue-500 text-white overflow-hidden"
       style={{
         backgroundColor: "#3B82F6",

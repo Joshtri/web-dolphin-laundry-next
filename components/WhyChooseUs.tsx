@@ -44,7 +44,7 @@ const WhyChooseUs: React.FC = () => {
   ];
 
   return (
-    <section id="why-choose-us" className="py-20 bg-gray-50">
+    <section id="mengapa-memilih-kami" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6 lg:px-20">
         <h2 className="text-4xl font-bold text-blue-500 text-center mb-4">
           Mengapa Memilih Kami?
