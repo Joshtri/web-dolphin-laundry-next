@@ -352,14 +352,14 @@ const Hero: React.FC = () => {
       {/* Main Content */}
       <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
         {/* Main Heading */}
-        <div className="mb-8 mt-20">
+        <div className="mb-8">
           <h1
             ref={titleRef}
-            className="text-5xl md:text-6xl font-bold mb-4 leading-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-snug break-words"
           >
             Selamat Datang di
           </h1>
-          <div className="text-6xl md:text-7xl font-extrabold">
+          <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold break-words">
             <span
               ref={textSwitchRef}
               className="inline-block bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent"
