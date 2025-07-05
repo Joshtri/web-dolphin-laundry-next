@@ -1,20 +1,23 @@
-"use client"
-import type React from "react"
-import { MapPin, Map, Clock, ExternalLink } from "lucide-react"
-import Image from "next/image"
+"use client";
+import type React from "react";
+import { MapPin, Map, Clock, ExternalLink } from "lucide-react";
+import Image from "next/image";
 import dLPlace from "@/public/assets/images/2021-05-05.jpg";
-
 
 const Location: React.FC = () => {
   return (
-    <section id="lokasi" className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100">
+    <section
+      id="lokasi"
+      className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100"
+    >
       <div className="container mx-auto px-4 max-w-6xl">
         {/* Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">Lokasi Kami</h2>
           <div className="w-20 h-1 bg-blue-500 mx-auto mb-4 rounded"></div>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Kunjungi toko kami yang strategis dan mudah dijangkau di pusat kota Kupang
+            Kunjungi toko kami yang strategis dan mudah dijangkau di pusat kota
+            Kupang
           </p>
         </div>
 
@@ -38,7 +41,9 @@ const Location: React.FC = () => {
                 <div className="p-2 bg-green-100 rounded-lg">
                   <MapPin className="text-green-600" size={24} />
                 </div>
-                <h3 className="text-xl font-bold text-gray-800">Detail Lokasi</h3>
+                <h3 className="text-xl font-bold text-gray-800">
+                  Detail Lokasi
+                </h3>
               </div>
 
               <div className="space-y-4">
@@ -54,21 +59,29 @@ const Location: React.FC = () => {
                 <div className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg border border-blue-100">
                   <Clock className="text-blue-600" size={20} />
                   <div>
-                    <h4 className="font-semibold text-gray-700">Jam Operasional</h4>
-                    <p className="text-gray-600">Setiap Hari: 05:45 - 22:00</p>
+                    <h4 className="font-semibold text-gray-700">
+                      Jam Operasional
+                    </h4>
+                    <p className="text-gray-600">
+                      Setiap Hari: 05:45 - 22:00 WITA
+                    </p>
                   </div>
                 </div>
 
-                <button className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 group">
-                  <a
-                    href="https://goo.gl/maps/Tu5ijHJKQZAwYQiA6"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center space-x-2"
-                  >
-                    <ExternalLink size={18} className="group-hover:rotate-12 transition-transform duration-300" />
-                    <span>Petunjuk Arah</span>
-                  </a>
+                <button
+                  onClick={() =>
+                    window.open(
+                      "https://goo.gl/maps/Tu5ijHJKQZAwYQiA6",
+                      "_blank"
+                    )
+                  }
+                  className="w-full bg-gradient-to-r from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 group"
+                >
+                  <ExternalLink
+                    size={18}
+                    className="group-hover:rotate-12 transition-transform duration-300"
+                  />
+                  <span>Petunjuk Arah</span>
                 </button>
               </div>
             </div>
@@ -85,7 +98,8 @@ const Location: React.FC = () => {
               </div>
 
               <p className="text-gray-600 mb-6 leading-relaxed">
-                Temukan kami dengan mudah menggunakan peta interaktif di bawah ini. Lokasi strategis di pusat kota.
+                Temukan kami dengan mudah menggunakan peta interaktif di bawah
+                ini. Lokasi strategis di pusat kota.
               </p>
 
               {/* Map Container */}
@@ -102,21 +116,25 @@ const Location: React.FC = () => {
               <div className="flex items-center space-x-3 p-4 bg-blue-50 rounded-lg border border-blue-100 mb-6">
                 <Clock className="text-blue-600" size={20} />
                 <div>
-                  <h4 className="font-semibold text-gray-700">Jam Operasional</h4>
-                  <p className="text-gray-600">Setiap Hari: 05:45 - 22:00</p>
+                  <h4 className="font-semibold text-gray-700">
+                    Jam Operasional
+                  </h4>
+                  <p className="text-gray-600">
+                    Setiap Hari: 05:45 - 22:00 WITA
+                  </p>
                 </div>
               </div>
-
-              <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 group">
-                <a
-                  href="https://goo.gl/maps/Tu5ijHJKQZAwYQiA6"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center space-x-2"
-                >
-                  <ExternalLink size={18} className="group-hover:rotate-12 transition-transform duration-300" />
-                  <span>Buka di Google Maps</span>
-                </a>
+              <button
+                onClick={() =>
+                  window.open("https://goo.gl/maps/Tu5ijHJKQZAwYQiA6", "_blank")
+                }
+                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 px-6 rounded-lg shadow-md hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2 group"
+              >
+                <ExternalLink
+                  size={18}
+                  className="group-hover:rotate-12 transition-transform duration-300"
+                />
+                <span>Buka di Google Maps</span>
               </button>
             </div>
           </div>
@@ -130,27 +148,33 @@ const Location: React.FC = () => {
                 <MapPin className="text-blue-600" size={24} />
               </div>
               <h4 className="font-semibold text-gray-800">Lokasi Strategis</h4>
-              <p className="text-gray-600 text-sm">Berada di pusat kota Kupang, mudah dijangkau dari berbagai arah</p>
+              <p className="text-gray-600 text-sm">
+                Berada di pusat kota Kupang, mudah dijangkau dari berbagai arah
+              </p>
             </div>
             <div className="space-y-3">
               <div className="p-3 bg-green-100 rounded-full w-fit mx-auto">
                 <Clock className="text-green-600" size={24} />
               </div>
               <h4 className="font-semibold text-gray-800">Buka Setiap Hari</h4>
-              <p className="text-gray-600 text-sm">Melayani Anda dari pagi hingga malam, 7 hari seminggu</p>
+              <p className="text-gray-600 text-sm">
+                Melayani Anda dari pagi hingga malam, 7 hari seminggu
+              </p>
             </div>
             <div className="space-y-3">
               <div className="p-3 bg-yellow-100 rounded-full w-fit mx-auto">
                 <Map className="text-yellow-600" size={24} />
               </div>
               <h4 className="font-semibold text-gray-800">Mudah Ditemukan</h4>
-              <p className="text-gray-600 text-sm">Landmark jelas dan akses transportasi umum yang mudah</p>
+              <p className="text-gray-600 text-sm">
+                Landmark jelas dan akses transportasi umum yang mudah
+              </p>
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Location
+export default Location;

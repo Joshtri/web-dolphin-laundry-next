@@ -19,11 +19,7 @@ const faqData: FAQItem[] = [
     answer:
       "Untuk laundry reguler, proses memakan waktu 1-2 hari kerja. Kami juga menyediakan layanan express 3 jam untuk kebutuhan mendesak dengan biaya tambahan.",
   },
-  {
-    question: "Apakah ada layanan antar jemput gratis?",
-    answer:
-      "Ya! Kami menyediakan layanan antar jemput GRATIS untuk area Kupang dan sekitarnya. Cukup hubungi kami di WhatsApp untuk koordinasi waktu dan lokasi.",
-  },
+
   {
     question: "Parfum apa saja yang tersedia dan apakah benar gratis?",
     answer:
@@ -58,7 +54,7 @@ const faqData: FAQItem[] = [
   {
     question: "Jam operasional Dolphin Laundry?",
     answer:
-      "Kami buka setiap hari dari jam 06:00 - 22:00 WIT. Untuk layanan antar jemput bisa diatur di luar jam operasional dengan konfirmasi terlebih dahulu.",
+      "Kami buka setiap hari dari jam 05:45 - 22:00 WITA. Untuk layanan antar jemput bisa diatur di luar jam operasional dengan konfirmasi terlebih dahulu.",
   },
 ];
 

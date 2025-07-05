@@ -1,5 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
+import type React from "react";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -75,13 +77,12 @@ const Header = () => {
           index: navItems.findIndex((navItem) => navItem.href === item.href),
         }));
 
-      const scrollY = window.scrollY + 120; // add offset for sticky header
+      const scrollY = window.scrollY + 80; // Reduced offset for compact header
 
       sections.forEach(({ element, href }) => {
         if (element) {
           const top = (element as HTMLElement).offsetTop;
           const height = (element as HTMLElement).clientHeight;
-
           if (scrollY >= top && scrollY < top + height) {
             setActiveSection(href);
           }
@@ -90,13 +91,14 @@ const Header = () => {
     };
 
     const handleScrolled = () => {
-      setIsScrolled(window.scrollY > 50);
+      setIsScrolled(window.scrollY > 20); // Reduced threshold
     };
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("scroll", handleScrolled);
     handleScroll(); // run on mount
     handleScrolled(); // run on mount
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("scroll", handleScrolled);
@@ -124,47 +126,46 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-white/95 backdrop-blur-lg shadow-xl border-b border-blue-100"
+          ? "bg-white/95 backdrop-blur-lg shadow-lg border-b border-blue-100"
           : "bg-gradient-to-br from-blue-600 via-blue-500 to-blue-400"
       }`}
     >
-      {/* Decorative top border */}
+      {/* Compact decorative top border */}
       <div
-        className={`h-1 bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 ${
+        className={`h-0.5 bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 ${
           isScrolled ? "opacity-100" : "opacity-0"
-        } transition-opacity duration-500`}
+        } transition-opacity duration-300`}
       ></div>
 
-      <nav className="container mx-auto px-4 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          {/* Enhanced Logo Section */}
+      <nav className="container mx-auto px-4 lg:px-6">
+        <div className="flex justify-between items-center py-2.5">
+          {/* Compact Logo Section */}
           <Link
             href="/"
-            className="flex items-center space-x-4 group cursor-pointer"
+            className="flex items-center space-x-3 group cursor-pointer"
           >
             <div className="relative">
-              {/* Glow effect */}
+              {/* Compact glow effect */}
               <div
-                className={`absolute inset-0 rounded-2xl blur-lg transition-all duration-500 ${
-                  isScrolled ? "bg-blue-500/30" : "bg-white/30"
-                } group-hover:bg-yellow-400/40 group-hover:scale-110`}
+                className={`absolute inset-0 rounded-xl blur-md transition-all duration-300 ${
+                  isScrolled ? "bg-blue-500/20" : "bg-white/20"
+                } group-hover:bg-yellow-400/30 group-hover:scale-105`}
               ></div>
 
-              {/* Logo container */}
-              {/* Logo container */}
+              {/* Compact logo container */}
               <div
-                className={`relative rounded-2xl p-3 shadow-xl transition-all duration-500 group-hover:shadow-2xl group-hover:scale-105 ${
-                  isScrolled ? "bg-white" : "bg-white/95 backdrop-blur-sm"
+                className={`relative  p-1.5  transition-all duration-300  group-hover:scale-105 ${
+                  isScrolled ? "" : " "
                 }`}
               >
-                <div className="w-20 h-20 bg-white rounded-full overflow-hidden shadow-xl p-1">
+                <div className="w-12 h-12 bg-white rounded-xl overflow-hidden shadow-md p-0.5">
                   <Image
-                    src={dlLogo}
+                    src={dlLogo || "/placeholder.svg"}
                     alt="Dolphin Laundry Logo"
-                    width={80}
-                    height={80}
+                    width={120}
+                    height={120}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -173,31 +174,31 @@ const Header = () => {
 
             <div className="transition-all duration-300">
               <h1
-                className={`text-xl font-bold transition-all duration-500 ${
+                className={`text-base sm:text-lg font-bold transition-all duration-300 ${
                   isScrolled ? "text-gray-800" : "text-white"
-                } group-hover:text-blue-600 drop-shadow-sm`}
+                } group-hover:text-blue-900 drop-shadow-sm`}
               >
                 Dolphin Laundry
               </h1>
               <p
-                className={`text-sm font-medium transition-all duration-500 ${
-                  isScrolled ? "text-blue-600" : "text-blue-100"
-                } group-hover:text-blue-500`}
+                className={`text-xs font-medium transition-all duration-300 ${
+                  isScrolled ? "text-blue-900" : "text-blue-800"
+                } group-hover:text-blue-900`}
               >
                 Dry Cleaning Kupang
               </p>
             </div>
           </Link>
 
-          {/* Enhanced Desktop Menu */}
+          {/* Compact Desktop Menu */}
           <div className="hidden lg:flex items-center">
-            <ul className="flex space-x-8">
+            <ul className="flex space-x-4">
               {navItems.map((item, index) => (
                 <li key={index}>
                   <Link
                     href={item.href === "#beranda" ? "/" : item.path}
                     onClick={(e) => handleNavClick(e, item)}
-                    className={`relative text-sm font-semibold transition-all duration-300 hover:scale-105 group px-3 py-2 rounded-lg ${
+                    className={`relative text-xs font-semibold transition-all duration-300 hover:scale-105 group px-2.5 py-1.5 rounded-lg ${
                       (isHomepage && activeSection === item.href) ||
                       pathname === item.path
                         ? isScrolled
@@ -210,7 +211,7 @@ const Header = () => {
                   >
                     {item.label}
                     <span
-                      className={`absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-0 h-0.5 rounded-full transition-all duration-300 group-hover:w-3/4 ${
+                      className={`absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-0 h-0.5 rounded-full transition-all duration-300 group-hover:w-2/3 ${
                         isScrolled ? "bg-blue-600" : "bg-yellow-300"
                       }`}
                     ></span>
@@ -220,9 +221,9 @@ const Header = () => {
             </ul>
           </div>
 
-          {/* Enhanced Mobile Menu Button */}
+          {/* Compact Mobile Menu Button */}
           <button
-            className={`lg:hidden p-3 rounded-xl transition-all duration-300 hover:scale-110 ${
+            className={`lg:hidden p-2 rounded-lg transition-all duration-300 hover:scale-110 ${
               isScrolled
                 ? "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
                 : "text-white hover:bg-white/20"
@@ -233,16 +234,16 @@ const Header = () => {
             onClick={toggleMobileMenu}
           >
             <div className="relative">
-              {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </div>
           </button>
         </div>
       </nav>
 
-      {/* Enhanced Mobile Menu */}
+      {/* Compact Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-500 ease-out ${
-          isMobileMenuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+        className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
+          isMobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <div
@@ -252,13 +253,13 @@ const Header = () => {
               : "bg-blue-700/95 border-white/20"
           }`}
         >
-          <ul className="py-6 space-y-2">
+          <ul className="py-3 space-y-1">
             {navItems.map((item, index) => (
               <li key={index}>
                 <Link
                   href={item.href === "#beranda" ? "/" : item.path}
                   onClick={(e) => handleNavClick(e, item)}
-                  className={`block mx-4 px-6 py-4 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:translate-x-2 ${
+                  className={`block mx-3 px-4 py-2.5 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:translate-x-1 ${
                     (isHomepage && activeSection === item.href) ||
                     pathname === item.path
                       ? isScrolled
@@ -269,17 +270,17 @@ const Header = () => {
                       : "text-white hover:text-yellow-300 hover:bg-white/20"
                   }`}
                   style={{
-                    animationDelay: `${index * 100}ms`,
+                    animationDelay: `${index * 50}ms`,
                     transform: isMobileMenuOpen
                       ? "translateY(0)"
-                      : "translateY(-20px)",
+                      : "translateY(-10px)",
                     opacity: isMobileMenuOpen ? 1 : 0,
-                    transition: `all 0.3s ease-out ${index * 100}ms`,
+                    transition: `all 0.2s ease-out ${index * 50}ms`,
                   }}
                 >
                   <span className="flex items-center">
                     <span
-                      className={`w-2 h-2 rounded-full mr-3 transition-all duration-300 ${
+                      className={`w-1.5 h-1.5 rounded-full mr-2 transition-all duration-300 ${
                         isScrolled ? "bg-blue-400" : "bg-yellow-300"
                       }`}
                     ></span>
@@ -291,33 +292,6 @@ const Header = () => {
           </ul>
         </div>
       </div>
-
-      <style jsx>{`
-        @keyframes slideIn {
-          from {
-            opacity: 0;
-            transform: translateY(-10px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes glow {
-          0%,
-          100% {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-          }
-          50% {
-            box-shadow: 0 0 30px rgba(59, 130, 246, 0.5);
-          }
-        }
-
-        .animate-glow {
-          animation: glow 3s ease-in-out infinite;
-        }
-      `}</style>
     </header>
   );
 };
