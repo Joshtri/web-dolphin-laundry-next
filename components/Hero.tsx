@@ -352,7 +352,7 @@ const Hero: React.FC = () => {
       {/* Main Content */}
       <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
         {/* Main Heading */}
-        <div className="mb-8">
+        <div className="">
           <h1
             ref={titleRef}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-snug break-words"
