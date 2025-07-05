@@ -1,10 +1,7 @@
 "use client";
 import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 const AutoScrollHandler = () => {
-  const searchParams = useSearchParams();
-
   useEffect(() => {
     // Check if there's a hash in the URL when component mounts
     const handleHashScroll = () => {
