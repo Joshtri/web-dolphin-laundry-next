@@ -486,7 +486,7 @@ const PerfumeSelection: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
           >
-            Pilihan Parfum
+            FREE Parfum Dipilih Sendiri
           </motion.h2>
           <motion.div
             className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6 rounded-full"
@@ -498,7 +498,12 @@ const PerfumeSelection: React.FC = () => {
             className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
             variants={itemVariants}
           >
-            Berikan aroma segar dan wangi yang tahan lama pada pakaian Anda
+            🌟 Yang membedakan kami dari laundry lain:{" "}
+            <strong>
+              GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan!
+            </strong>{" "}
+            Berikan aroma favorit Anda pada baju cucian yang dicuci terpisah
+            tidak dicampur.
           </motion.p>
 
           {/* Search Bar */}

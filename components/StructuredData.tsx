@@ -162,7 +162,7 @@ const StructuredData = () => {
         url: "https://www.dolphin-laundry-kupang.biz.id/",
         name: "Dolphin Laundry Kupang",
         description:
-          "Layanan laundry express dan dry cleaning terbaik di Kupang dengan harga terjangkau dan kualitas premium",
+          "Yang membedakan kami dari laundry lain: GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan dan baju dicuci terpisah tidak dicampur. Layanan laundry express dan dry cleaning terbaik di Kupang dengan harga terjangkau dan kualitas premium",
         publisher: {
           "@id": "https://www.dolphin-laundry-kupang.biz.id/#organization",
         },

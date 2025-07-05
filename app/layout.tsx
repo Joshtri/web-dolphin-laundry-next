@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     template: "%s | Dolphin Laundry Kupang",
   },
   description:
-    "🏆 Dolphin Laundry Kupang - Layanan laundry express 3 jam, dry cleaning profesional, parfum berkualitas. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang. ☎️ 082144500030 - 081529500130",
+    "🏆 Dolphin Laundry Kupang - Yang membedakan kami: GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan + baju dicuci terpisah tidak dicampur! Layanan laundry express 3 jam, dry cleaning profesional. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang. ☎️ 082144500030 - 081529500130",
   keywords: [
     // Primary Keywords
     "laundry kupang",
@@ -118,7 +118,7 @@ export const metadata: Metadata = {
     title:
       "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik di Kupang",
     description:
-      "🏆 Layanan laundry express 3 jam, dry cleaning profesional, parfum berkualitas. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang. Hubungi kami sekarang!",
+      "🏆 Yang membedakan kami: GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan + baju dicuci terpisah tidak dicampur! Layanan laundry express 3 jam, dry cleaning profesional. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang. Hubungi kami sekarang!",
     images: [
       {
         url: "/og-image.jpg", // Buat gambar ini nanti
@@ -138,7 +138,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dolphin Laundry Kupang - Laundry Express & Dry Cleaning Terbaik",
     description:
-      "🏆 Layanan laundry express 3 jam, dry cleaning profesional. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang.",
+      "🏆 Yang membedakan kami: GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan + baju dicuci terpisah tidak dicampur! Layanan laundry express 3 jam, dry cleaning profesional. Harga mulai Rp 11.000/kg, gratis antar jemput area Kupang.",
     images: ["/og-image.jpg"],
     creator: "@dolphinlaundry", // Ganti dengan handle Twitter jika ada
   },

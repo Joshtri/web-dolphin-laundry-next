@@ -62,7 +62,12 @@ const Services: React.FC = () => {
           </h2>
           <div className="w-20 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-3 rounded-full"></div>
           <p className="text-sm text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Beragam layanan laundry profesional untuk berbagai kebutuhan Anda.
+            🌟 Yang membedakan kami:{" "}
+            <strong>
+              GRATIS PARFUM PREMIUM yang bebas dipilih sendiri oleh pelanggan
+            </strong>{" "}
+            + baju dicuci terpisah tidak dicampur! Beragam layanan laundry
+            profesional untuk berbagai kebutuhan Anda.
           </p>
         </div>
 

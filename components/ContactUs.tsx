@@ -59,8 +59,12 @@ const ContactUs: React.FC = () => {
           </h2>
           <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6 rounded-full"></div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Kami siap membantu Anda. Pilih salah satu cara untuk menghubungi
-            kami.
+            🌟 Yang membedakan kami:{" "}
+            <strong>
+              GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan +
+              baju dicuci terpisah tidak dicampur!
+            </strong>{" "}
+            Hubungi kami untuk layanan laundry terbaik di Kupang.
           </p>
         </div>
 

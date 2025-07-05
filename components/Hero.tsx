@@ -352,7 +352,7 @@ const Hero: React.FC = () => {
       {/* Main Content */}
       <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
         {/* Main Heading */}
-        <div className="mb-8">
+        <div className="mb-8 mt-20">
           <h1
             ref={titleRef}
             className="text-5xl md:text-6xl font-bold mb-4 leading-tight"
@@ -375,8 +375,10 @@ const Hero: React.FC = () => {
           ref={subtitleRef}
           className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed"
         >
-          Solusi terpercaya untuk kebutuhan laundry dan dry cleaning Anda di
-          Kupang dengan kualitas premium dan pelayanan terbaik
+          🌟 Yang membedakan kami: <strong>GRATIS PARFUM PREMIUM</strong> yang
+          bebas dipilih sendiri oleh pelanggan! Baju cucian dicuci terpisah,
+          tidak dicampur dengan milik orang lain. Solusi terpercaya untuk
+          kebutuhan laundry dan dry cleaning Anda di Kupang
         </p>
 
         {/* Features */}
@@ -385,7 +387,8 @@ const Hero: React.FC = () => {
           className="flex flex-wrap justify-center gap-6 mb-10 text-sm md:text-base"
         >
           {[
-            { text: "Buka Setiap Hari", color: "bg-green-400" },
+            { text: "FREE Parfum Dipilih Sendiri", color: "bg-pink-400" },
+            { text: "Cuci Terpisah Tidak Dicampur", color: "bg-green-400" },
             { text: "Antar Jemput Gratis", color: "bg-yellow-400" },
             { text: "Express 3 Jam", color: "bg-blue-400" },
           ].map((feature, index) => (

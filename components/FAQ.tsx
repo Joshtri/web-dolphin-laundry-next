@@ -10,6 +10,11 @@ interface FAQItem {
 
 const faqData: FAQItem[] = [
   {
+    question: "Apa yang membedakan Dolphin Laundry dari laundry lain?",
+    answer:
+      "🌟 YANG MEMBEDAKAN KAMI: 1) GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan dari 34+ pilihan aroma eksklusif, 2) Baju cucian Anda dicuci terpisah dan tidak dicampur dengan milik pelanggan lain untuk higienitas maksimal. Inilah keunggulan utama yang tidak akan Anda temukan di tempat lain!",
+  },
+  {
     question: "Berapa lama proses laundry reguler di Dolphin Laundry?",
     answer:
       "Untuk laundry reguler, proses memakan waktu 1-2 hari kerja. Kami juga menyediakan layanan express 3 jam untuk kebutuhan mendesak dengan biaya tambahan.",
@@ -20,9 +25,9 @@ const faqData: FAQItem[] = [
       "Ya! Kami menyediakan layanan antar jemput GRATIS untuk area Kupang dan sekitarnya. Cukup hubungi kami di WhatsApp untuk koordinasi waktu dan lokasi.",
   },
   {
-    question: "Parfum apa saja yang tersedia?",
+    question: "Parfum apa saja yang tersedia dan apakah benar gratis?",
     answer:
-      "Kami memiliki 34+ pilihan parfum import berkualitas premium, mulai dari aroma fresh, floral, hingga woody. Anda bisa memilih parfum favorit atau konsultasi dengan tim kami.",
+      "Ya BENAR-BENAR GRATIS! Ini adalah keunggulan utama kami. Kami memiliki 34+ pilihan parfum import berkualitas premium, mulai dari aroma fresh, floral, hingga woody. Yang istimewa: Anda bebas memilih parfum favorit sendiri tanpa biaya tambahan apapun. Tidak ada laundry lain yang memberikan kebebasan ini!",
   },
   {
     question: "Bagaimana cara menghitung harga laundry?",
@@ -30,14 +35,15 @@ const faqData: FAQItem[] = [
       "Harga dihitung per kilogram dengan minimum 2kg. Laundry reguler mulai Rp 12.000/kg, express 3 jam Rp 45.000/kg. Dry cleaning dan layanan khusus memiliki tarif tersendiri.",
   },
   {
+    question:
+      "Apakah benar baju dicuci terpisah tidak dicampur dengan milik orang lain?",
+    answer:
+      "Ya! Ini adalah komitmen kami yang membedakan dari laundry lain. Setiap baju cucian pelanggan dicuci secara terpisah dan tidak dicampur dengan milik pelanggan lain untuk menjaga higienitas maksimal dan menghindari transfer bakteri atau kotoran. Sistem ini memastikan kebersihan dan keamanan pakaian Anda.",
+  },
+  {
     question: "Apakah pakaian aman dari kerusakan atau hilang?",
     answer:
       "Kami menggunakan mesin dan deterjen berkualitas tinggi dengan SOP ketat. Setiap pakaian diberi label dan dicatat. Jika terjadi kerusakan akibat kelalaian kami, akan ada kompensasi sesuai kesepakatan.",
-  },
-  {
-    question: "Jam operasional Dolphin Laundry?",
-    answer:
-      "Kami buka setiap hari dari jam 06:00 - 22:00 WIT. Untuk layanan antar jemput bisa diatur di luar jam operasional dengan konfirmasi terlebih dahulu.",
   },
   {
     question: "Apakah bisa cuci selimut, boneka, atau barang besar?",
@@ -48,6 +54,11 @@ const faqData: FAQItem[] = [
     question: "Bagaimana cara booking atau reservasi?",
     answer:
       "Sangat mudah! Hubungi kami melalui WhatsApp di 082144500030 atau 081529500130. Tim kami akan membantu koordinasi jadwal antar jemput dan detail pemesanan.",
+  },
+  {
+    question: "Jam operasional Dolphin Laundry?",
+    answer:
+      "Kami buka setiap hari dari jam 06:00 - 22:00 WIT. Untuk layanan antar jemput bisa diatur di luar jam operasional dengan konfirmasi terlebih dahulu.",
   },
 ];
 

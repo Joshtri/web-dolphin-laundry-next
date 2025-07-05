@@ -1,41 +1,58 @@
-"use client"
-import { useEffect, useState } from "react"
-import type React from "react"
+"use client";
+import { useEffect, useState } from "react";
+import type React from "react";
 
-import { DollarSign, Clock, Leaf, Shield, Users, Settings, ChevronLeft, ChevronRight } from "lucide-react"
-import Image from "next/image"
+import {
+  DollarSign,
+  Clock,
+  Leaf,
+  Shield,
+  Users,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
+import Image from "next/image";
 
-import img1 from "@/public/assets/images/2021-05-05.jpg"
-import img2 from "@/public/assets/images/PoTaTo$999plutoGhost88.jpg"
-import img3 from "@/public/assets/images/jellyHorse73ZpQ.jpg"
-import img4 from "@/public/assets/images/klwh38dnbvOQpwlaksA29x.jpg"
-import img5 from "@/public/assets/images/n4gg4bl3_r4in93ck_zuul.jpg"
+import img1 from "@/public/assets/images/2021-05-05.jpg";
+import img2 from "@/public/assets/images/PoTaTo$999plutoGhost88.jpg";
+import img3 from "@/public/assets/images/jellyHorse73ZpQ.jpg";
+import img4 from "@/public/assets/images/klwh38dnbvOQpwlaksA29x.jpg";
+import img5 from "@/public/assets/images/n4gg4bl3_r4in93ck_zuul.jpg";
 
 const WhyChooseUs: React.FC = () => {
   const features = [
     {
-      icon: <Shield size={30} className="text-yellow-500" />,
-      title: "Layanan Berkualitas",
+      icon: <Leaf size={30} className="text-yellow-500" />,
+      title: "FREE Parfum Dipilih Sendiri",
       description:
-        "Kami menggunakan deterjen berkualitas tinggi dan proses pencucian yang teliti untuk hasil yang maksimal.",
+        "🌟 YANG MEMBEDAKAN KAMI! Gratis parfum import berkualitas yang bebas dipilih sendiri oleh pelanggan dari 34+ pilihan aroma eksklusif.",
+    },
+    {
+      icon: <Shield size={30} className="text-yellow-500" />,
+      title: "Baju Dicuci Terpisah",
+      description:
+        "Baju cucian Anda dicuci secara terpisah dan tidak dicampur dengan milik pelanggan lain untuk higienitas maksimal.",
     },
     {
       icon: <Clock size={30} className="text-yellow-500" />,
-      title: "Layanan Cepat",
-      description: "Proses cuci reguler 1-2 hari, express 3-6 jam. Tepat waktu sesuai janji.",
+      title: "Layanan Express 3 Jam",
+      description:
+        "Layanan kilat untuk kebutuhan mendesak. Express 3 jam, reguler 1-2 hari. Tepat waktu sesuai janji.",
     },
     {
       icon: <DollarSign size={30} className="text-yellow-500" />,
       title: "Harga Terjangkau",
-      description: "Tarif yang kompetitif dengan kualitas premium. Berbagai paket sesuai kebutuhan dan budget.",
+      description:
+        "Tarif kompetitif mulai Rp 11.000/kg dengan kualitas premium. Berbagai paket sesuai kebutuhan.",
     },
-
     {
       icon: <Users size={30} className="text-yellow-500" />,
       title: "Staff Profesional",
-      description: "Tenaga kerja terlatih dan berpengalaman yang menangani pakaian Anda dengan hati-hati.",
+      description:
+        "Tenaga kerja terlatih dan berpengalaman yang menangani pakaian Anda dengan hati-hati dan teliti.",
     },
-  ]
+  ];
 
   // Using placeholder images since we can't access the actual files
   const images = [
@@ -45,35 +62,36 @@ const WhyChooseUs: React.FC = () => {
     img4,
     img5,
     // Placeholder for additional images
-    
-  ]
+  ];
 
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isTransitioning, setIsTransitioning] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Auto-slide with smooth transition
   useEffect(() => {
     const interval = setInterval(() => {
-      handleSlideChange((prev) => (prev + 1) % images.length)
-    }, 5000)
-    return () => clearInterval(interval)
-  }, [images.length])
+      handleSlideChange((prev) => (prev + 1) % images.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [images.length]);
 
   const handleSlideChange = (newIndex: number | ((prev: number) => number)) => {
-    setIsTransitioning(true)
+    setIsTransitioning(true);
     setTimeout(() => {
       if (typeof newIndex === "function") {
-        setCurrentIndex(newIndex)
+        setCurrentIndex(newIndex);
       } else {
-        setCurrentIndex(newIndex)
+        setCurrentIndex(newIndex);
       }
-      setIsTransitioning(false)
-    }, 150)
-  }
+      setIsTransitioning(false);
+    }, 150);
+  };
 
-  const prevSlide = () => handleSlideChange((prev) => (prev - 1 + images.length) % images.length)
+  const prevSlide = () =>
+    handleSlideChange((prev) => (prev - 1 + images.length) % images.length);
 
-  const nextSlide = () => handleSlideChange((prev) => (prev + 1) % images.length)
+  const nextSlide = () =>
+    handleSlideChange((prev) => (prev + 1) % images.length);
 
   return (
     <section
@@ -94,7 +112,12 @@ const WhyChooseUs: React.FC = () => {
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-yellow-400 to-yellow-600 mx-auto mb-6 rounded-full animate-scale-in"></div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed animate-fade-in-delayed">
-            Kepercayaan pelanggan adalah prioritas utama kami. Berikut alasan mengapa Anda harus memilih Dolphin Laundry
+            Yang membedakan kami dari laundry lain:{" "}
+            <strong>
+              FREE parfum yang bebas dipilih sendiri oleh pelanggan
+            </strong>{" "}
+            dan <strong>baju dicuci terpisah tidak dicampur</strong>.
+            Kepercayaan pelanggan adalah prioritas utama kami.
           </p>
         </div>
 
@@ -108,7 +131,9 @@ const WhyChooseUs: React.FC = () => {
                   alt="Dolphin Laundry"
                   fill
                   className={`object-cover transition-all duration-500 ease-in-out transform ${
-                    isTransitioning ? "scale-110 opacity-0 blur-sm" : "scale-100 opacity-100 blur-0"
+                    isTransitioning
+                      ? "scale-110 opacity-0 blur-sm"
+                      : "scale-100 opacity-100 blur-0"
                   }`}
                 />
 
@@ -140,7 +165,9 @@ const WhyChooseUs: React.FC = () => {
                   key={index}
                   onClick={() => handleSlideChange(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentIndex ? "bg-white shadow-lg scale-125" : "bg-white/50 hover:bg-white/75"
+                    index === currentIndex
+                      ? "bg-white shadow-lg scale-125"
+                      : "bg-white/50 hover:bg-white/75"
                   }`}
                 />
               ))}
@@ -274,7 +301,7 @@ const WhyChooseUs: React.FC = () => {
         }
       `}</style>
     </section>
-  )
-}
+  );
+};
 
-export default WhyChooseUs
+export default WhyChooseUs;
