@@ -5,12 +5,63 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const currentDate = new Date()
 
     const pages = [
+        // Homepage
         {
             url: baseUrl,
             lastModified: currentDate,
             changeFrequency: 'daily' as const,
             priority: 1.0,
         },
+        // Dedicated pages
+        {
+            url: `${baseUrl}/daftar-harga`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/layanan`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.9,
+        },
+        {
+            url: `${baseUrl}/pilihan-parfum`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/mengapa-memilih-kami`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/testimoni`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/lokasi`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/kontak-kami`,
+            lastModified: currentDate,
+            changeFrequency: 'monthly' as const,
+            priority: 0.8,
+        },
+        {
+            url: `${baseUrl}/faq`,
+            lastModified: currentDate,
+            changeFrequency: 'weekly' as const,
+            priority: 0.7,
+        },
+        // Homepage sections (for anchor links)
         {
             url: `${baseUrl}#beranda`,
             lastModified: currentDate,

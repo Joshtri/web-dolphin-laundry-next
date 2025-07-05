@@ -45,7 +45,7 @@ const Services: React.FC = () => {
 
   return (
     <section
-      id="services"
+      id="layanan"
       className="py-16 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100 relative overflow-hidden"
     >
       {/* Decorative Background */}

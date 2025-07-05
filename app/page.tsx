@@ -9,6 +9,8 @@ import ContactUs from "@/components/ContactUs";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import PerfumeSelection from "@/components/Parfume";
 import FloatingScrollToTop from "@/components/ui/FloatingScrollToTop";
+import FAQ from "@/components/FAQ";
+import AutoScrollHandler from "@/components/ui/AutoScrollHandler";
 
 export const metadata: Metadata = {
   title:
@@ -83,12 +85,14 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
+      <AutoScrollHandler />
       <Hero />
       <PriceList />
       <PerfumeSelection />
       <Services />
       <WhyChooseUs />
       <Testimonials />
+      {/* <FAQ />  */}
       <Location />
       {/* <ContactUs /> */}
       <FloatingScrollToTop />

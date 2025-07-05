@@ -1,46 +1,123 @@
 "use client";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 import dlLogo from "@/public/assets/images/dl-logo.png";
+
+const navItems = [
+  { href: "#beranda", label: "Beranda", path: "/" },
+  { href: "#daftar-harga", label: "Daftar Harga", path: "/daftar-harga" },
+  {
+    href: "#perfume-selection",
+    label: "Pilihan Parfum",
+    path: "/pilihan-parfum",
+  },
+  { href: "#layanan", label: "Layanan", path: "/layanan" },
+  {
+    href: "#mengapa-memilih-kami",
+    label: "Mengapa Kami",
+    path: "/mengapa-memilih-kami",
+  },
+  { href: "#testimoni", label: "Testimoni", path: "/testimoni" },
+  { href: "", label: "FAQ", path: "/faq" },
+  { href: "#lokasi", label: "Lokasi", path: "/lokasi" },
+  { href: "", label: "Kontak", path: "/kontak-kami" },
+];
 
 const Header = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("#beranda");
+  const pathname = usePathname();
 
-  const navItems = [
-    { href: "#beranda", label: "Beranda" },
-    { href: "#mengapa-memilih-kami", label: "Mengapa Kami" },
-    { href: "#daftar-harga", label: "Daftar Harga" },
-    { href: "#lokasi", label: "Lokasi" },
-  ];
+  // Check if we're on homepage
+  const isHomepage = pathname === "/";
+
+  // Handle navigation click
+  const handleNavClick = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    item: (typeof navItems)[0]
+  ) => {
+    if (
+      isHomepage &&
+      item.href &&
+      item.href.trim() !== "" &&
+      item.href.startsWith("#")
+    ) {
+      // If we're on homepage and clicking a section, scroll to it
+      e.preventDefault();
+      const section = document.querySelector(item.href);
+      if (section) {
+        section.scrollIntoView({ behavior: "smooth" });
+        setMobileMenuOpen(false);
+      }
+    } else {
+      // For all other cases, let Next.js handle the navigation
+      setMobileMenuOpen(false);
+    }
+  };
 
   // Handle scroll effect
   useEffect(() => {
+    if (!isHomepage) return; // Only track scroll on homepage
+
     const handleScroll = () => {
-      const sections = navItems.map((item) =>
-        document.querySelector(item.href)
-      );
+      const sections = navItems
+        .filter(
+          (item) =>
+            item.href && item.href.trim() !== "" && item.href.startsWith("#")
+        )
+        .map((item) => ({
+          element: document.querySelector(item.href),
+          href: item.href,
+          index: navItems.findIndex((navItem) => navItem.href === item.href),
+        }));
 
       const scrollY = window.scrollY + 120; // add offset for sticky header
 
-      sections.forEach((section, i) => {
-        if (section) {
-          const top = (section as HTMLElement).offsetTop;
-          const height = (section as HTMLElement).clientHeight;
+      sections.forEach(({ element, href }) => {
+        if (element) {
+          const top = (element as HTMLElement).offsetTop;
+          const height = (element as HTMLElement).clientHeight;
 
           if (scrollY >= top && scrollY < top + height) {
-            setActiveSection(navItems[i].href);
+            setActiveSection(href);
           }
         }
       });
     };
 
+    const handleScrolled = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScrolled);
     handleScroll(); // run on mount
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    handleScrolled(); // run on mount
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("scroll", handleScrolled);
+    };
+  }, [isHomepage]);
+
+  // Auto scroll to section if hash is present on homepage
+  useEffect(() => {
+    if (isHomepage && typeof window !== "undefined") {
+      const hash = window.location.hash;
+      if (hash) {
+        setTimeout(() => {
+          const section = document.querySelector(hash);
+          if (section) {
+            section.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+    }
+  }, [isHomepage]);
+
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -63,7 +140,10 @@ const Header = () => {
       <nav className="container mx-auto px-4 lg:px-8">
         <div className="flex justify-between items-center py-4">
           {/* Enhanced Logo Section */}
-          <div className="flex items-center space-x-4 group cursor-pointer">
+          <Link
+            href="/"
+            className="flex items-center space-x-4 group cursor-pointer"
+          >
             <div className="relative">
               {/* Glow effect */}
               <div
@@ -73,18 +153,21 @@ const Header = () => {
               ></div>
 
               {/* Logo container */}
+              {/* Logo container */}
               <div
                 className={`relative rounded-2xl p-3 shadow-xl transition-all duration-500 group-hover:shadow-2xl group-hover:scale-105 ${
                   isScrolled ? "bg-white" : "bg-white/95 backdrop-blur-sm"
                 }`}
               >
-                <Image
-                  src={dlLogo || "/placeholder.svg"}
-                  alt="Dolphin Laundry Logo"
-                  width={50}
-                  height={40}
-                  className="h-10 w-12 object-contain"
-                />
+                <div className="w-20 h-20 bg-white rounded-full overflow-hidden shadow-xl p-1">
+                  <Image
+                    src={dlLogo}
+                    alt="Dolphin Laundry Logo"
+                    width={80}
+                    height={80}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
             </div>
 
@@ -104,17 +187,19 @@ const Header = () => {
                 Dry Cleaning Kupang
               </p>
             </div>
-          </div>
+          </Link>
 
           {/* Enhanced Desktop Menu */}
           <div className="hidden lg:flex items-center">
             <ul className="flex space-x-8">
               {navItems.map((item, index) => (
                 <li key={index}>
-                  <a
-                    href={item.href}
+                  <Link
+                    href={item.href === "#beranda" ? "/" : item.path}
+                    onClick={(e) => handleNavClick(e, item)}
                     className={`relative text-sm font-semibold transition-all duration-300 hover:scale-105 group px-3 py-2 rounded-lg ${
-                      activeSection === item.href
+                      (isHomepage && activeSection === item.href) ||
+                      pathname === item.path
                         ? isScrolled
                           ? "text-blue-600 bg-blue-50"
                           : "text-yellow-300 bg-white/10"
@@ -129,7 +214,7 @@ const Header = () => {
                         isScrolled ? "bg-blue-600" : "bg-yellow-300"
                       }`}
                     ></span>
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -170,10 +255,12 @@ const Header = () => {
           <ul className="py-6 space-y-2">
             {navItems.map((item, index) => (
               <li key={index}>
-                <a
-                  href={item.href}
+                <Link
+                  href={item.href === "#beranda" ? "/" : item.path}
+                  onClick={(e) => handleNavClick(e, item)}
                   className={`block mx-4 px-6 py-4 text-sm font-semibold rounded-xl transition-all duration-300 hover:scale-105 hover:translate-x-2 ${
-                    activeSection === item.href
+                    (isHomepage && activeSection === item.href) ||
+                    pathname === item.path
                       ? isScrolled
                         ? "text-blue-600 bg-blue-50"
                         : "text-yellow-300 bg-white/10"
@@ -181,7 +268,6 @@ const Header = () => {
                       ? "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
                       : "text-white hover:text-yellow-300 hover:bg-white/20"
                   }`}
-                  onClick={() => setMobileMenuOpen(false)}
                   style={{
                     animationDelay: `${index * 100}ms`,
                     transform: isMobileMenuOpen
@@ -199,7 +285,7 @@ const Header = () => {
                     ></span>
                     {item.label}
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

@@ -1,17 +1,17 @@
-"use client"
-import type React from "react"
-import { MessageCircle, Instagram, Facebook, MapPin } from "lucide-react"
-import { useWhatsApp } from "@/context/WhatsAppContext"
+"use client";
+import type React from "react";
+import { MessageCircle, Instagram, Facebook, MapPin } from "lucide-react";
+import { useWhatsApp } from "@/context/WhatsAppContext";
 
 interface ContactItem {
-  name: string
-  icon: React.ReactNode
-  link?: string
-  isWhatsApp?: boolean
+  name: string;
+  icon: React.ReactNode;
+  link?: string;
+  isWhatsApp?: boolean;
 }
 
 const ContactUs: React.FC = () => {
-  const { openModal } = useWhatsApp()
+  const { openModal } = useWhatsApp();
 
   const contactItems: ContactItem[] = [
     {
@@ -34,15 +34,15 @@ const ContactUs: React.FC = () => {
       icon: <MapPin className="text-red-500 text-3xl" />,
       link: "https://goo.gl/maps/Tu5ijHJKQZAwYQiA6",
     },
-  ]
+  ];
 
   const handleWhatsAppClick = (): void => {
-    openModal()
-  }
+    openModal();
+  };
 
   return (
     <section
-      id="contact-us"
+      id="kontak-kami"
       className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100 relative overflow-hidden"
     >
       {/* Background decorative elements */}
@@ -59,7 +59,8 @@ const ContactUs: React.FC = () => {
           </h2>
           <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6 rounded-full"></div>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            Kami siap membantu Anda. Pilih salah satu cara untuk menghubungi kami.
+            Kami siap membantu Anda. Pilih salah satu cara untuk menghubungi
+            kami.
           </p>
         </div>
 
@@ -76,7 +77,9 @@ const ContactUs: React.FC = () => {
                 }}
               >
                 <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl">
-                  <div className="group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                  <div className="group-hover:scale-110 transition-transform duration-300">
+                    {item.icon}
+                  </div>
                 </div>
                 <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
                   {item.name}
@@ -96,7 +99,9 @@ const ContactUs: React.FC = () => {
                 }}
               >
                 <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl">
-                  <div className="group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                  <div className="group-hover:scale-110 transition-transform duration-300">
+                    {item.icon}
+                  </div>
                 </div>
                 <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
                   {item.name}
@@ -104,7 +109,7 @@ const ContactUs: React.FC = () => {
                 {/* Hover Indicator */}
                 <div className="w-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full group-hover:w-12 transition-all duration-500"></div>
               </a>
-            ),
+            )
           )}
         </div>
 
@@ -116,7 +121,7 @@ const ContactUs: React.FC = () => {
         </div> */}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default ContactUs
+export default ContactUs;

@@ -76,11 +76,14 @@ const PriceList: React.FC = () => {
 
           <div className="mt-6">
             <button
+              // onClick={() => {
+              //   const el = document.getElementById("perfume-selection");
+              //   if (el) {
+              //     el.scrollIntoView({ behavior: "smooth", block: "start" });
+              //   }
+              // }}
               onClick={() => {
-                const el = document.getElementById("perfume-selection");
-                if (el) {
-                  el.scrollIntoView({ behavior: "smooth", block: "start" });
-                }
+                window.location.href = "/#perfume-selection";
               }}
               className="inline-flex items-center space-x-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full shadow transition-all duration-300"
             >
