@@ -240,11 +240,13 @@ const Header = () => {
         </div>
       </nav>
 
-      {/* Compact Mobile Menu */}
+      {/* Mobile Menu */}
       <div
-        className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
-          isMobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
-        }`}
+        className={`lg:hidden transition-all duration-300 ease-out ${
+          isMobileMenuOpen
+            ? "max-h-screen opacity-100 visible"
+            : "max-h-0 opacity-0 invisible"
+        } overflow-hidden`}
       >
         <div
           className={`backdrop-blur-lg border-t transition-all duration-300 ${
@@ -255,33 +257,42 @@ const Header = () => {
         >
           <ul className="py-3 space-y-1">
             {navItems.map((item, index) => (
-              <li key={index}>
+              <li
+                key={index}
+                className={`transform transition-all duration-300 ${
+                  isMobileMenuOpen
+                    ? "translate-y-0 opacity-100"
+                    : "translate-y-4 opacity-0"
+                }`}
+                style={{
+                  transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : "0ms",
+                }}
+              >
                 <Link
                   href={item.href === "#beranda" ? "/" : item.path}
                   onClick={(e) => handleNavClick(e, item)}
-                  className={`block mx-3 px-4 py-2.5 text-xs font-semibold rounded-lg transition-all duration-300 hover:scale-105 hover:translate-x-1 ${
+                  className={`block mx-3 px-3 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] hover:translate-x-1 ${
                     (isHomepage && activeSection === item.href) ||
                     pathname === item.path
                       ? isScrolled
-                        ? "text-blue-600 bg-blue-50"
-                        : "text-yellow-300 bg-white/10"
+                        ? "text-blue-600 bg-blue-50 shadow-sm"
+                        : "text-yellow-300 bg-white/10 shadow-sm"
                       : isScrolled
                       ? "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-                      : "text-white hover:text-yellow-300 hover:bg-white/20"
+                      : "text-white hover:text-yellow-300 hover:bg-white/10"
                   }`}
-                  style={{
-                    animationDelay: `${index * 50}ms`,
-                    transform: isMobileMenuOpen
-                      ? "translateY(0)"
-                      : "translateY(-10px)",
-                    opacity: isMobileMenuOpen ? 1 : 0,
-                    transition: `all 0.2s ease-out ${index * 50}ms`,
-                  }}
                 >
                   <span className="flex items-center">
                     <span
-                      className={`w-1.5 h-1.5 rounded-full mr-2 transition-all duration-300 ${
-                        isScrolled ? "bg-blue-400" : "bg-yellow-300"
+                      className={`w-2 h-2 rounded-full mr-3 transition-all duration-300 ${
+                        (isHomepage && activeSection === item.href) ||
+                        pathname === item.path
+                          ? isScrolled
+                            ? "bg-blue-600"
+                            : "bg-yellow-300"
+                          : isScrolled
+                          ? "bg-blue-400"
+                          : "bg-white/60"
                       }`}
                     ></span>
                     {item.label}
