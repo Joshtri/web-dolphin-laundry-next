@@ -1,7 +1,7 @@
 "use client";
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X, MapPin } from "lucide-react";
+import { MessageCircle, X } from "lucide-react";
 import { gsap } from "gsap";
 
 const Hero: React.FC = () => {
@@ -23,15 +23,15 @@ const Hero: React.FC = () => {
 
   // Initialize animations on mount
   useEffect(() => {
-    // Floating bubbles animation function (defined outside of context)
+    // Floating bubbles animation function
     const createBubbles = () => {
       if (!bubblesRef.current) return;
 
       // Clear existing bubbles
       bubblesRef.current.innerHTML = "";
 
-      // Create new bubbles
-      const bubbleCount = 100;
+      // Create new bubbles - adjusted count based on screen size
+      const bubbleCount = window.innerWidth < 768 ? 50 : 100;
       const containerWidth = window.innerWidth;
       const containerHeight = window.innerHeight;
 
@@ -39,8 +39,11 @@ const Hero: React.FC = () => {
         const bubble = document.createElement("div");
         bubble.className = "absolute rounded-full bg-white/20";
 
-        // Random size between 10px and 40px
-        const size = 10 + Math.random() * 30;
+        // Random size between 5px and 30px (smaller on mobile)
+        const size =
+          window.innerWidth < 768
+            ? 5 + Math.random() * 15
+            : 10 + Math.random() * 20;
 
         // Random position at bottom
         const left = Math.random() * containerWidth;
@@ -77,7 +80,7 @@ const Hero: React.FC = () => {
               duration: duration,
               ease: "none",
               repeat: -1,
-              delay: 2 + Math.random() * 3, // Random delay before restarting
+              delay: 2 + Math.random() * 3,
             });
           },
         });
@@ -85,7 +88,10 @@ const Hero: React.FC = () => {
     };
 
     const ctx = gsap.context(() => {
-      // Initial setup
+      // Initial setup - responsive values
+      const initialY = window.innerWidth < 768 ? 20 : 30;
+      const durationMultiplier = window.innerWidth < 768 ? 0.8 : 1;
+
       gsap.set(
         [
           titleRef.current,
@@ -95,33 +101,33 @@ const Hero: React.FC = () => {
         ],
         {
           opacity: 0,
-          y: 50,
+          y: initialY,
         }
       );
 
-      // Main timeline
+      // Main timeline with responsive durations
       const tl = gsap.timeline();
 
       // Decorative elements animation
       decorativeRefs.current.forEach((ref, index) => {
         if (ref) {
           gsap.to(ref, {
-            scale: 1.2,
-            opacity: 1,
-            duration: 4,
+            scale: 1.1,
+            opacity: 0.8,
+            duration: 3 * durationMultiplier,
             repeat: -1,
             yoyo: true,
             ease: "power2.inOut",
-            delay: index * 0.5,
+            delay: index * 0.3,
           });
         }
       });
 
-      // Main entrance animation
+      // Main entrance animation with responsive values
       tl.to(titleRef.current, {
         opacity: 1,
         y: 0,
-        duration: 1,
+        duration: 0.8 * durationMultiplier,
         ease: "power3.out",
       })
         .to(
@@ -129,20 +135,20 @@ const Hero: React.FC = () => {
           {
             opacity: 1,
             rotationX: 0,
-            duration: 0.8,
+            duration: 0.6 * durationMultiplier,
             ease: "back.out(1.7)",
           },
-          "-=0.5"
+          `-=${0.4 * durationMultiplier}`
         )
         .to(
           subtitleRef.current,
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
+            duration: 0.6 * durationMultiplier,
             ease: "power2.out",
           },
-          "-=0.3"
+          `-=${0.2 * durationMultiplier}`
         )
         .to(
           featuresRef.current?.children || [],
@@ -150,39 +156,44 @@ const Hero: React.FC = () => {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.5,
-            stagger: 0.1,
+            duration: 0.4 * durationMultiplier,
+            stagger: 0.08,
             ease: "back.out(1.7)",
           },
-          "-=0.2"
+          `-=${0.1 * durationMultiplier}`
         )
         .to(
           ctaRef.current,
           {
             opacity: 1,
             y: 0,
-            duration: 0.8,
+            duration: 0.6 * durationMultiplier,
             ease: "power2.out",
           },
-          "-=0.3"
+          `-=${0.2 * durationMultiplier}`
         );
 
       // Feature dots animation
       gsap.to(".feature-dot", {
-        scale: 1.3,
+        scale: 1.2,
         opacity: 1,
-        duration: 2,
+        duration: 1.5 * durationMultiplier,
         repeat: -1,
         yoyo: true,
-        stagger: 0.2,
+        stagger: 0.15,
         ease: "power2.inOut",
       });
 
       // Initial creation of bubbles
       createBubbles();
 
-      // Recreate bubbles on window resize
-      window.addEventListener("resize", createBubbles);
+      // Recreate bubbles on window resize (debounced)
+      let resizeTimeout: NodeJS.Timeout;
+      const handleResize = () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(createBubbles, 300);
+      };
+      window.addEventListener("resize", handleResize);
 
       // CTA button hover animation setup
       const ctaButton = ctaRef.current?.querySelector(".cta-button");
@@ -192,7 +203,7 @@ const Hero: React.FC = () => {
         // Icon rotation animation
         gsap.to(icon, {
           rotation: 360,
-          duration: 4,
+          duration: 3 * durationMultiplier,
           repeat: -1,
           ease: "none",
         });
@@ -200,9 +211,9 @@ const Hero: React.FC = () => {
         // Button hover effects
         ctaButton.addEventListener("mouseenter", () => {
           gsap.to(ctaButton, {
-            scale: 1.05,
-            boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
-            duration: 0.3,
+            scale: 1.03,
+            boxShadow: "0 15px 30px rgba(0,0,0,0.2)",
+            duration: 0.2 * durationMultiplier,
             ease: "power2.out",
           });
         });
@@ -210,18 +221,20 @@ const Hero: React.FC = () => {
         ctaButton.addEventListener("mouseleave", () => {
           gsap.to(ctaButton, {
             scale: 1,
-            boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
-            duration: 0.3,
+            boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
+            duration: 0.2 * durationMultiplier,
             ease: "power2.out",
           });
         });
       }
+
+      return () => {
+        window.removeEventListener("resize", handleResize);
+        clearTimeout(resizeTimeout);
+      };
     }, heroRef);
 
-    return () => {
-      ctx.revert();
-      window.removeEventListener("resize", createBubbles);
-    };
+    return () => ctx.revert();
   }, []);
 
   // Text switching animation
@@ -231,14 +244,14 @@ const Hero: React.FC = () => {
         gsap.to(textSwitchRef.current, {
           rotationX: -90,
           opacity: 0,
-          duration: 0.4,
+          duration: 0.3,
           ease: "power2.in",
           onComplete: () => {
             setCurrentText((prev) => (prev + 1) % texts.length);
             gsap.fromTo(
               textSwitchRef.current,
               { rotationX: 90, opacity: 0 },
-              { rotationX: 0, opacity: 1, duration: 0.4, ease: "power2.out" }
+              { rotationX: 0, opacity: 1, duration: 0.3, ease: "power2.out" }
             );
           },
         });
@@ -253,21 +266,21 @@ const Hero: React.FC = () => {
     if (isModalOpen && modalRef.current) {
       gsap.fromTo(
         modalRef.current,
-        { opacity: 0, scale: 0.8 },
-        { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(1.7)" }
+        { opacity: 0, scale: 0.9 },
+        { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(1.7)" }
       );
 
       const modalContent =
         modalRef.current.querySelectorAll(".modal-content > *");
       gsap.fromTo(
         modalContent,
-        { opacity: 0, y: 20 },
+        { opacity: 0, y: 15 },
         {
           opacity: 1,
           y: 0,
-          duration: 0.4,
-          stagger: 0.1,
-          delay: 0.2,
+          duration: 0.3,
+          stagger: 0.08,
+          delay: 0.15,
           ease: "power2.out",
         }
       );
@@ -280,8 +293,8 @@ const Hero: React.FC = () => {
     if (modalRef.current) {
       gsap.to(modalRef.current, {
         opacity: 0,
-        scale: 0.8,
-        duration: 0.2,
+        scale: 0.9,
+        duration: 0.15,
         ease: "power2.in",
         onComplete: () => setIsModalOpen(false),
       });
@@ -303,9 +316,9 @@ const Hero: React.FC = () => {
   // Feature hover handlers
   const handleFeatureHover = (element: HTMLElement, isEntering: boolean) => {
     gsap.to(element, {
-      scale: isEntering ? 1.05 : 1,
-      y: isEntering ? -2 : 0,
-      duration: 0.3,
+      scale: isEntering ? 1.03 : 1,
+      y: isEntering ? -1 : 0,
+      duration: 0.2,
       ease: "power2.out",
     });
   };
@@ -314,55 +327,55 @@ const Hero: React.FC = () => {
     <section
       ref={heroRef}
       id="beranda"
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white overflow-hidden pt-16 sm:pt-20 md:pt-24"
     >
       {/* Background Pattern */}
       <div
-        className="absolute inset-0 opacity-10"
+        className="absolute inset-0 opacity-8"
         style={{
           backgroundImage: `
-            radial-gradient(circle, rgba(255, 255, 255, 0.3) 1px, transparent 1px),
-            radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px)
+            radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+            radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
           `,
-          backgroundSize: "30px 30px",
-          backgroundPosition: "0 0, 15px 15px",
+          backgroundSize: "25px 25px",
+          backgroundPosition: "0 0, 12px 12px",
         }}
       ></div>
 
-      {/* Animated Decorative Elements */}
+      {/* Responsive Decorative Elements */}
       <div
         ref={(el) => {
           decorativeRefs.current[0] = el;
         }}
-        className="absolute top-20 left-10 w-32 h-32 bg-white/10 rounded-full blur-xl"
+        className="absolute top-8 sm:top-16 left-4 sm:left-8 w-16 sm:w-24 h-16 sm:h-24 bg-white/8 rounded-full blur-xl"
       />
       <div
         ref={(el) => {
           decorativeRefs.current[1] = el;
         }}
-        className="absolute bottom-20 right-10 w-40 h-40 bg-yellow-400/20 rounded-full blur-2xl"
+        className="absolute bottom-8 sm:bottom-16 right-4 sm:right-8 w-20 sm:w-32 h-20 sm:h-32 bg-yellow-400/15 rounded-full blur-xl sm:blur-2xl"
       />
       <div
         ref={(el) => {
           decorativeRefs.current[2] = el;
         }}
-        className="absolute top-1/2 left-1/4 w-24 h-24 bg-green-400/15 rounded-full blur-xl"
+        className="absolute top-1/2 left-1/5 w-12 sm:w-20 h-12 sm:h-20 bg-green-400/10 rounded-full blur-xl"
       />
 
       {/* Main Content */}
-      <div className="container mx-auto px-6 text-center relative z-10 max-w-4xl">
+      <div className="container mx-auto px-4 sm:px-6 text-center relative z-10 max-w-5xl">
         {/* Main Heading */}
-        <div className="">
+        <div className="mb-4 sm:mb-6 md:mb-8">
           <h1
             ref={titleRef}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-snug break-words"
+            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 leading-tight"
           >
             Selamat Datang di
           </h1>
-          <div className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold break-words">
+          <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold">
             <span
               ref={textSwitchRef}
-              className="inline-block bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent"
+              className="inline-block bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent leading-tight"
               style={{ display: "inline-block" }}
             >
               {texts[currentText]}
@@ -373,7 +386,7 @@ const Hero: React.FC = () => {
         {/* Subtitle */}
         <p
           ref={subtitleRef}
-          className="text-xl md:text-2xl mb-8 text-blue-100 max-w-3xl mx-auto leading-relaxed"
+          className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 md:mb-8 text-blue-100 max-w-4xl mx-auto leading-relaxed px-2"
         >
           🌟 Yang membedakan kami: <strong>GRATIS PARFUM PREMIUM</strong> yang
           bebas dipilih sendiri oleh pelanggan! Baju cucian dicuci terpisah,
@@ -384,7 +397,7 @@ const Hero: React.FC = () => {
         {/* Features */}
         <div
           ref={featuresRef}
-          className="flex flex-wrap justify-center gap-6 mb-10 text-sm md:text-base"
+          className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 md:mb-10 text-xs sm:text-sm md:text-base px-2"
         >
           {[
             { text: "FREE Parfum Dipilih Sendiri", color: "bg-pink-400" },
@@ -394,14 +407,14 @@ const Hero: React.FC = () => {
           ].map((feature, index) => (
             <div
               key={index}
-              className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm px-4 py-2 rounded-full opacity-0 transform translate-y-4 scale-90"
+              className="flex items-center space-x-1 sm:space-x-2 bg-white/10 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-2 rounded-full opacity-0 transform translate-y-4 scale-90 cursor-pointer"
               onMouseEnter={(e) => handleFeatureHover(e.currentTarget, true)}
               onMouseLeave={(e) => handleFeatureHover(e.currentTarget, false)}
             >
               <div
-                className={`feature-dot w-2 h-2 ${feature.color} rounded-full opacity-70`}
+                className={`feature-dot w-1.5 h-1.5 sm:w-2 sm:h-2 ${feature.color} rounded-full opacity-70`}
               />
-              <span>{feature.text}</span>
+              <span className="whitespace-nowrap">{feature.text}</span>
             </div>
           ))}
         </div>
@@ -409,58 +422,62 @@ const Hero: React.FC = () => {
         {/* CTA Buttons */}
         <div
           ref={ctaRef}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center opacity-0 transform translate-y-4"
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center opacity-0 transform translate-y-4 px-4"
         >
           <button
             onClick={openModal}
-            className="cta-button group bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-8 py-4 rounded-2xl shadow-xl flex items-center space-x-3 transition-colors duration-300"
+            className="cta-button group bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl flex items-center space-x-2 sm:space-x-3 transition-colors duration-300 w-full sm:w-auto max-w-xs"
           >
             <div className="cta-icon">
-              <MessageCircle size={24} />
+              <MessageCircle
+                size={16}
+                className="sm:w-5 sm:h-5 md:w-6 md:h-6"
+              />
             </div>
-            <span className="text-lg">Pesan Sekarang</span>
+            <span className="text-sm sm:text-base md:text-lg">
+              Pesan Sekarang
+            </span>
           </button>
-
-          {/* <div className="flex items-center space-x-2 text-blue-100">
-            <MapPin size={18} />
-            <span className="text-sm">Jl. R. W. Monginsidi I No.2, Kupang</span>
-          </div> */}
         </div>
       </div>
 
-      {/* Enhanced Modal */}
+      {/* Responsive Modal */}
       {isModalOpen && (
         <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm p-4">
           <div
             ref={modalRef}
-            className="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden"
+            className="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl max-w-xs sm:max-w-sm w-full overflow-hidden mx-2 sm:mx-4"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Modal Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
-              <h2 className="text-2xl font-bold mb-2">Hubungi Kami</h2>
-              <p className="text-blue-100">
+            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-4 sm:p-5 text-white">
+              <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
+                Hubungi Kami
+              </h2>
+              <p className="text-blue-100 text-xs sm:text-sm">
                 Pilih nomor WhatsApp untuk menghubungi kami
               </p>
             </div>
 
             {/* Modal Content */}
-            <div className="modal-content p-6 space-y-4">
+            <div className="modal-content p-4 sm:p-5 space-y-2 sm:space-y-3">
               {[
                 { phone: "+6282144500030", label: "Kontak Pertama" },
                 { phone: "+6281529500130", label: "Kontak Kedua" },
               ].map((contact, index) => (
                 <button
                   key={index}
-                  className="group w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg flex items-center justify-center space-x-3 transition-all duration-300 hover:scale-102 hover:-translate-y-1"
+                  className="group w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-4 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-md sm:shadow-lg flex items-center justify-center space-x-2 sm:space-x-3 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5"
                   onClick={() => handleWhatsAppClick(contact.phone)}
                 >
                   <div className="group-hover:rotate-12 transition-transform duration-300">
-                    <MessageCircle size={20} />
+                    <MessageCircle size={16} className="sm:w-5 sm:h-5" />
                   </div>
                   <div className="text-left">
-                    <div className="font-semibold">{contact.label}</div>
-                    <div className="text-sm text-green-100">
+                    <div className="font-semibold text-xs sm:text-sm">
+                      {contact.label}
+                    </div>
+                    <div className="text-xs text-green-100">
                       {contact.phone}
                     </div>
                   </div>
@@ -468,42 +485,22 @@ const Hero: React.FC = () => {
               ))}
 
               <button
-                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 mt-4 hover:scale-102"
+                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-4 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 mt-3 sm:mt-4 hover:scale-[1.02]"
                 onClick={closeModal}
               >
-                <X size={18} />
-                <span>Batal</span>
+                <X size={14} className="sm:w-4 sm:h-4" />
+                <span className="text-xs sm:text-sm">Batal</span>
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Animated Floating Bubbles */}
+      {/* Floating Bubbles */}
       <div
         ref={bubblesRef}
         className="absolute inset-0 pointer-events-none overflow-hidden"
       />
-
-      {/* Animated Wave Bottom */}
-      {/* <div className="absolute bottom-0 left-0 w-full">
-        <svg
-          className="w-full h-20 md:h-32"
-          viewBox="0 0 1440 320"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            fill="rgba(255,255,255,0.1)"
-            d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,138.7C960,139,1056,117,1152,117.3C1248,117,1344,139,1392,149.3L1440,160L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
-          />
-        </svg>
-      </div> */}
-
-      <style jsx>{`
-        .hover\\:scale-102:hover {
-          transform: scale(1.02);
-        }
-      `}</style>
     </section>
   );
 };
