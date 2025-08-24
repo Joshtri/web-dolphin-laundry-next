@@ -162,6 +162,10 @@ export default function RootLayout({
     <html lang="id">
       <head>
         <StructuredData />
+        <meta
+          name="google-site-verification"
+          content="GNDumlDsOxx_XUY_ygIj8Fe_C8og90cgue30DUztPrM"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
