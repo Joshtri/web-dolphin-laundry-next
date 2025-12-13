@@ -6,7 +6,7 @@ import FloatingScrollToTop from "@/components/ui/FloatingScrollToTop";
 export const metadata: Metadata = {
   title: "Lokasi Dolphin Laundry Kupang - Alamat, Jam Buka & Petunjuk Arah",
   description:
-    "📍 Lokasi Dolphin Laundry Kupang: Jl. Veteran, dekat Universitas Nusa Cendana. Buka 06:00-22:00 WIT. Gratis antar jemput area Kupang & sekitarnya!",
+    "📍 Lokasi Dolphin Laundry Kupang: Jl. Veteran, dekat Universitas Nusa Cendana. Buka 06:00-22:00 WIT. Layanan antar jemput area Kupang & sekitarnya tersedia.",
   keywords: [
     "lokasi dolphin laundry",
     "alamat laundry kupang",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "laundry dekat undana",
     "laundry jalan veteran kupang",
     "peta lokasi laundry",
-    "antar jemput gratis kupang",
+    "antar jemput kupang",
     "area layanan dolphin",
     "cabang laundry kupang",
     "laundry terdekat kupang",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Lokasi Dolphin Laundry Kupang - Alamat & Jam Buka",
     description:
-      "📍 Jl. Veteran, dekat Universitas Nusa Cendana. Buka 06:00-22:00 WIT. Gratis antar jemput area Kupang!",
+      "📍 Jl. Veteran, dekat Universitas Nusa Cendana. Buka 06:00-22:00 WIT. Layanan antar jemput area Kupang tersedia.",
     url: "https://www.dolphin-laundry-kupang.biz.id/lokasi",
     siteName: "Dolphin Laundry Kupang",
     images: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Lokasi Dolphin Laundry Kupang - Alamat & Jam Buka",
     description:
-      "📍 Jl. Veteran, dekat Universitas Nusa Cendana. Buka 06:00-22:00 WIT. Gratis antar jemput!",
+      "📍 Jl. Veteran, dekat Universitas Nusa Cendana. Buka 06:00-22:00 WIT. Layanan antar jemput tersedia.",
     images: ["/og-location.jpg"],
   },
   alternates: {

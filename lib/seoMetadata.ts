@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 export const sectionMetadata = {
     "daftar-harga": {
         title: "Daftar Harga Laundry Kupang 2024 - Mulai Rp 11.000/kg | Dolphin Laundry",
-        description: "💰 Harga Laundry Termurah Kupang! Reguler Rp 11.000/kg, Express 3 jam Rp 45.000/kg, Dry Cleaning mulai Rp 35.000. Gratis antar jemput. Cek harga lengkap!",
+        description: "💰 Harga Laundry Termurah Kupang! Reguler Rp 11.000/kg, Express 3 jam Rp 45.000/kg, Dry Cleaning mulai Rp 35.000. Cek harga lengkap!",
         keywords: "harga laundry kupang, daftar harga laundry 2024, tarif laundry kupang, biaya dry cleaning kupang, harga cuci setrika kupang",
         canonical: "https://www.dolphin-laundry-kupang.biz.id/#daftar-harga"
     },
@@ -18,14 +18,14 @@ export const sectionMetadata = {
 
     "layanan": {
         title: "Layanan Laundry Lengkap Kupang - Express, Dry Clean, Setrika | Dolphin Laundry",
-        description: "🏆 Layanan Laundry Terlengkap! Express 3 jam, Dry Cleaning, Cuci Setrika, Laundry Sepatu, Boneka, Karpet. Teknologi modern, hasil sempurna. Gratis antar jemput!",
+        description: "🏆 Layanan Laundry Terlengkap! Express 3 jam, Dry Cleaning, Cuci Setrika, Laundry Sepatu, Boneka, Karpet. Teknologi modern, hasil sempurna. Layanan antar jemput tersedia.",
         keywords: "layanan laundry kupang, jasa laundry lengkap, dry cleaning kupang, laundry sepatu kupang, cuci boneka kupang",
         canonical: "https://www.dolphin-laundry-kupang.biz.id/#layanan"
     },
 
     "mengapa-memilih-kami": {
         title: "Mengapa Pilih Dolphin Laundry Kupang? Kualitas Terbaik & Harga Terjangkau",
-        description: "⭐ Dipercaya 1000+ Pelanggan! Teknologi modern, parfum import, gratis antar jemput, harga terjangkau. Pengalaman 5+ tahun melayani Kupang. Kepuasan terjamin!",
+        description: "⭐ Dipercaya 1000+ Pelanggan! Teknologi modern, parfum import, layanan antar jemput, harga terjangkau. Pengalaman 5+ tahun melayani Kupang. Kepuasan terjamin!",
         keywords: "laundry terbaik kupang, laundry terpercaya kupang, keunggulan dolphin laundry, review laundry kupang",
         canonical: "https://www.dolphin-laundry-kupang.biz.id/#mengapa-memilih-kami"
     },
@@ -39,7 +39,7 @@ export const sectionMetadata = {
 
     "lokasi": {
         title: "Lokasi & Alamat Dolphin Laundry Kupang - Maps & Kontak",
-        description: "📍 Temukan Lokasi Dolphin Laundry Kupang! Alamat lengkap, Google Maps, jam operasional. Gratis antar jemput radius 25km. Kunjungi toko kami sekarang!",
+        description: "📍 Temukan Lokasi Dolphin Laundry Kupang! Alamat lengkap, Google Maps, jam operasional. Antar jemput radius 25km tersedia. Kunjungi toko kami sekarang!",
         keywords: "alamat dolphin laundry kupang, lokasi laundry kupang, maps laundry kupang, alamat toko laundry",
         canonical: "https://www.dolphin-laundry-kupang.biz.id/#lokasi"
     },

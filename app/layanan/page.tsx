@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title:
     "Layanan Laundry Dolphin Kupang - Express 3 Jam, Dry Cleaning & Parfum Premium",
   description:
-    "🚀 Layanan lengkap Dolphin Laundry: Express 3 jam, Dry Cleaning, Cuci Sepatu, Boneka, Karpet. 34+ pilihan parfum import. Antar jemput gratis Kupang!",
+    "🚀 Layanan lengkap Dolphin Laundry: Express 3 jam, Dry Cleaning, Cuci Sepatu, Boneka, Karpet. 34+ pilihan parfum import. Layanan antar jemput Kupang!",
   keywords: [
     "layanan laundry kupang",
     "laundry express 3 jam",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Layanan Laundry Dolphin Kupang - Express 3 Jam & Dry Cleaning",
     description:
-      "🚀 Layanan lengkap: Express 3 jam, Dry Cleaning, Cuci Sepatu, Boneka, Karpet. 34+ pilihan parfum import. Antar jemput gratis!",
+      "🚀 Layanan lengkap: Express 3 jam, Dry Cleaning, Cuci Sepatu, Boneka, Karpet. 34+ pilihan parfum import. Layanan antar jemput!",
     url: "https://www.dolphin-laundry-kupang.biz.id/layanan",
     siteName: "Dolphin Laundry Kupang",
     images: [

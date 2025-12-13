@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title:
     "Daftar Harga Laundry Dolphin Kupang - Tarif Lengkap Express & Dry Cleaning",
   description:
-    "💰 Daftar harga lengkap Dolphin Laundry Kupang: Express 3 jam Rp 45.000/kg, Reguler Rp 12.000/kg, Dry Cleaning mulai Rp 15.000/kg. Gratis antar jemput!",
+    "💰 Daftar harga lengkap Dolphin Laundry Kupang: Express 3 jam Rp 45.000/kg, Reguler Rp 12.000/kg, Dry Cleaning mulai Rp 15.000/kg.",
   keywords: [
     "harga laundry kupang",
     "tarif laundry dolphin kupang",
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Daftar Harga Laundry Dolphin Kupang - Tarif Lengkap Terbaru",
     description:
-      "💰 Daftar harga lengkap: Express 3 jam Rp 45.000/kg, Reguler Rp 12.000/kg, Dry Cleaning mulai Rp 15.000/kg. Gratis antar jemput!",
+      "💰 Daftar harga lengkap: Express 3 jam Rp 45.000/kg, Reguler Rp 12.000/kg, Dry Cleaning mulai Rp 15.000/kg.",
     url: "https://www.dolphin-laundry-kupang.biz.id/daftar-harga",
     siteName: "Dolphin Laundry Kupang",
     images: [

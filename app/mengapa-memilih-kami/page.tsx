@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title:
     "Mengapa Memilih Dolphin Laundry Kupang - Keunggulan & Kelebihan Terbaik",
   description:
-    "⭐ Mengapa pilih Dolphin Laundry? Terpercaya 15+ tahun, Express 3 jam, 34+ parfum import, gratis antar jemput, mesin modern, harga terjangkau di Kupang!",
+    "⭐ Mengapa pilih Dolphin Laundry? Terpercaya 15+ tahun, Express 3 jam, 34+ parfum import, layanan antar jemput, mesin modern, harga terjangkau di Kupang!",
   keywords: [
     "mengapa pilih dolphin laundry",
     "keunggulan dolphin laundry",
@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Mengapa Memilih Dolphin Laundry Kupang - Keunggulan Terbaik",
     description:
-      "⭐ Terpercaya 15+ tahun, Express 3 jam, 34+ parfum import, gratis antar jemput, mesin modern, harga terjangkau!",
+      "⭐ Terpercaya 15+ tahun, Express 3 jam, 34+ parfum import, layanan antar jemput, mesin modern, harga terjangkau!",
     url: "https://www.dolphin-laundry-kupang.biz.id/mengapa-memilih-kami",
     siteName: "Dolphin Laundry Kupang",
     images: [
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Mengapa Memilih Dolphin Laundry Kupang - Keunggulan Terbaik",
     description:
-      "⭐ Terpercaya 15+ tahun, Express 3 jam, 34+ parfum import, gratis antar jemput, mesin modern!",
+      "⭐ Terpercaya 15+ tahun, Express 3 jam, 34+ parfum import, layanan antar jemput, mesin modern!",
     images: ["/og-why-choose.jpg"],
   },
   alternates: {

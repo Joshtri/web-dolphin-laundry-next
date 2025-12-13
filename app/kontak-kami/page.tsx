@@ -6,7 +6,7 @@ import FloatingScrollToTop from "@/components/ui/FloatingScrollToTop";
 export const metadata: Metadata = {
   title: "Kontak Dolphin Laundry Kupang - WhatsApp, Telepon & Customer Service",
   description:
-    "📞 Hubungi Dolphin Laundry Kupang: WhatsApp 082144500030 / 081529500130. Customer service 24/7. Gratis konsultasi & booking antar jemput!",
+    "📞 Hubungi Dolphin Laundry Kupang: WhatsApp 082144500030 / 081529500130. Customer service 24/7. Konsultasi gratis & booking layanan laundry!",
   keywords: [
     "kontak dolphin laundry",
     "nomor telepon laundry kupang",
@@ -17,14 +17,14 @@ export const metadata: Metadata = {
     "hubungi dolphin laundry",
     "chat whatsapp laundry",
     "layanan pelanggan 24 jam",
-    "kontak antar jemput",
+    "kontak layanan laundry",
     "reservasi laundry online",
     "cs dolphin laundry",
   ],
   openGraph: {
     title: "Kontak Dolphin Laundry Kupang - WhatsApp & Customer Service",
     description:
-      "📞 WhatsApp 082144500030 / 081529500130. Customer service 24/7. Gratis konsultasi & booking antar jemput!",
+      "📞 WhatsApp 082144500030 / 081529500130. Customer service 24/7. Konsultasi gratis & booking layanan laundry!",
     url: "https://www.dolphin-laundry-kupang.biz.id/kontak-kami",
     siteName: "Dolphin Laundry Kupang",
     images: [

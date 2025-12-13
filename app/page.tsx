@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   title:
     "Dolphin Laundry Kupang - Laundry Express 3 Jam & Dry Cleaning Terbaik di NTT",
   description:
-    "🏆 TERPERCAYA! Laundry Express 3 jam, Dry Cleaning Premium, 34+ Pilihan Parfum Import. Harga mulai Rp 11.000/kg. Gratis Antar Jemput Kupang. ☎️ 082144500030 - 081529500130",
+    "🏆 TERPERCAYA! Laundry Express 3 jam, Dry Cleaning Premium, 34+ Pilihan Parfum Import. Harga mulai Rp 11.000/kg. Layanan antar jemput tersedia. ☎️ 082144500030 - 081529500130",
   keywords: [
     // Homepage specific keywords
     "dolphin laundry kupang",
     "laundry express 3 jam kupang",
     "dry cleaning terbaik kupang",
-    "laundry antar jemput gratis kupang",
+    "laundry antar jemput kupang",
     "parfum laundry import kupang",
 
     // Service keywords
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     title:
       "Dolphin Laundry Kupang - Laundry Express 3 Jam & Dry Cleaning Terbaik",
     description:
-      "🏆 TERPERCAYA! Laundry Express 3 jam, Dry Cleaning Premium, 34+ Pilihan Parfum Import. Harga mulai Rp 11.000/kg. Gratis Antar Jemput!",
+      "🏆 TERPERCAYA! Laundry Express 3 jam, Dry Cleaning Premium, 34+ Pilihan Parfum Import. Harga mulai Rp 11.000/kg. Layanan antar jemput tersedia.",
     url: "https://www.dolphin-laundry-kupang.biz.id/",
     siteName: "Dolphin Laundry Kupang",
     images: [

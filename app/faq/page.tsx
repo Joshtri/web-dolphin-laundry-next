@@ -6,7 +6,7 @@ import FloatingScrollToTop from "@/components/ui/FloatingScrollToTop";
 export const metadata: Metadata = {
   title: "FAQ Dolphin Laundry Kupang - Pertanyaan yang Sering Diajukan",
   description:
-    "❓ FAQ lengkap Dolphin Laundry: Jam operasional, harga, waktu proses, antar jemput gratis, parfum, keamanan pakaian. Temukan jawaban di sini!",
+    "❓ FAQ lengkap Dolphin Laundry: Jam operasional, harga, waktu proses, antar jemput, parfum, keamanan pakaian. Temukan jawaban di sini!",
   keywords: [
     "faq dolphin laundry",
     "pertanyaan laundry kupang",
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     "info laundry lengkap",
     "jam operasional laundry",
     "proses laundry berapa lama",
-    "antar jemput gratis area",
+    "antar jemput area",
     "parfum laundry tersedia",
     "keamanan pakaian laundry",
     "booking laundry online",
@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "FAQ Dolphin Laundry Kupang - Pertanyaan yang Sering Diajukan",
     description:
-      "❓ FAQ lengkap: Jam operasional, harga, waktu proses, antar jemput gratis, parfum, keamanan pakaian. Temukan jawaban!",
+      "❓ FAQ lengkap: Jam operasional, harga, waktu proses, antar jemput, parfum, keamanan pakaian. Temukan jawaban!",
     url: "https://www.dolphin-laundry-kupang.biz.id/faq",
     siteName: "Dolphin Laundry Kupang",
     images: [
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "FAQ Dolphin Laundry Kupang - Pertanyaan yang Sering Diajukan",
     description:
-      "❓ FAQ lengkap: Jam operasional, harga, waktu proses, antar jemput gratis, parfum, keamanan pakaian.",
+      "❓ FAQ lengkap: Jam operasional, harga, waktu proses, antar jemput, parfum, keamanan pakaian.",
     images: ["/og-faq.jpg"],
   },
   alternates: {

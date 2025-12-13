@@ -402,7 +402,7 @@ const Hero: React.FC = () => {
           {[
             { text: "FREE Parfum Dipilih Sendiri", color: "bg-pink-400" },
             { text: "Cuci Terpisah Tidak Dicampur", color: "bg-green-400" },
-            { text: "Antar Jemput Gratis", color: "bg-yellow-400" },
+            { text: "Layanan Antar Jemput", color: "bg-yellow-400" },
             { text: "Express 3 Jam", color: "bg-blue-400" },
           ].map((feature, index) => (
             <div
