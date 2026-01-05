@@ -1,12 +1,21 @@
 "use client";
+
 import type React from "react";
 import { useState, useEffect, useRef } from "react";
-import { MessageCircle, X } from "lucide-react";
+import { Icon } from "@iconify/react";
 import { gsap } from "gsap";
+import { Button, Chip } from "@heroui/react";
+import { Heading } from "@/components/ui/Heading";
+import { Text } from "@/components/ui/Text";
+import Image from "next/image";
+import RealisticBubbles from "@/components/ui/RealisticBubbles";
+import { useTranslations } from "next-intl";
+import { useWhatsApp } from "@/context/WhatsAppContext";
 
 const Hero: React.FC = () => {
+  const t = useTranslations("hero");
   const [currentText, setCurrentText] = useState<number>(0);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const { openModal } = useWhatsApp();
 
   // Refs for GSAP animations
   const heroRef = useRef<HTMLElement>(null);
@@ -15,82 +24,28 @@ const Hero: React.FC = () => {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const featuresRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
-  const bubblesRef = useRef<HTMLDivElement>(null);
   const decorativeRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const imageRef = useRef<HTMLDivElement>(null); // Desktop image ref
+  const mobileImageRef = useRef<HTMLDivElement>(null); // Mobile image ref
 
-  const texts: string[] = ["Dolphin Laundry", "Dolphin Dry Cleaning"];
+  const texts: string[] = [t("brandName1"), t("brandName2")];
 
   // Initialize animations on mount
   useEffect(() => {
-    // Floating bubbles animation function
-    const createBubbles = () => {
-      if (!bubblesRef.current) return;
-
-      // Clear existing bubbles
-      bubblesRef.current.innerHTML = "";
-
-      // Create new bubbles - adjusted count based on screen size
-      const bubbleCount = window.innerWidth < 768 ? 50 : 100;
-      const containerWidth = window.innerWidth;
-      const containerHeight = window.innerHeight;
-
-      for (let i = 0; i < bubbleCount; i++) {
-        const bubble = document.createElement("div");
-        bubble.className = "absolute rounded-full bg-white/20";
-
-        // Random size between 5px and 30px (smaller on mobile)
-        const size =
-          window.innerWidth < 768
-            ? 5 + Math.random() * 15
-            : 10 + Math.random() * 20;
-
-        // Random position at bottom
-        const left = Math.random() * containerWidth;
-
-        // Random animation duration between 10s and 20s
-        const duration = 10 + Math.random() * 10;
-
-        // Random delay between 0s and 5s
-        const delay = Math.random() * 5;
-
-        // Random opacity between 0.1 and 0.3
-        const opacity = 0.1 + Math.random() * 0.2;
-
-        bubble.style.width = `${size}px`;
-        bubble.style.height = `${size}px`;
-        bubble.style.left = `${left}px`;
-        bubble.style.bottom = `-${size}px`;
-        bubble.style.opacity = `${opacity}`;
-
-        bubblesRef.current.appendChild(bubble);
-
-        // Animate bubble
-        gsap.to(bubble, {
-          y: -containerHeight - size,
-          duration: duration,
-          delay: delay,
-          ease: "none",
-          onComplete: () => {
-            // Reset bubble position when it reaches the top
-            bubble.style.bottom = `-${size}px`;
-            gsap.set(bubble, { y: 0 });
-            gsap.to(bubble, {
-              y: -containerHeight - size,
-              duration: duration,
-              ease: "none",
-              repeat: -1,
-              delay: 2 + Math.random() * 3,
-            });
-          },
+    const ctx = gsap.context(() => {
+      // Simple Floating effect only (no 3D rotation)
+      if (imageRef.current) {
+        gsap.to(imageRef.current, {
+          y: -20,
+          duration: 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
         });
       }
-    };
 
-    const ctx = gsap.context(() => {
-      // Initial setup - responsive values
-      const initialY = window.innerWidth < 768 ? 20 : 30;
-      const durationMultiplier = window.innerWidth < 768 ? 0.8 : 1;
+      // Initial setup
+      const initialY = 30;
 
       gsap.set(
         [
@@ -105,7 +60,7 @@ const Hero: React.FC = () => {
         }
       );
 
-      // Main timeline with responsive durations
+      // Main timeline
       const tl = gsap.timeline();
 
       // Decorative elements animation
@@ -114,7 +69,7 @@ const Hero: React.FC = () => {
           gsap.to(ref, {
             scale: 1.1,
             opacity: 0.8,
-            duration: 3 * durationMultiplier,
+            duration: 3,
             repeat: -1,
             yoyo: true,
             ease: "power2.inOut",
@@ -123,11 +78,11 @@ const Hero: React.FC = () => {
         }
       });
 
-      // Main entrance animation with responsive values
+      // Text and CTA entrance
       tl.to(titleRef.current, {
         opacity: 1,
         y: 0,
-        duration: 0.8 * durationMultiplier,
+        duration: 0.8,
         ease: "power3.out",
       })
         .to(
@@ -135,20 +90,20 @@ const Hero: React.FC = () => {
           {
             opacity: 1,
             rotationX: 0,
-            duration: 0.6 * durationMultiplier,
+            duration: 0.6,
             ease: "back.out(1.7)",
           },
-          `-=${0.4 * durationMultiplier}`
+          "-=0.4"
         )
         .to(
           subtitleRef.current,
           {
             opacity: 1,
             y: 0,
-            duration: 0.6 * durationMultiplier,
+            duration: 0.6,
             ease: "power2.out",
           },
-          `-=${0.2 * durationMultiplier}`
+          "-=0.2"
         )
         .to(
           featuresRef.current?.children || [],
@@ -156,64 +111,86 @@ const Hero: React.FC = () => {
             opacity: 1,
             y: 0,
             scale: 1,
-            duration: 0.4 * durationMultiplier,
+            duration: 0.4,
             stagger: 0.08,
             ease: "back.out(1.7)",
           },
-          `-=${0.1 * durationMultiplier}`
+          "-=0.1"
         )
         .to(
           ctaRef.current,
           {
             opacity: 1,
             y: 0,
-            duration: 0.6 * durationMultiplier,
+            duration: 0.6,
             ease: "power2.out",
           },
-          `-=${0.2 * durationMultiplier}`
+          "-=0.2"
         );
+
+      // Image entrance
+      if (imageRef.current) {
+        gsap.from(imageRef.current, {
+          opacity: 0,
+          scale: 0.8,
+          x: 50,
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.2,
+        });
+      }
+
+      // Mobile Image entrance
+      if (mobileImageRef.current) {
+        gsap.to(mobileImageRef.current, {
+          y: -10,
+          duration: 3,
+          repeat: -1,
+          yoyo: true,
+          ease: "power1.inOut",
+        });
+
+        gsap.from(mobileImageRef.current, {
+          opacity: 0,
+          scale: 0.8,
+          y: 30, // Enter from bottom for mobile
+          duration: 1,
+          ease: "power3.out",
+          delay: 0.2,
+        });
+      }
 
       // Feature dots animation
       gsap.to(".feature-dot", {
         scale: 1.2,
         opacity: 1,
-        duration: 1.5 * durationMultiplier,
+        duration: 1.5,
         repeat: -1,
         yoyo: true,
         stagger: 0.15,
         ease: "power2.inOut",
       });
 
-      // Initial creation of bubbles
-      createBubbles();
+      // Mouse move effects removed for cleaner look
 
-      // Recreate bubbles on window resize (debounced)
-      let resizeTimeout: NodeJS.Timeout;
-      const handleResize = () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(createBubbles, 300);
-      };
-      window.addEventListener("resize", handleResize);
-
-      // CTA button hover animation setup
+      // CTA button hover
       const ctaButton = ctaRef.current?.querySelector(".cta-button");
       if (ctaButton) {
         const icon = ctaButton.querySelector(".cta-icon");
+        if (icon) {
+          gsap.to(icon, {
+            rotation: 360,
+            duration: 3,
+            repeat: -1,
+            ease: "none",
+          });
+        }
 
-        // Icon rotation animation
-        gsap.to(icon, {
-          rotation: 360,
-          duration: 3 * durationMultiplier,
-          repeat: -1,
-          ease: "none",
-        });
-
-        // Button hover effects
         ctaButton.addEventListener("mouseenter", () => {
           gsap.to(ctaButton, {
             scale: 1.03,
             boxShadow: "0 15px 30px rgba(0,0,0,0.2)",
-            duration: 0.2 * durationMultiplier,
+            duration: 0.2,
             ease: "power2.out",
           });
         });
@@ -222,22 +199,17 @@ const Hero: React.FC = () => {
           gsap.to(ctaButton, {
             scale: 1,
             boxShadow: "0 8px 16px rgba(0,0,0,0.1)",
-            duration: 0.2 * durationMultiplier,
+            duration: 0.2,
             ease: "power2.out",
           });
         });
       }
-
-      return () => {
-        window.removeEventListener("resize", handleResize);
-        clearTimeout(resizeTimeout);
-      };
     }, heroRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Text switching animation
+  // Text switching
   useEffect(() => {
     const interval = setInterval(() => {
       if (textSwitchRef.current) {
@@ -261,59 +233,6 @@ const Hero: React.FC = () => {
     return () => clearInterval(interval);
   }, [texts.length]);
 
-  // Modal animations
-  useEffect(() => {
-    if (isModalOpen && modalRef.current) {
-      gsap.fromTo(
-        modalRef.current,
-        { opacity: 0, scale: 0.9 },
-        { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(1.7)" }
-      );
-
-      const modalContent =
-        modalRef.current.querySelectorAll(".modal-content > *");
-      gsap.fromTo(
-        modalContent,
-        { opacity: 0, y: 15 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.3,
-          stagger: 0.08,
-          delay: 0.15,
-          ease: "power2.out",
-        }
-      );
-    }
-  }, [isModalOpen]);
-
-  const openModal = (): void => setIsModalOpen(true);
-
-  const closeModal = (): void => {
-    if (modalRef.current) {
-      gsap.to(modalRef.current, {
-        opacity: 0,
-        scale: 0.9,
-        duration: 0.15,
-        ease: "power2.in",
-        onComplete: () => setIsModalOpen(false),
-      });
-    }
-  };
-
-  const handleWhatsAppClick = (phoneNumber: string): void => {
-    const message = encodeURIComponent(
-      "Halo Dolphin Laundry, saya ingin memesan layanan laundry"
-    );
-    window.open(
-      `https://wa.me/${phoneNumber}?text=${message}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
-    closeModal();
-  };
-
-  // Feature hover handlers
   const handleFeatureHover = (element: HTMLElement, isEntering: boolean) => {
     gsap.to(element, {
       scale: isEntering ? 1.03 : 1,
@@ -327,12 +246,13 @@ const Hero: React.FC = () => {
     <section
       ref={heroRef}
       id="beranda"
-      className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-600 via-blue-500 to-indigo-600 text-white overflow-hidden pt-16 sm:pt-20 md:pt-24"
+      className="relative min-h-screen flex items-start justify-center bg-gradient-to-r from-blue-400 via-blue-700 to-blue-950 text-white overflow-hidden pt-20 sm:pt-24 md:pt-0"
     >
       {/* Background Pattern */}
       <div
-        className="absolute inset-0 opacity-8"
+        className="absolute inset-0"
         style={{
+          opacity: 0.6,
           backgroundImage: `
             radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
             radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
@@ -362,145 +282,141 @@ const Hero: React.FC = () => {
         className="absolute top-1/2 left-1/5 w-12 sm:w-20 h-12 sm:h-20 bg-green-400/10 rounded-full blur-xl"
       />
 
-      {/* Main Content */}
-      <div className="container mx-auto px-4 sm:px-6 text-center relative z-10 max-w-5xl">
-        {/* Main Heading */}
-        <div className="mb-4 sm:mb-6 md:mb-8">
-          <h1
-            ref={titleRef}
-            className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold mb-2 sm:mb-3 md:mb-4 leading-tight"
-          >
-            Selamat Datang di
-          </h1>
-          <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-extrabold">
-            <span
-              ref={textSwitchRef}
-              className="inline-block bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent leading-tight"
-              style={{ display: "inline-block" }}
-            >
-              {texts[currentText]}
-            </span>
-          </div>
-        </div>
+      {/* Main Content Container */}
+      <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          {/* Text Column (Right) */}
+          <div className="text-center lg:text-left order-1 lg:order-2">
+            {/* Main Heading */}
+            <div className="mb-4 sm:mb-6 md:mb-8">
+              <Heading
+                ref={titleRef}
+                as="h1"
+                size="4xl"
+                weight="bold"
+                className="mb-2 sm:mb-3 md:mb-4 leading-tight text-white"
+              >
+                {t("welcome")}
+              </Heading>
+              <Heading as="h2" size="4xl" weight="extrabold">
+                <span
+                  ref={textSwitchRef}
+                  className="inline-block bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent leading-tight"
+                  style={{ display: "inline-block" }}
+                >
+                  {texts[currentText]}
+                </span>
+              </Heading>
+            </div>
 
-        {/* Subtitle */}
-        <p
-          ref={subtitleRef}
-          className="text-sm sm:text-base md:text-lg mb-4 sm:mb-6 md:mb-8 text-blue-100 max-w-4xl mx-auto leading-relaxed px-2"
-        >
-          🌟 Yang membedakan kami: <strong>GRATIS PARFUM PREMIUM</strong> yang
-          bebas dipilih sendiri oleh pelanggan! Baju cucian dicuci terpisah,
-          tidak dicampur dengan milik orang lain. Solusi terpercaya untuk
-          kebutuhan laundry dan dry cleaning Anda di Kupang
-        </p>
-
-        {/* Features */}
-        <div
-          ref={featuresRef}
-          className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 md:mb-10 text-xs sm:text-sm md:text-base px-2"
-        >
-          {[
-            { text: "FREE Parfum Dipilih Sendiri", color: "bg-pink-400" },
-            { text: "Cuci Terpisah Tidak Dicampur", color: "bg-green-400" },
-            { text: "Layanan Antar Jemput", color: "bg-yellow-400" },
-            { text: "Express 3 Jam", color: "bg-blue-400" },
-          ].map((feature, index) => (
-            <div
-              key={index}
-              className="flex items-center space-x-1 sm:space-x-2 bg-white/10 backdrop-blur-sm px-2 sm:px-3 py-1 sm:py-2 rounded-full opacity-0 transform translate-y-4 scale-90 cursor-pointer"
-              onMouseEnter={(e) => handleFeatureHover(e.currentTarget, true)}
-              onMouseLeave={(e) => handleFeatureHover(e.currentTarget, false)}
-            >
+            {/* Mobile Image (Visible only on mobile, between Title and Description) */}
+            <div className="lg:hidden w-full flex justify-center items-center mb-8">
               <div
-                className={`feature-dot w-1.5 h-1.5 sm:w-2 sm:h-2 ${feature.color} rounded-full opacity-70`}
-              />
-              <span className="whitespace-nowrap">{feature.text}</span>
+                ref={mobileImageRef}
+                className="relative w-full h-[500px] sm:h-[600px] max-w-[500px]"
+              >
+                <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-110 -z-10 animate-pulse" />
+                <Image
+                  src="/assets/images/hero-image-rezie-Photoroom.png"
+                  alt="Happy customer with clean laundry"
+                  fill
+                  sizes="(max-width: 768px) 100vw, 500px"
+                  className="object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]"
+                  priority
+                  quality={100}
+                  unoptimized={false}
+                />
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* CTA Buttons */}
-        <div
-          ref={ctaRef}
-          className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center opacity-0 transform translate-y-4 px-4"
-        >
-          <button
-            onClick={openModal}
-            className="cta-button group bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl flex items-center space-x-2 sm:space-x-3 transition-colors duration-300 w-full sm:w-auto max-w-xs"
-          >
-            <div className="cta-icon">
-              <MessageCircle
-                size={16}
-                className="sm:w-5 sm:h-5 md:w-6 md:h-6"
+            {/* Subtitle */}
+            <Text
+              ref={subtitleRef}
+              as="p"
+              size="lg"
+              className="mb-4 sm:mb-6 md:mb-8 text-white leading-relaxed px-2 lg:px-0"
+            >
+              {t("description")}
+            </Text>
+
+            {/* Features */}
+            <div
+              ref={featuresRef}
+              className="flex flex-wrap justify-center lg:justify-start gap-2 sm:gap-3 md:gap-4 mb-6 sm:mb-8 md:mb-10 text-xs sm:text-sm md:text-base px-2 lg:px-0"
+            >
+              {[
+                { text: t("features.freePerfume"), color: "bg-pink-400" },
+                { text: t("features.separateWash"), color: "bg-green-400" },
+                { text: t("features.pickupDelivery"), color: "bg-yellow-400" },
+                { text: t("features.express"), color: "bg-blue-400" },
+              ].map((feature, index) => (
+                <Chip
+                  key={index}
+                  variant="flat"
+                  className="opacity-0 transform translate-y-4 scale-90 cursor-pointer bg-white/10 backdrop-blur-sm text-white"
+                  onMouseEnter={(e) =>
+                    handleFeatureHover(e.currentTarget, true)
+                  }
+                  onMouseLeave={(e) =>
+                    handleFeatureHover(e.currentTarget, false)
+                  }
+                  startContent={
+                    <div
+                      className={`feature-dot w-1.5 h-1.5 sm:w-2 sm:h-2 ${feature.color} rounded-full opacity-70`}
+                    />
+                  }
+                >
+                  {feature.text}
+                </Chip>
+              ))}
+            </div>
+
+            {/* CTA Buttons */}
+            <div
+              ref={ctaRef}
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start items-center opacity-0 transform translate-y-4 px-4 lg:px-0"
+            >
+              <Button
+                onPress={openModal}
+                color="success"
+                size="lg"
+                radius="lg"
+                className=" font-semibold shadow-lg sm:shadow-xl w-full sm:w-auto max-w-xs text-white"
+                startContent={
+                  <Icon icon="ic:baseline-whatsapp" width="20" height="20" />
+                }
+              >
+                {t("cta")}
+              </Button>
+            </div>
+          </div>
+
+          {/* Image Column (Left) - Desktop Only */}
+          <div className="order-2 lg:order-1 hidden lg:flex justify-center items-center w-full">
+            <div
+              ref={imageRef}
+              className="relative w-full h-[550px] sm:h-[650px] md:h-[750px] lg:h-[900px] xl:h-[1000px] 2xl:h-[1100px] max-w-[550px] sm:max-w-[650px] md:max-w-[750px] lg:max-w-[900px] xl:max-w-[1200px] 2xl:max-w-[1400px]"
+            >
+              {/* Glow effect aligned with image */}
+              <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-110 -z-10 animate-pulse" />
+
+              <Image
+                src="/assets/images/hero-image-rezie-Photoroom.png"
+                alt="Happy customer with clean laundry"
+                fill
+                sizes="(max-width: 640px) 550px, (max-width: 768px) 650px, (max-width: 1024px) 900px, (max-width: 1280px) 1200px, 1400px"
+                className="object-contain object-top drop-shadow-[0_0_40px_rgba(255,255,255,0.8)]"
+                priority
+                quality={100}
+                unoptimized={false}
               />
             </div>
-            <span className="text-sm sm:text-base md:text-lg">
-              Pesan Sekarang
-            </span>
-          </button>
+          </div>
         </div>
       </div>
 
-      {/* Responsive Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/60 backdrop-blur-sm p-4">
-          <div
-            ref={modalRef}
-            className="bg-white rounded-xl sm:rounded-2xl shadow-lg sm:shadow-xl max-w-xs sm:max-w-sm w-full overflow-hidden mx-2 sm:mx-4"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Modal Header */}
-            <div className="bg-gradient-to-r from-blue-500 to-indigo-600 p-4 sm:p-5 text-white">
-              <h2 className="text-lg sm:text-xl font-bold mb-1 sm:mb-2">
-                Hubungi Kami
-              </h2>
-              <p className="text-blue-100 text-xs sm:text-sm">
-                Pilih nomor WhatsApp untuk menghubungi kami
-              </p>
-            </div>
-
-            {/* Modal Content */}
-            <div className="modal-content p-4 sm:p-5 space-y-2 sm:space-y-3">
-              {[
-                { phone: "+6282144500030", label: "Kontak Pertama" },
-                { phone: "+6281529500130", label: "Kontak Kedua" },
-              ].map((contact, index) => (
-                <button
-                  key={index}
-                  className="group w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-4 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl shadow-md sm:shadow-lg flex items-center justify-center space-x-2 sm:space-x-3 transition-all duration-300 hover:scale-[1.02] hover:-translate-y-0.5"
-                  onClick={() => handleWhatsAppClick(contact.phone)}
-                >
-                  <div className="group-hover:rotate-12 transition-transform duration-300">
-                    <MessageCircle size={16} className="sm:w-5 sm:h-5" />
-                  </div>
-                  <div className="text-left">
-                    <div className="font-semibold text-xs sm:text-sm">
-                      {contact.label}
-                    </div>
-                    <div className="text-xs text-green-100">
-                      {contact.phone}
-                    </div>
-                  </div>
-                </button>
-              ))}
-
-              <button
-                className="w-full bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold px-4 sm:px-5 py-2 sm:py-3 rounded-lg sm:rounded-xl transition-all duration-300 flex items-center justify-center space-x-2 mt-3 sm:mt-4 hover:scale-[1.02]"
-                onClick={closeModal}
-              >
-                <X size={14} className="sm:w-4 sm:h-4" />
-                <span className="text-xs sm:text-sm">Batal</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Floating Bubbles */}
-      <div
-        ref={bubblesRef}
-        className="absolute inset-0 pointer-events-none overflow-hidden"
-      />
+      {/* Floating Bubbles (ThreeJS) */}
+      <RealisticBubbles />
     </section>
   );
 };

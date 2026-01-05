@@ -53,7 +53,7 @@ export const metadata: Metadata = {
 export default function KontakKamiPage() {
   return (
     <>
-      <div className="pt-20">
+      <div className="mt-0">
         <ContactUs />
       </div>
       <FloatingScrollToTop />

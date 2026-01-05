@@ -59,9 +59,7 @@ export const metadata: Metadata = {
 export default function LokasiPage() {
   return (
     <>
-      <div className="pt-20">
-        <Location />
-      </div>
+      <Location />
       <FloatingScrollToTop />
       <FloatingWhatsApp />
     </>

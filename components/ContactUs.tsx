@@ -1,7 +1,11 @@
 "use client";
 import type React from "react";
-import { MessageCircle, Instagram, Facebook, MapPin } from "lucide-react";
+import { Icon } from "@iconify/react";
+import { useTranslations } from "next-intl";
 import { useWhatsApp } from "@/context/WhatsAppContext";
+import { Card, CardBody } from "@heroui/react";
+import { Heading } from "@/components/ui/Heading";
+import { Text } from "@/components/ui/Text";
 
 interface ContactItem {
   name: string;
@@ -12,26 +16,55 @@ interface ContactItem {
 
 const ContactUs: React.FC = () => {
   const { openModal } = useWhatsApp();
+  const t = useTranslations("contactUs");
 
   const contactItems: ContactItem[] = [
     {
       name: "WhatsApp",
-      icon: <MessageCircle className="text-green-500 text-3xl" />,
+      icon: (
+        <Icon
+          icon="ic:baseline-whatsapp"
+          className="text-green-500"
+          width="32"
+          height="32"
+        />
+      ),
       isWhatsApp: true,
     },
     {
       name: "Instagram",
-      icon: <Instagram className="text-pink-500 text-3xl" />,
+      icon: (
+        <Icon
+          icon="lucide:instagram"
+          className="text-pink-500"
+          width="32"
+          height="32"
+        />
+      ),
       link: "https://www.instagram.com/dolphin.laundry_kupang",
     },
     {
       name: "Facebook",
-      icon: <Facebook className="text-blue-600 text-3xl" />,
+      icon: (
+        <Icon
+          icon="lucide:facebook"
+          className="text-blue-600"
+          width="32"
+          height="32"
+        />
+      ),
       link: "https://www.facebook.com/rembo46",
     },
     {
       name: "Google Maps",
-      icon: <MapPin className="text-red-500 text-3xl" />,
+      icon: (
+        <Icon
+          icon="lucide:map-pin"
+          className="text-red-500"
+          width="32"
+          height="32"
+        />
+      ),
       link: "https://goo.gl/maps/Tu5ijHJKQZAwYQiA6",
     },
   ];
@@ -43,86 +76,86 @@ const ContactUs: React.FC = () => {
   return (
     <section
       id="kontak-kami"
-      className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100 relative overflow-hidden"
+      className="py-30 bg-gradient-to-br from-blue-500 via-blue-100/30 to-blue-300 relative overflow-hidden"
     >
       {/* Background decorative elements */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-400 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-300 rounded-full blur-3xl animate-pulse delay-1000"></div>
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-10 w-64 h-64 bg-blue-600 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-80 h-80 bg-blue-500 rounded-full blur-3xl animate-pulse delay-1000"></div>
       </div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         {/* Header Section */}
         <div className="mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-transparent mb-6">
-            Hubungi Kami
-          </h2>
+          <Heading as="h2" size="4xl" gradient align="center" className="mb-6">
+            {t("title")}
+          </Heading>
           <div className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6 rounded-full"></div>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
-            🌟 Yang membedakan kami:{" "}
-            <strong>
-              GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan +
-              baju dicuci terpisah tidak dicampur!
-            </strong>{" "}
-            Hubungi kami untuk layanan laundry terbaik di Kupang.
-          </p>
+          <Text
+            size="lg"
+            color="secondary"
+            align="center"
+            className="max-w-2xl mx-auto leading-relaxed"
+          >
+            🌟 {t("tagline")}{" "}
+            <Text as="span" weight="bold">
+              {t("highlight")}
+            </Text>{" "}
+            {t("description")}
+          </Text>
         </div>
 
         {/* Contact Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
           {contactItems.map((item, index) =>
             item.isWhatsApp ? (
-              <button
+              <Card
                 key={index}
-                onClick={handleWhatsAppClick}
-                className="group bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-white/50 hover:shadow-2xl flex flex-col items-center justify-center space-y-4 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
+                isPressable
+                onPress={handleWhatsAppClick}
+                className="transition-all duration-500 hover:scale-105 bg-white/80 backdrop-blur-sm border border-blue-100 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-200/50"
               >
-                <div className="w-16 h-16 bg-green-50 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl">
-                  <div className="group-hover:scale-110 transition-transform duration-300">
+                <CardBody className="flex flex-col items-center justify-center space-y-4 p-8">
+                  <div className="w-16 h-16 bg-gradient-to-br from-green-50 to-green-100 rounded-2xl flex items-center justify-center shadow-sm">
                     {item.icon}
                   </div>
-                </div>
-                <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
-                  {item.name}
-                </h3>
-                {/* Hover Indicator */}
-                <div className="w-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full group-hover:w-12 transition-all duration-500"></div>
-              </button>
+                  <Heading
+                    as="h3"
+                    size="lg"
+                    weight="bold"
+                    className="text-gray-800"
+                  >
+                    {item.name}
+                  </Heading>
+                </CardBody>
+              </Card>
             ) : (
-              <a
+              <Card
                 key={index}
+                isPressable
+                as="a"
                 href={item.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group bg-white/80 backdrop-blur-sm p-8 rounded-3xl shadow-lg border border-white/50 hover:shadow-2xl flex flex-col items-center justify-center space-y-4 transition-all duration-500 hover:scale-105 hover:-translate-y-2"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
+                className="transition-all duration-500 hover:scale-105 bg-white/80 backdrop-blur-sm border border-blue-100 hover:border-blue-300 hover:shadow-xl hover:shadow-blue-200/50"
               >
-                <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-all duration-500 shadow-lg group-hover:shadow-xl">
-                  <div className="group-hover:scale-110 transition-transform duration-300">
+                <CardBody className="flex flex-col items-center justify-center space-y-4 p-8">
+                  <div className="w-16 h-16 bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl flex items-center justify-center shadow-sm">
                     {item.icon}
                   </div>
-                </div>
-                <h3 className="text-lg font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
-                  {item.name}
-                </h3>
-                {/* Hover Indicator */}
-                <div className="w-0 h-1 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full group-hover:w-12 transition-all duration-500"></div>
-              </a>
+                  <Heading
+                    as="h3"
+                    size="lg"
+                    weight="bold"
+                    className="text-gray-800"
+                  >
+                    {item.name}
+                  </Heading>
+                </CardBody>
+              </Card>
             )
           )}
         </div>
-
-        {/* Bottom Section */}
-        {/* <div className="mt-16 bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50 max-w-4xl mx-auto">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">Jam Operasional</h3>
-          <p className="text-gray-600 mb-2">Setiap Hari: 05:45 - 22:00</p>
-          <p className="text-sm text-blue-600 font-medium">📍 Jl. R. W. Monginsidi I No.2, Kupang</p>
-        </div> */}
       </div>
     </section>
   );

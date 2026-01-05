@@ -7,7 +7,7 @@ const StructuredData = () => {
       {
         "@type": "Organization",
         "@id": "https://www.dolphin-laundry-kupang.biz.id/#organization",
-        name: "Dolphin Laundry Kupang",
+        name: "Dolphin Laundry & Dry Cleaning Kupang",
         url: "https://www.dolphin-laundry-kupang.biz.id/",
         sameAs: [
           "https://www.instagram.com/dolphinlaundry_kupang",
@@ -37,27 +37,27 @@ const StructuredData = () => {
         ],
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Jl. Raya Kupang",
+          streetAddress: "Jl. Perintis Kemerdekaan I, Kayu Putih, Kec. Oebobo",
           addressLocality: "Kupang",
           addressRegion: "Nusa Tenggara Timur",
-          postalCode: "85000",
+          postalCode: "85111",
           addressCountry: "ID",
         },
       },
       {
         "@type": "LocalBusiness",
         "@id": "https://www.dolphin-laundry-kupang.biz.id/#localbusiness",
-        name: "Dolphin Laundry Kupang",
+        name: "Dolphin Laundry & Dry Cleaning Kupang",
         image: ["https://www.dolphin-laundry-kupang.biz.id/og-image.jpg"],
         url: "https://www.dolphin-laundry-kupang.biz.id/",
         telephone: "+62-821-4450-0030",
         priceRange: "Rp 11.000 - Rp 45.000",
         address: {
           "@type": "PostalAddress",
-          streetAddress: "Jl. Raya Kupang",
+          streetAddress: "Jl. Perintis Kemerdekaan I, Kayu Putih, Kec. Oebobo",
           addressLocality: "Kupang",
           addressRegion: "Nusa Tenggara Timur",
-          postalCode: "85000",
+          postalCode: "85111",
           addressCountry: "ID",
         },
         geo: {
@@ -160,9 +160,9 @@ const StructuredData = () => {
         "@type": "WebSite",
         "@id": "https://www.dolphin-laundry-kupang.biz.id/#website",
         url: "https://www.dolphin-laundry-kupang.biz.id/",
-        name: "Dolphin Laundry Kupang",
+        name: "Dolphin Laundry & Dry Cleaning Kupang",
         description:
-          "Yang membedakan kami dari laundry lain: GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan dan baju dicuci terpisah tidak dicampur. Layanan laundry express dan dry cleaning terbaik di Kupang dengan harga terjangkau dan kualitas premium",
+          "Dolphin Laundry & Dry Cleaning Kupang: Jasa Laundry Kiloan & Dry Clean Terbaik di Kupang. Layanan Express 3 Jam, Antar Jemput, 1 Mesin 1 Pelanggan, Gratis Parfum Premium.",
         publisher: {
           "@id": "https://www.dolphin-laundry-kupang.biz.id/#organization",
         },

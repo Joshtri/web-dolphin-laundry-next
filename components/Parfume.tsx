@@ -1,367 +1,225 @@
 "use client";
 import type React from "react";
-import { useState } from "react";
-import {
-  Search,
-  Sparkles,
-  Star,
-  Shield,
-  Clock,
-  Award,
-  ChevronUp,
-  ChevronDown,
-  Filter,
-} from "lucide-react";
+import { useState, useMemo } from "react";
+import { useLocale, useTranslations } from "next-intl";
+
+import { Icon } from "@iconify/react";
+import { Button, Card, CardBody, Input, Chip, Skeleton } from "@heroui/react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePerfumes } from "@/services/publicService";
+import LoadingScreen from "@/components/LoadingScreen";
+
+// Perfume image mapping - map perfume names to image URLs
+const getPerfumeImage = (perfumeName: string): string | null => {
+  const nameKey = perfumeName.toLowerCase().trim();
+
+  // Mapping of perfume names to aroma/ingredient images (NOT perfume bottles)
+  const imageMap: Record<string, string> = {
+    // Premium Category - Representing the aroma/ingredients
+    "kenzo batang":
+      "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?w=400&h=400&fit=crop", // Wooden sticks/branches
+    "kenzo bunga":
+      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop", // Beautiful flowers
+    "kenzo daun":
+      "https://images.unsplash.com/photo-1470058869958-2a77ade41c02?w=400&h=400&fit=crop", // Green leaves
+    bulgary:
+      "https://images.unsplash.com/photo-1557800636-894a64c1696f?w=400&h=400&fit=crop", // Bergamot/citrus
+    casablanca:
+      "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?w=400&h=400&fit=crop", // White lily (Casablanca lily)
+    dunhill:
+      "https://images.unsplash.com/photo-1511593358241-7eea1f3c84e5?w=400&h=400&fit=crop", // Tobacco leaves
+    elegance:
+      "https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?w=400&h=400&fit=crop", // White elegant flowers
+
+    // Celebrity Category
+    "jenifer lopez pollo":
+      "https://images.unsplash.com/photo-1610832958506-aa56368176cf?w=400&h=400&fit=crop", // Tropical fruits
+    syahrini:
+      "https://images.unsplash.com/photo-1563241527-3004b7be0ffd?w=400&h=400&fit=crop", // Glamorous pink flowers
+    "gold lavender angelina jolie":
+      "https://images.unsplash.com/photo-1499002238440-d264edd596ec?w=400&h=400&fit=crop", // Golden lavender
+
+    // Fresh Category
+    oxygen:
+      "https://images.unsplash.com/photo-1534447677768-be436bb09401?w=400&h=400&fit=crop", // Fresh air/sky/clouds
+    "aqua fresh green tea":
+      "https://images.unsplash.com/photo-1564890369478-c89ca6d9cde9?w=400&h=400&fit=crop", // Green tea leaves
+    "the blue akasia":
+      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop", // Acacia flowers
+    "mint melati keraton":
+      "https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?w=400&h=400&fit=crop", // Mint leaves + jasmine
+    "molto blue atlantic":
+      "https://images.unsplash.com/photo-1505142468610-359e7d316be0?w=400&h=400&fit=crop", // Ocean/sea waves
+    kispray:
+      "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", // Fresh clean linen
+    downi:
+      "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?w=400&h=400&fit=crop", // Soft cotton/fabric
+    "jeruk nipis kopi":
+      "https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=400&h=400&fit=crop", // Lime and coffee beans
+
+    // Floral Category
+    lilac:
+      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop", // Lilac flowers
+    lavender:
+      "https://images.unsplash.com/photo-1499002238440-d264edd596ec?w=400&h=400&fit=crop", // Lavender field
+    blossom:
+      "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=400&h=400&fit=crop", // Cherry blossom
+    "forbidden rose":
+      "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=400&h=400&fit=crop", // Red rose
+    "soft lavender":
+      "https://images.unsplash.com/photo-1499002238440-d264edd596ec?w=400&h=400&fit=crop", // Soft lavender buds
+
+    // Sweet Category
+    vanilla:
+      "https://images.unsplash.com/photo-1481391243133-f96216dcb5d2?w=400&h=400&fit=crop", // Vanilla pods/beans
+    cuddle:
+      "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=400&h=400&fit=crop", // Soft cozy textures
+    "bubble gum":
+      "https://images.unsplash.com/photo-1582058091505-f87a2e55a40f?w=400&h=400&fit=crop", // Pink bubble gum
+    "baby berry miss cherie":
+      "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=400&h=400&fit=crop", // Mixed berries
+
+    // Fruity Category
+    "mix fruit":
+      "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=400&h=400&fit=crop", // Mixed colorful fruits
+    orange:
+      "https://images.unsplash.com/photo-1580052614034-c55d20bfee3b?w=400&h=400&fit=crop", // Fresh oranges
+    strawberry:
+      "https://images.unsplash.com/photo-1464454709131-ffd692591ee5?w=400&h=400&fit=crop", // Fresh strawberries
+    bulbery:
+      "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?w=400&h=400&fit=crop", // Blueberries
+    "apple anasui":
+      "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?w=400&h=400&fit=crop", // Red apples
+    "shine apple":
+      "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=400&h=400&fit=crop", // Shiny green apples
+
+    // Mysterious Category
+    "black magic":
+      "https://images.unsplash.com/photo-1518621736915-f3b1c41bfd00?w=400&h=400&fit=crop", // Dark mysterious rose/night
+  };
+
+  return imageMap[nameKey] || null;
+};
 
 const PerfumeSelection: React.FC = () => {
+  const { data: apiResponse, isLoading, isError } = usePerfumes();
+  const locale = useLocale();
+  const t = useTranslations("parfume");
+
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Semua");
+  // Default selectedCategory to translated "All" when data is loaded is handled in useMemo or effects,
+  // but better to stick to a key or handle "Semua" mapping.
+  // Actually, we should initialize selectedCategory with the translation of "All" or a fixed key.
+  // Let's use the translation key "allCategory" result for consistency, or just a fixed string if mapped.
+
   const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
-  const [showAll, setShowAll] = useState(false);
   const [showPopular, setShowPopular] = useState(false);
   const [showFeatureDropdown, setShowFeatureDropdown] = useState(false);
   const [showFeatureExplanation, setShowFeatureExplanation] = useState(false);
 
-  const maxVisible = 12;
+  // Transform API data to flat perfumes array
+  const perfumes = useMemo(() => {
+    if (!apiResponse?.data) return [];
 
-  const perfumes = [
-    {
-      name: "Kenzo Batang",
-      category: "Premium",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Kenzo Bunga",
-      category: "Premium",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Kenzo Daun",
-      category: "Premium",
-      popular: false,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Jenifer Lopez Pollo",
-      category: "Celebrity",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Oxygen",
-      category: "Fresh",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Lilac",
-      category: "Floral",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: false,
-    },
-    {
-      name: "Black Magic",
-      category: "Mysterious",
-      popular: false,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Vanilla",
-      category: "Sweet",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Lavender",
-      category: "Floral",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: false,
-    },
-    {
-      name: "Bulgary",
-      category: "Premium",
-      popular: false,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Aqua Fresh Green Tea",
-      category: "Fresh",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "The Blue Akasia",
-      category: "Fresh",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Cuddle",
-      category: "Sweet",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Casablanca",
-      category: "Premium",
-      popular: false,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Mix Fruit",
-      category: "Fruity",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Syahrini",
-      category: "Celebrity",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Mint Melati Keraton",
-      category: "Fresh",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: false,
-    },
-    {
-      name: "Bubble Gum",
-      category: "Sweet",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Blossom",
-      category: "Floral",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: false,
-    },
-    {
-      name: "Forbidden Rose",
-      category: "Floral",
-      popular: false,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Molto Blue Atlantic",
-      category: "Fresh",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: false,
-    },
-    {
-      name: "Dunhill",
-      category: "Premium",
-      popular: false,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Orange",
-      category: "Fruity",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Strawberry",
-      category: "Fruity",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Elegance",
-      category: "Premium",
-      popular: false,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Soft Lavender",
-      category: "Floral",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: false,
-    },
-    {
-      name: "Baby Berry Miss Cherie",
-      category: "Sweet",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Gold Lavender Angelina Jolie",
-      category: "Celebrity",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: true,
-    },
-    {
-      name: "Bulbery",
-      category: "Fruity",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Apple Anasui",
-      category: "Fruity",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Kispray",
-      category: "Fresh",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Downi",
-      category: "Fresh",
-      popular: true,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Shine Apple",
-      category: "Fruity",
-      popular: false,
-      fabricSafe: true,
-      longLasting: false,
-      premium: false,
-    },
-    {
-      name: "Jeruk Nipis Kopi",
-      category: "Fresh",
-      popular: true,
-      fabricSafe: true,
-      longLasting: true,
-      premium: false,
-    },
-  ];
+    return apiResponse.data.flatMap((category) =>
+      (category.perfumes || []).map((perfume) => ({
+        name: locale === "en" ? perfume.nameEn || perfume.name : perfume.name,
+        category:
+          locale === "en" ? category.nameEn || category.name : category.name,
+        popular: perfume.popular,
+        fabricSafe: perfume.fabricSafe,
+        longLasting: perfume.longLasting,
+        premium: perfume.premium,
+      }))
+    );
+  }, [apiResponse, locale]);
 
-  const categories = [
-    "Semua",
-    "Premium",
-    "Celebrity",
-    "Fresh",
-    "Floral",
-    "Sweet",
-    "Fruity",
-    "Mysterious",
-  ];
+  // Dynamic categories from API
+  const allCategoryLabel = t("allCategory");
+
+  const categories = useMemo(() => {
+    if (!apiResponse?.data) return [allCategoryLabel];
+
+    const cats = apiResponse.data
+      .filter((cat) => cat.isActive)
+      .sort((a, b) => a.sortOrder - b.sortOrder)
+      .map((cat) => (locale === "en" ? cat.nameEn || cat.name : cat.name));
+
+    return [allCategoryLabel, ...cats];
+  }, [apiResponse, locale, allCategoryLabel]);
+
+  // Ensure selectedCategory matches the translated "All" label if it was "Semua" (default)
+  // This is a simple effect to sync local state with translation changes if needed,
+  // or just handle it in the filter.
+  // For simplicity, we'll strip "Semua" init and use mapped value.
 
   const features = [
     {
       id: "fabricSafe",
-      name: "Aman untuk Semua Kain",
-      icon: <Shield size={14} />,
+      name: t("features.fabricSafe"),
+      icon: <Icon icon="lucide:shield" width="14" height="14" />,
       color: "bg-green-500",
-      hoverColor: "hover:bg-green-600",
+      text: "text-green-100",
     },
     {
       id: "longLasting",
-      name: "Aroma Tahan Lama",
-      icon: <Clock size={14} />,
+      name: t("features.longLasting"),
+      icon: <Icon icon="lucide:clock" width="14" height="14" />,
       color: "bg-blue-500",
-      hoverColor: "hover:bg-blue-600",
+      text: "text-blue-100",
     },
     {
       id: "premium",
-      name: "Formula Premium",
-      icon: <Award size={14} />,
+      name: t("features.premium"),
+      icon: <Icon icon="lucide:award" width="14" height="14" />,
       color: "bg-purple-500",
-      hoverColor: "hover:bg-purple-600",
+      text: "text-purple-100",
     },
   ];
 
-  const filteredPerfumes = perfumes.filter((perfume) => {
-    const matchesSearch = perfume.name
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+  const filteredPerfumes = useMemo(() => {
+    // Handle "Semua" case insensitive or translation based
+    const isAllCategory =
+      selectedCategory === "Semua" || selectedCategory === allCategoryLabel;
 
-    const matchesCategory =
-      selectedCategory === "Semua" || perfume.category === selectedCategory;
+    return perfumes.filter((perfume) => {
+      const matchesSearch = perfume.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
 
-    const matchesFeatures =
-      selectedFeatures.length === 0 ||
-      selectedFeatures.every((feature) => {
-        switch (feature) {
-          case "fabricSafe":
-            return perfume.fabricSafe;
-          case "longLasting":
-            return perfume.longLasting;
-          case "premium":
-            return perfume.premium;
-          default:
-            return true;
-        }
-      });
+      const matchesCategory =
+        isAllCategory || perfume.category === selectedCategory;
 
-    return matchesSearch && matchesCategory && matchesFeatures;
-  });
+      const matchesFeatures =
+        selectedFeatures.length === 0 ||
+        selectedFeatures.every((feature) => {
+          switch (feature) {
+            case "fabricSafe":
+              return perfume.fabricSafe;
+            case "longLasting":
+              return perfume.longLasting;
+            case "premium":
+              return perfume.premium;
+            default:
+              return true;
+          }
+        });
 
-  const popularPerfumes = perfumes.filter((p) => p.popular).slice(0, 8);
+      return matchesSearch && matchesCategory && matchesFeatures;
+    });
+  }, [
+    perfumes,
+    searchTerm,
+    selectedCategory,
+    selectedFeatures,
+    allCategoryLabel,
+  ]);
+
+  const popularPerfumes = useMemo(
+    () => perfumes.filter((p) => p.popular).slice(0, 8),
+    [perfumes]
+  );
 
   const toggleFeature = (featureId: string) => {
     setSelectedFeatures((prev) =>
@@ -372,628 +230,408 @@ const PerfumeSelection: React.FC = () => {
   };
 
   const clearAllFilters = () => {
-    setSelectedCategory("Semua");
+    setSelectedCategory(allCategoryLabel);
     setSelectedFeatures([]);
     setSearchTerm("");
   };
 
-  // Animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
-    },
-  };
+  // Loading state
+  if (isLoading) {
+    return <LoadingScreen message="Memuat Koleksi Parfum..." />;
+  }
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
-  const perfumeCardVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: {
-        duration: 0.3,
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.8,
-      transition: {
-        duration: 0.2,
-      },
-    },
-  };
-
-  const dropdownVariants = {
-    hidden: {
-      opacity: 0,
-      scale: 0.95,
-      y: -10,
-    },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: 0.2,
-      },
-    },
-    exit: {
-      opacity: 0,
-      scale: 0.95,
-      y: -10,
-      transition: {
-        duration: 0.15,
-      },
-    },
-  };
+  // Error state
+  if (isError) {
+    return (
+      <section className="py-20 bg-gradient-to-b from-blue-500 via-blue-600 to-blue-800 min-h-[50vh] flex items-center justify-center">
+        <div className="text-white bg-white/10 px-6 py-4 rounded-xl border border-white/20">
+          <Icon
+            icon="lucide:alert-circle"
+            className="w-8 h-8 mx-auto mb-2 text-red-300"
+          />
+          <p>{t("error")}</p>
+        </div>
+      </section>
+    );
+  }
 
   return (
-    <motion.section
+    <section
       id="perfume-selection"
-      className="py-20 bg-gradient-to-br from-gray-50 via-blue-50/20 to-gray-100 relative overflow-hidden"
-      initial="hidden"
-      animate="visible"
-      variants={containerVariants}
+      className="py-20 bg-gradient-to-b from-blue-600 via-blue-700 to-blue-900 relative overflow-hidden"
     >
-      {/* Animated Background decorative elements */}
-      <motion.div
-        className="absolute top-20 left-10 w-64 h-64 bg-blue-400 rounded-full blur-3xl opacity-5"
-        animate={{
-          scale: [1, 1.2, 1],
-          opacity: [0.05, 0.1, 0.05],
+      {/* Background Pattern */}
+      <div
+        className="absolute inset-0 opacity-10 pointer-events-none"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+            radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: "25px 25px",
+          backgroundPosition: "0 0, 12px 12px",
         }}
-        transition={{
-          duration: 4,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-      />
-      <motion.div
-        className="absolute bottom-20 right-10 w-80 h-80 bg-purple-300 rounded-full blur-3xl opacity-5"
-        animate={{
-          scale: [1, 1.3, 1],
-          opacity: [0.05, 0.1, 0.05],
-        }}
-        transition={{
-          duration: 5,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-          delay: 1,
-        }}
-      />
+      ></div>
 
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header Section */}
-        <motion.div className="text-center mb-12" variants={itemVariants}>
-          <motion.h2
-            className="text-4xl sm:text-5xl font-bold bg-gradient-to-r from-blue-700 via-blue-600 to-blue-800 bg-clip-text text-transparent mb-6"
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-          >
-            FREE Parfum Dipilih Sendiri
-          </motion.h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
           <motion.div
-            className="w-24 h-1.5 bg-gradient-to-r from-blue-500 to-blue-600 mx-auto mb-6 rounded-full"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          />
-          <motion.p
-            className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed"
-            variants={itemVariants}
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-center lg:text-left"
           >
-            🌟 Yang membedakan kami dari laundry lain:{" "}
-            <strong>
-              GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan!
-            </strong>{" "}
-            Berikan aroma favorit Anda pada baju cucian yang dicuci terpisah
-            tidak dicampur.
-          </motion.p>
+            <h2 className="text-4xl sm:text-5xl font-bold text-white mb-6 leading-tight">
+              {t("title")}
+            </h2>
+            <div className="w-24 h-1.5 bg-yellow-400 mx-auto lg:mx-0 mb-8 rounded-full shadow-[0_0_15px_rgba(250,204,21,0.5)]" />
+            <p className="text-xl text-blue-50 mb-8 leading-relaxed font-light">
+              {t("subtitle")}
+            </p>
+          </motion.div>
 
-          {/* Search Bar */}
+          {/* Parfume Image */}
           <motion.div
-            className="relative max-w-md mx-auto mb-6"
-            variants={itemVariants}
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="flex justify-center"
           >
-            <div className="flex items-center gap-2">
-              {/* Search Input */}
+            <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96 group">
+              <div className="absolute inset-0 bg-blue-400/30 blur-[60px] rounded-full scale-110 -z-10 group-hover:bg-blue-400/40 transition-all duration-700" />
+              <img
+                src="/assets/images/parfume-image.png"
+                alt="Premium Perfume Collection"
+                className="w-full h-full object-cover rounded-3xl shadow-2xl border-4 border-white/20 group-hover:scale-105 transition-transform duration-500 ease-out"
+              />
+
+              {/* Floating badges */}
               <motion.div
-                className="relative flex-1"
-                whileFocus={{ scale: 1.02 }}
-                transition={{ duration: 0.2 }}
+                animate={{ y: [0, -10, 0] }}
+                transition={{
+                  duration: 3,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+                className="absolute -top-4 -right-4 bg-yellow-400 text-blue-900 font-bold px-4 py-2 rounded-full shadow-lg text-sm"
               >
-                <Search
-                  className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-                  size={18}
-                />
-                <input
-                  type="text"
-                  placeholder="Cari parfum..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 bg-white/80 backdrop-blur-sm border border-white/50 rounded-xl shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-sm"
-                />
+                Make your laundry fresh
               </motion.div>
-
-              {/* Filter Button */}
-              <div className="relative">
-                <motion.button
-                  onClick={() => setShowFeatureDropdown(!showFeatureDropdown)}
-                  className="p-2 bg-white/80 backdrop-blur-sm border border-white/50 rounded-xl shadow-md hover:bg-blue-100 text-gray-600 hover:text-blue-600 transition-all"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <motion.div
-                    animate={{ rotate: showFeatureDropdown ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Filter size={18} />
-                  </motion.div>
-                </motion.button>
-
-                {/* Dropdown */}
-                <AnimatePresence>
-                  {showFeatureDropdown && (
-                    <motion.div
-                      className="absolute right-0 mt-2 w-60 bg-white rounded-lg shadow-lg border border-gray-200 z-50"
-                      variants={dropdownVariants}
-                      initial="hidden"
-                      animate="visible"
-                      exit="exit"
-                    >
-                      <div className="p-4 space-y-2">
-                        <p className="text-sm text-gray-600 font-medium mb-1">
-                          Filter berdasarkan fitur:
-                        </p>
-                        {features.map((feature, index) => (
-                          <motion.button
-                            key={feature.id}
-                            onClick={() => toggleFeature(feature.id)}
-                            className={`flex items-center w-full justify-between px-3 py-2 rounded-md text-sm transition-all duration-200 ${
-                              selectedFeatures.includes(feature.id)
-                                ? `${feature.color} text-white`
-                                : "text-gray-700 hover:bg-blue-50"
-                            }`}
-                            initial={{ opacity: 0, x: -10 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            whileHover={{ scale: 1.02 }}
-                            whileTap={{ scale: 0.98 }}
-                          >
-                            <div className="flex items-center gap-2">
-                              {feature.icon}
-                              <span>{feature.name}</span>
-                            </div>
-                            <AnimatePresence>
-                              {selectedFeatures.includes(feature.id) && (
-                                <motion.div
-                                  className="w-2 h-2 rounded-full bg-white"
-                                  initial={{ scale: 0 }}
-                                  animate={{ scale: 1 }}
-                                  exit={{ scale: 0 }}
-                                  transition={{ duration: 0.2 }}
-                                />
-                              )}
-                            </AnimatePresence>
-                          </motion.button>
-                        ))}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 1,
+                }}
+                className="absolute -bottom-4 -left-4 bg-white text-blue-600 font-bold px-4 py-2 rounded-full shadow-lg text-sm flex items-center gap-1"
+              >
+                <Icon icon="lucide:sparkles" className="w-4 h-4" /> 100% Free
+              </motion.div>
             </div>
           </motion.div>
+        </div>
 
-          {/* Category Filter */}
-          <motion.div
-            className="flex flex-wrap justify-center gap-2 mb-6"
-            variants={itemVariants}
-          >
-            {categories.map((category, index) => (
-              <motion.button
+        {/* Filters Panel */}
+        <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-6 mb-12 border border-white/20 shadow-xl">
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-8">
+            {/* Search */}
+            <div className="w-full md:w-96 relative">
+              <Input
+                type="text"
+                placeholder={t("searchPlaceholder")}
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                startContent={
+                  <Icon
+                    icon="lucide:search"
+                    className="text-white/60 w-5 h-5"
+                  />
+                }
+                classNames={{
+                  input: "text-white placeholder:text-white/60",
+                  inputWrapper: "bg-white/10 border-white/20  !cursor-text",
+                }}
+                size="lg"
+              />
+            </div>
+
+            {/* Feature Toggles (Desktop) */}
+            <div className="hidden md:flex gap-2">
+              {features.map((feature) => (
+                <button
+                  key={feature.id}
+                  onClick={() => toggleFeature(feature.id)}
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 flex items-center gap-2 border ${
+                    selectedFeatures.includes(feature.id)
+                      ? `${feature.color} text-white border-transparent shadow-lg scale-105`
+                      : "bg-transparent text-white/80 border-white/30 hover:bg-white/10"
+                  }`}
+                >
+                  {feature.icon}
+                  {feature.name}
+                </button>
+              ))}
+            </div>
+
+            {/* Mobile Filter Toggle */}
+            <div className="md:hidden w-full">
+              <Button
+                fullWidth
+                variant="bordered"
+                className="text-white border-white/30"
+                onClick={() => setShowFeatureDropdown(!showFeatureDropdown)}
+                endContent={
+                  <Icon
+                    icon={
+                      showFeatureDropdown
+                        ? "lucide:chevron-up"
+                        : "lucide:chevron-down"
+                    }
+                  />
+                }
+              >
+                {t("filterBy")}
+              </Button>
+
+              <AnimatePresence>
+                {showFeatureDropdown && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="flex flex-wrap gap-2 pt-4">
+                      {features.map((feature) => (
+                        <button
+                          key={feature.id}
+                          onClick={() => toggleFeature(feature.id)}
+                          className={`px-3 py-2 rounded-full text-xs font-medium transition-all duration-200 flex items-center gap-1.5 border ${
+                            selectedFeatures.includes(feature.id)
+                              ? `${feature.color} text-white border-transparent`
+                              : "bg-transparent text-white/80 border-white/30"
+                          }`}
+                        >
+                          {feature.icon}
+                          {feature.name}
+                        </button>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+
+          {/* Category Pills */}
+          <div className="flex flex-wrap justify-center gap-2">
+            {categories.map((category) => (
+              <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
-                className={`px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                   selectedCategory === category
-                    ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md"
-                    : "bg-white/80 backdrop-blur-sm text-gray-700 border border-white/50 hover:bg-blue-50"
+                    ? "bg-white text-blue-600 shadow-lg scale-105"
+                    : "bg-white/10 text-white hover:bg-white/20 backdrop-blur-md"
                 }`}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
               >
                 {category}
-              </motion.button>
+              </button>
             ))}
-          </motion.div>
+          </div>
 
-          {/* Clear Filters */}
-          <AnimatePresence>
-            {(selectedCategory !== "Semua" ||
-              selectedFeatures.length > 0 ||
-              searchTerm) && (
-              <motion.button
+          {/* Clear Filter */}
+          {(selectedCategory !== allCategoryLabel ||
+            selectedFeatures.length > 0 ||
+            searchTerm) && (
+            <div className="text-center mt-6">
+              <button
                 onClick={clearAllFilters}
-                className="text-sm text-blue-600 hover:text-blue-700 underline mb-4"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                whileHover={{ scale: 1.05 }}
+                className="text-white/70 hover:text-white text-sm underline decoration-white/30 underline-offset-4"
               >
-                Hapus semua filter
-              </motion.button>
-            )}
-          </AnimatePresence>
-        </motion.div>
+                {t("clearFilters")}
+              </button>
+            </div>
+          )}
+        </div>
 
-        {/* Popular Perfumes Section */}
-        <AnimatePresence>
-          {selectedCategory === "Semua" &&
-            searchTerm === "" &&
-            selectedFeatures.length === 0 && (
+        {/* Perfume Grid */}
+        <motion.div
+          layout
+          className="bg-white/5 backdrop-blur-xl rounded-[2rem] p-6 sm:p-8 border border-white/10"
+        >
+          <div className="flex justify-between items-center mb-8">
+            <h3 className="text-2xl font-bold text-white flex items-center gap-2">
+              <Icon icon="lucide:sparkles" className="text-yellow-400" />
+              {t("allPerfumes")}
+              <span className="text-white/50 text-lg font-normal">
+                ({filteredPerfumes.length})
+              </span>
+            </h3>
+            <Button
+              size="sm"
+              variant="light"
+              className="text-yellow-300 hover:text-yellow-200"
+              onClick={() => setShowPopular(!showPopular)}
+              startContent={
+                <Icon
+                  icon="lucide:star"
+                  className={showPopular ? "fill-current" : ""}
+                />
+              }
+            >
+              {showPopular ? t("hidePopular") : t("showPopular")}
+            </Button>
+          </div>
+
+          {/* Popular Section (Conditional) */}
+          <AnimatePresence>
+            {showPopular && (
               <motion.div
-                className="mb-2"
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.5 }}
+                className="mb-8 p-4 bg-yellow-400/10 rounded-xl border border-yellow-400/20 overflow-hidden"
               >
-                <div className="text-center">
-                  <motion.button
-                    onClick={() => setShowPopular((prev) => !prev)}
-                    className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold text-sm mb-4"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    <motion.div
-                      animate={{ rotate: [0, 10, -10, 0] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Number.POSITIVE_INFINITY,
+                <h4 className="text-yellow-300 font-bold mb-3 flex items-center gap-2">
+                  <Icon icon="lucide:crown" /> Popular Choices
+                </h4>
+                <div className="flex flex-wrap gap-2">
+                  {popularPerfumes.map((p) => (
+                    <Chip
+                      key={p.name}
+                      variant="flat"
+                      classNames={{
+                        base: "bg-yellow-400/20 text-yellow-200 border border-yellow-400/30",
                       }}
                     >
-                      <Star className="text-yellow-500 mr-2" size={18} />
-                    </motion.div>
-                    {showPopular
-                      ? "Sembunyikan Parfum Populer"
-                      : "Tampilkan Parfum Populer"}
-                    <motion.div
-                      animate={{ rotate: [0, -10, 10, 0] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Number.POSITIVE_INFINITY,
-                        delay: 1,
-                      }}
-                    >
-                      <Star className="text-yellow-500 ml-2" size={18} />
-                    </motion.div>
-                  </motion.button>
+                      {p.name}
+                    </Chip>
+                  ))}
                 </div>
-
-                <AnimatePresence>
-                  {showPopular && (
-                    <motion.div
-                      className="flex flex-wrap justify-center gap-2"
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {popularPerfumes.map((perfume, index) => (
-                        <motion.div
-                          key={index}
-                          className="group bg-gradient-to-r from-blue-500 to-blue-600 px-4 py-2 rounded-full shadow-md hover:shadow-lg transition-all duration-300 text-white"
-                          initial={{ opacity: 0, scale: 0.8 }}
-                          animate={{ opacity: 1, scale: 1 }}
-                          transition={{ delay: index * 0.1 }}
-                          whileHover={{ scale: 1.05, y: -2 }}
-                        >
-                          <div className="flex items-center space-x-2">
-                            <motion.div
-                              animate={{ rotate: [0, 360] }}
-                              transition={{
-                                duration: 3,
-                                repeat: Number.POSITIVE_INFINITY,
-                                ease: "linear",
-                              }}
-                            >
-                              <Sparkles size={14} className="text-yellow-300" />
-                            </motion.div>
-                            <span className="text-sm font-medium">
-                              {perfume.name}
-                            </span>
-                          </div>
-                        </motion.div>
-                      ))}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </motion.div>
             )}
-        </AnimatePresence>
+          </AnimatePresence>
 
-        {/* All Perfumes - Compact Grid */}
-        <motion.div
-          className="bg-white/60 backdrop-blur-sm rounded-3xl p-8 shadow-xl border border-white/50"
-          variants={itemVariants}
-        >
-          <motion.h3
-            className="text-xl font-bold text-gray-800 mb-6 text-center"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            key={filteredPerfumes.length} // Re-animate when count changes
-            transition={{ duration: 0.5 }}
-          >
-            Semua Pilihan Parfum ({filteredPerfumes.length})
-          </motion.h3>
+          {/* Main Grid - FIX: Using CSS Grid instead of Flex for better layout */}
+          <div className="max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+              <AnimatePresence mode="popLayout">
+                {filteredPerfumes.length > 0 ? (
+                  filteredPerfumes.map((perfume, index) => (
+                    <motion.div
+                      key={`${perfume.name}-${index}`}
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.2, delay: index * 0.03 }} // Stagger effect
+                      className="group relative bg-white/10 hover:bg-white/15 border border-white/10 hover:border-white/30 rounded-2xl p-4 transition-all duration-300 hover:shadow-xl hover:-translate-y-1"
+                    >
+                      {/* Popular Badge - Made larger and more visible */}
+                      {perfume.popular && (
+                        <div className="absolute top-2 right-2 z-10">
+                          <div className="bg-yellow-400 text-blue-900 px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-lg">
+                            <Icon
+                              icon="lucide:star"
+                              className="w-3 h-3 fill-current"
+                            />
+                            Popular
+                          </div>
+                        </div>
+                      )}
 
-          <AnimatePresence mode="wait">
-            {filteredPerfumes.length > 0 ? (
-              <motion.div
-                className="flex flex-wrap gap-2 justify-center"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  visible: {
-                    transition: {
-                      staggerChildren: 0.05,
-                    },
-                  },
-                }}
-                key={`${selectedCategory}-${selectedFeatures.join(
-                  "-"
-                )}-${searchTerm}`}
-              >
-                {(showAll
-                  ? filteredPerfumes
-                  : filteredPerfumes.slice(0, maxVisible)
-                ).map((perfume, index) => (
-                  <motion.div
-                    key={`${perfume.name}-${index}`}
-                    className="group bg-white/80 backdrop-blur-sm px-3 py-2 rounded-lg shadow-sm border border-white/50 hover:shadow-md transition-all duration-300 hover:bg-blue-50 hover:border-blue-200"
-                    variants={perfumeCardVariants}
-                    whileHover={{
-                      scale: 1.05,
-                      y: -2,
-                      transition: { duration: 0.2 },
-                    }}
-                    layout
-                  >
-                    <div className="flex items-center space-x-2">
-                      <div className="flex items-center space-x-1">
-                        <motion.div
-                          animate={{ rotate: perfume.popular ? [0, 360] : 0 }}
-                          transition={{
-                            duration: perfume.popular ? 2 : 0,
-                            repeat: perfume.popular
-                              ? Number.POSITIVE_INFINITY
-                              : 0,
-                            ease: "linear",
-                          }}
-                        >
-                          <Sparkles
-                            size={12}
-                            className={`${
-                              perfume.popular
-                                ? "text-yellow-500"
-                                : "text-blue-500"
-                            } group-hover:scale-110 transition-transform duration-300`}
+                      <div className="aspect-square bg-gradient-to-br from-white/5 to-white/10 rounded-xl mb-3 flex items-center justify-center relative overflow-hidden group-hover:from-white/10 group-hover:to-white/20 transition-colors">
+                        {getPerfumeImage(perfume.name) ? (
+                          <img
+                            src={getPerfumeImage(perfume.name)!}
+                            alt={perfume.name}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-all duration-500"
+                            loading="lazy"
+                            onError={(e) => {
+                              // Fallback to icon if image fails to load
+                              e.currentTarget.style.display = "none";
+                              const fallbackIcon =
+                                e.currentTarget.nextElementSibling;
+                              if (fallbackIcon) {
+                                (fallbackIcon as HTMLElement).style.display =
+                                  "block";
+                              }
+                            }}
                           />
-                        </motion.div>
-                        <span className="text-sm font-medium text-gray-800 group-hover:text-blue-700 transition-colors duration-300">
-                          {perfume.name}
-                        </span>
+                        ) : null}
+                        <Icon
+                          icon="lucide:sparkles"
+                          className="w-12 h-12 text-white/30 group-hover:text-white/60 group-hover:scale-110 transition-all duration-500"
+                          style={{
+                            display: getPerfumeImage(perfume.name)
+                              ? "none"
+                              : "block",
+                          }}
+                        />
                       </div>
 
-                      {/* Feature Icons */}
-                      <motion.div
-                        className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        initial={{ opacity: 0, x: -10 }}
-                        whileHover={{ opacity: 1, x: 0 }}
-                      >
+                      <h4 className="font-bold text-white text-center leading-tight mb-2 group-hover:text-blue-200 transition-colors">
+                        {perfume.name}
+                      </h4>
+
+                      {/* Feature Badges - Moved outside image, below title */}
+                      <div className="flex justify-center gap-1.5 mb-2">
                         {perfume.fabricSafe && (
-                          <motion.div whileHover={{ scale: 1.2 }}>
-                            <Shield size={10} className="text-green-500" />
-                          </motion.div>
+                          <div
+                            className="p-1.5 bg-green-500/30 border border-green-400/40 rounded-full text-green-300"
+                            title="Fabric Safe"
+                          >
+                            <Icon icon="lucide:shield" width="14" height="14" />
+                          </div>
                         )}
                         {perfume.longLasting && (
-                          <motion.div whileHover={{ scale: 1.2 }}>
-                            <Clock size={10} className="text-blue-500" />
-                          </motion.div>
+                          <div
+                            className="p-1.5 bg-blue-500/30 border border-blue-400/40 rounded-full text-blue-300"
+                            title="Long Lasting"
+                          >
+                            <Icon icon="lucide:clock" width="14" height="14" />
+                          </div>
                         )}
                         {perfume.premium && (
-                          <motion.div whileHover={{ scale: 1.2 }}>
-                            <Award size={10} className="text-purple-500" />
-                          </motion.div>
+                          <div
+                            className="p-1.5 bg-purple-500/30 border border-purple-400/40 rounded-full text-purple-300"
+                            title="Premium"
+                          >
+                            <Icon icon="lucide:award" width="14" height="14" />
+                          </div>
                         )}
-                      </motion.div>
+                      </div>
 
-                      {/* Category Badge */}
-                      <motion.span
-                        className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        initial={{ scale: 0 }}
-                        whileHover={{ scale: 1 }}
-                      >
-                        {perfume.category}
-                      </motion.span>
-
-                      {/* Popular Star */}
-                      {perfume.popular && (
-                        <motion.div
-                          animate={{ rotate: [0, 360] }}
-                          transition={{
-                            duration: 4,
-                            repeat: Number.POSITIVE_INFINITY,
-                            ease: "linear",
-                          }}
-                        >
-                          <Star
-                            size={10}
-                            className="text-yellow-500 fill-current"
-                          />
-                        </motion.div>
-                      )}
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            ) : (
-              <motion.div
-                className="text-center py-8"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-              >
-                <motion.div
-                  animate={{ rotate: [0, 10, -10, 0] }}
-                  transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }}
-                >
-                  <Search className="mx-auto text-gray-400 mb-3" size={32} />
-                </motion.div>
-                <p className="text-gray-600">Parfum tidak ditemukan</p>
-                <p className="text-sm text-gray-500 mt-2">
-                  Coba ubah filter atau kata kunci pencarian
-                </p>
-              </motion.div>
-            )}
-          </AnimatePresence>
-
-          {/* Show More / Less Button */}
-          <AnimatePresence>
-            {filteredPerfumes.length > maxVisible && (
-              <motion.div
-                className="text-center mt-6"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-              >
-                <motion.button
-                  onClick={() => setShowAll(!showAll)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-full shadow-md hover:bg-blue-700 transition-all duration-300"
-                  whileHover={{ scale: 1.05, y: -2 }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  {showAll ? (
-                    <>
-                      Sembunyikan{" "}
-                      <motion.div
-                        animate={{ y: [-2, 2, -2] }}
-                        transition={{
-                          duration: 1.5,
-                          repeat: Number.POSITIVE_INFINITY,
-                        }}
-                      >
-                        <ChevronUp size={16} />
-                      </motion.div>
-                    </>
-                  ) : (
-                    <>
-                      Lihat Lebih Banyak{" "}
-                      <motion.div
-                        animate={{ y: [-2, 2, -2] }}
-                        transition={{
-                          duration: 1.5,
-                          repeat: Number.POSITIVE_INFINITY,
-                        }}
-                      >
-                        <ChevronDown size={16} />
-                      </motion.div>
-                    </>
-                  )}
-                </motion.button>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </motion.div>
-
-        {/* Feature Summary Accordion */}
-        <motion.div className="mt-12 max-w-4xl mx-auto" variants={itemVariants}>
-          <motion.button
-            onClick={() => setShowFeatureExplanation(!showFeatureExplanation)}
-            className="w-full flex items-center justify-between px-6 py-4 bg-white/70 backdrop-blur-sm rounded-xl shadow-md border border-white/50 hover:bg-white transition-all"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-          >
-            <h4 className="text-lg font-bold text-gray-800">
-              Keterangan Fitur
-            </h4>
-            <motion.div
-              animate={{ rotate: showFeatureExplanation ? 180 : 0 }}
-              transition={{ duration: 0.3 }}
-            >
-              {showFeatureExplanation ? (
-                <ChevronUp className="text-blue-600" size={20} />
-              ) : (
-                <ChevronDown className="text-blue-600" size={20} />
-              )}
-            </motion.div>
-          </motion.button>
-
-          {/* Accordion Content */}
-          <AnimatePresence>
-            {showFeatureExplanation && (
-              <motion.div
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm bg-white/40 backdrop-blur-sm rounded-b-xl px-6 py-6"
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: "auto" }}
-                exit={{ opacity: 0, height: 0 }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
-              >
-                {features.map((feature, index) => (
-                  <motion.div
-                    key={feature.id}
-                    className="flex items-start space-x-3 p-4 bg-white/70 border border-white/60 rounded-xl shadow-sm"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ scale: 1.02, y: -2 }}
-                  >
-                    <motion.div
-                      className={`p-2 ${feature.color} rounded-full text-white`}
-                      whileHover={{ rotate: 360 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      {feature.icon}
+                      <div className="flex justify-center">
+                        <span className="text-[10px] uppercase tracking-wider font-semibold text-white/50 bg-white/10 px-2 py-0.5 rounded-full">
+                          {perfume.category}
+                        </span>
+                      </div>
                     </motion.div>
-                    <div>
-                      <p className="font-semibold text-gray-800 mb-1">
-                        {feature.name}
-                      </p>
-                      <p className="text-gray-600 text-xs leading-relaxed">
-                        {feature.id === "fabricSafe" &&
-                          "Tidak merusak serat kain"}
-                        {feature.id === "longLasting" &&
-                          "Wangi bertahan 3-5 hari"}
-                        {feature.id === "premium" && "Kualitas import terbaik"}
-                      </p>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
+                  ))
+                ) : (
+                  <div className="col-span-full py-12 text-center text-white/50">
+                    <Icon
+                      icon="lucide:search-x"
+                      className="w-12 h-12 mx-auto mb-3 opacity-50"
+                    />
+                    <p className="text-lg">
+                      No perfumes found matching your criteria
+                    </p>
+                  </div>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
         </motion.div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 

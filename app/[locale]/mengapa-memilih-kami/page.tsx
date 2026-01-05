@@ -54,9 +54,8 @@ export const metadata: Metadata = {
 export default function MengapaMemilihKamiPage() {
   return (
     <>
-      <div className="pt-20">
-        <WhyChooseUs />
-      </div>
+      <WhyChooseUs />
+
       <FloatingScrollToTop />
       <FloatingWhatsApp />
     </>

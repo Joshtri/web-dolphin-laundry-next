@@ -1,0 +1,250 @@
+{
+  "header": {
+    "menu": {
+      "home": "Beranda",
+      "services": "Layanan",
+      "priceList": "Daftar Harga",
+      "faq": "FAQ",
+      "testimonial": "Testimoni",
+      "perfume": "Pilihan Parfum",
+      "whyUs": "Mengapa Kami",
+      "location": "Lokasi",
+      "contact": "Kontak"
+    }
+  },
+  "common": {
+    "home": "Beranda",
+    "services": "Layanan",
+    "pricing": "Harga",
+    "contact": "Kontak",
+    "faq": "FAQ",
+    "location": "Lokasi",
+    "phone": "Telepon",
+    "email": "Email",
+    "address": "Alamat",
+    "readMore": "Selengkapnya",
+    "learnMore": "Pelajari Lebih Lanjut",
+    "contactUs": "Hubungi Kami",
+    "getStarted": "Mulai Sekarang"
+  },
+  "navigation": {
+    "home": "Beranda",
+    "services": "Layanan",
+    "pricing": "Harga",
+    "contact": "Kontak",
+    "faq": "FAQ"
+  },
+  "hero": {
+    "welcome": "Selamat Datang di",
+    "brandName1": "Dolphin Laundry",
+    "brandName2": "Dolphin Dry Cleaning",
+    "description": "🌟 Yang membedakan kami: GRATIS PARFUM PREMIUM yang bebas dipilih sendiri oleh pelanggan! Baju cucian dicuci terpisah, tidak dicampur dengan milik orang lain. Solusi terpercaya untuk kebutuhan laundry dan dry cleaning Anda di Kupang",
+    "features": {
+      "freePerfume": "FREE Parfum Dipilih Sendiri",
+      "separateWash": "Cuci Terpisah Tidak Dicampur",
+      "pickupDelivery": "Layanan Antar Jemput",
+      "express": "Express 3 Jam"
+    },
+    "cta": "Pesan Sekarang",
+    "modal": {
+      "title": "Hubungi Kami",
+      "subtitle": "Pilih nomor WhatsApp untuk menghubungi kami",
+      "contact1": "Kontak Pertama",
+      "contact2": "Kontak Kedua",
+      "cancel": "Batal"
+    },
+    "whatsappMessage": "Halo Dolphin Laundry, saya ingin memesan layanan laundry"
+  },
+  "services": {
+    "title": "Layanan Kami",
+    "subtitle": "🌟 Yang membedakan kami: GRATIS PARFUM PREMIUM yang bebas dipilih sendiri oleh pelanggan + baju dicuci terpisah tidak dicampur! Beragam layanan laundry profesional untuk berbagai kebutuhan Anda.",
+    "stats": {
+      "asOfNow": "Hingga saat ini,",
+      "itemsLaundered": "Potong Pakaian",
+      "itemsLaunderedSuffix": "dicuci bersih.",
+      "savingLine": "melayani lebih dari {customers} pelanggan puas dan {satisfaction}% tingkat kepuasan.",
+      "itemsLaunderedDesc": "Cucian yang telah kami tangani dengan sempurna",
+      "happyCustomers": "Pelanggan Setia",
+      "happyCustomersDesc": "Pelanggan yang terus mempercayai kami",
+      "satisfaction": "Tingkat Kepuasan",
+      "satisfactionDesc": "Customer service rating dari feedback pelanggan"
+    },
+    "menu": {
+      "priceList": "Lihat Daftar Harga"
+    },
+    "items": {
+      "regular": {
+        "title": "Laundry Reguler",
+        "description": "Cuci kering lipat standar. Bersih & wangi."
+      },
+      "express": {
+        "title": "Laundry Express",
+        "description": "Cuci cepat 3–6 jam. Tetap maksimal."
+      },
+      "dryCleaning": {
+        "title": "Dry Cleaning",
+        "description": "Untuk jas & bahan sensitif."
+      },
+      "shoes": {
+        "title": "Cuci Sepatu",
+        "description": "Aman untuk berbagai jenis sepatu."
+      },
+      "carpet": {
+        "title": "Cuci Karpet",
+        "description": "Bersih & harum dengan mesin khusus."
+      },
+      "ironing": {
+        "title": "Setrika Saja",
+        "description": "Rapi dengan setrika profesional."
+      }
+    }
+  },
+  "whyChooseUs": {
+    "title": "Mengapa Memilih Kami?",
+    "subtitle": "Yang membedakan kami dari laundry lain: FREE parfum yang bebas dipilih sendiri oleh pelanggan dan baju dicuci terpisah tidak dicampur. Kepercayaan pelanggan adalah prioritas utama kami.",
+    "features": {
+      "freePerfume": {
+        "title": "FREE Parfum Dipilih Sendiri",
+        "description": "🌟 YANG MEMBEDAKAN KAMI! Gratis parfum import berkualitas yang bebas dipilih sendiri oleh pelanggan dari 34+ pilihan aroma eksklusif."
+      },
+      "separateWash": {
+        "title": "Baju Dicuci Terpisah",
+        "description": "Baju cucian Anda dicuci secara terpisah dan tidak dicampur dengan milik pelanggan lain untuk higienitas maksimal."
+      },
+      "expressService": {
+        "title": "Layanan Express 3 Jam",
+        "description": "Layanan kilat untuk kebutuhan mendesak. Express 3 jam, reguler 1-2 hari. Tepat waktu sesuai janji."
+      },
+      "affordablePrice": {
+        "title": "Harga Terjangkau",
+        "description": "Tarif kompetitif mulai Rp 11.000/kg dengan kualitas premium. Berbagai paket sesuai kebutuhan."
+      },
+      "professionalStaff": {
+        "title": "Staff Profesional",
+        "description": "Tenaga kerja terlatih dan berpengalaman yang menangani pakaian Anda dengan hati-hati dan teliti."
+      }
+    }
+  },
+  "pricing": {
+    "title": "Daftar Harga",
+    "subtitle": "Harga terjangkau dengan kualitas terbaik",
+    "perKg": "per kg",
+    "startingFrom": "Mulai dari"
+  },
+  "parfume": {
+    "title": "FREE Parfum Dipilih Sendiri",
+    "subtitle": "🌟 Yang membedakan kami dari laundry lain: GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan! Berikan aroma favorit Anda pada baju cucian yang dicuci terpisah tidak dicampur.",
+    "tagline": "Yang membedakan kami dari laundry lain:",
+    "highlight": "GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan!",
+    "description": "Berikan aroma favorit Anda pada baju cucian yang dicuci terpisah tidak dicampur.",
+    "searchPlaceholder": "Cari parfum...",
+    "filterBy": "Filter berdasarkan fitur:",
+    "allCategory": "Semua",
+    "clearFilters": "Hapus semua filter",
+    "showPopular": "Tampilkan Parfum Populer",
+    "hidePopular": "Sembunyikan Parfum Populer",
+    "allPerfumes": "Semua Parfum",
+    "showMore": "Tampilkan Lebih Banyak",
+    "showLess": "Tampilkan Lebih Sedikit",
+    "loading": "Memuat parfum...",
+    "error": "Gagal memuat parfum.",
+    "features": {
+      "fabricSafe": "Aman untuk Semua Kain",
+      "longLasting": "Aroma Tahan Lama",
+      "premium": "Formula Premium"
+    }
+  },
+  "faq": {
+    "title": "Pertanyaan yang Sering Diajukan",
+    "subtitle": "Temukan jawaban untuk pertanyaan umum tentang layanan laundry kami",
+    "loading": "Memuat FAQ...",
+    "error": "Gagal memuat FAQ.",
+    "moreQuestions": "Masih ada pertanyaan lain?",
+    "contactButton": "Hubungi WhatsApp"
+  },
+  "contact": {
+    "title": "Hubungi Kami",
+    "subtitle": "Kami siap melayani Anda",
+    "message": "Pesan",
+    "send": "Kirim Pesan",
+    "success": "Pesan berhasil dikirim!",
+    "error": "Terjadi kesalahan, silakan coba lagi"
+  },
+  "contactUs": {
+    "title": "Hubungi Kami",
+    "subtitle": "🌟 Yang membedakan kami: GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan + baju dicuci terpisah tidak dicampur! Hubungi kami untuk layanan laundry terbaik di Kupang.",
+    "tagline": "Yang membedakan kami:",
+    "highlight": "GRATIS parfum premium yang bebas dipilih sendiri oleh pelanggan + baju dicuci terpisah tidak dicampur!",
+    "description": "Hubungi kami untuk layanan laundry terbaik di Kupang."
+  },
+  "footer": {
+    "sections": {
+      "services": "Layanan",
+      "support": "Bantuan",
+      "contact": "Hubungi Kami",
+      "followUs": "Ikuti Kami"
+    },
+    "whatsappSection": {
+      "title": "Butuh Layanan Cepat?",
+      "subtitle": "Hubungi kami via WhatsApp untuk penjemputan atau konsultasi.",
+      "button": "Chat WhatsApp Sekarang"
+    },
+    "links": {
+      "laundryKilo": "Laundry Kiloan",
+      "dryCleaning": "Dry Cleaning",
+      "shoes": "Cuci Sepatu",
+      "carpet": "Cuci Karpet",
+      "faq": "FAQ",
+      "privacy": "Privacy Policy",
+      "terms": "Terms of Service",
+      "cookies": "Cookies Settings"
+    },
+    "operatingHoursShort": "Senin - Minggu: 05:45 - 22:00 WITA",
+    "copyright": "© {year} Dolphin Laundry Kupang. Semua hak dilindungi."
+  },
+  "location": {
+    "title": "Lokasi Kami",
+    "subtitle": "Kunjungi toko kami yang strategis dan mudah dijangkau di pusat kota Kupang",
+    "locationDetail": "Detail Lokasi",
+    "addressLabel": "Alamat:",
+    "address": "Jl. R. W. Monginsidi I No.2, Pasir Panjang, Kec. Kota Lama, Kota Kupang, Nusa Tenggara Timur",
+    "operatingHours": "Jam Operasional",
+    "schedule": "Setiap Hari: 05:45 - 22:00 WITA",
+    "directionsButton": "Petunjuk Arah",
+    "mapTitle": "Peta Lokasi",
+    "mapDescription": "Temukan kami dengan mudah menggunakan peta interaktif di bawah ini. Lokasi strategis di pusat kota.",
+    "openInMaps": "Buka di Google Maps",
+    "advantages": {
+      "strategic": {
+        "title": "Lokasi Strategis",
+        "description": "Berada di pusat kota Kupang, mudah dijangkau dari berbagai arah"
+      },
+      "openDaily": {
+        "title": "Buka Setiap Hari",
+        "description": "Melayani Anda dari pagi hingga malam, 7 hari seminggu"
+      },
+      "easyToFind": {
+        "title": "Mudah Ditemukan",
+        "description": "Landmark jelas dan akses transportasi umum yang mudah"
+      }
+    }
+  },
+  "testimonials": {
+    "title": "Testimoni Pelanggan",
+    "subtitle": "Kepuasan pelanggan adalah prioritas utama kami. Berikut adalah pengalaman nyata dari pelanggan setia Dolphin Laundry."
+  },
+  "floatingWhatsApp": {
+    "title": "Hubungi Kami",
+    "subtitle": "Pilih nomor WhatsApp untuk menghubungi kami",
+    "contact1": "Hubungi Admin 1",
+    "contact2": "Hubungi Admin 2",
+    "cancel": "Batal",
+    "ariaLabel": "Hubungi kami via WhatsApp"
+  },
+  "aiChat": {
+    "title": "Dolphin Asisten",
+    "status": "Coming Soon",
+    "description": "Kami sedang melatih asisten cerdas ini untuk memberikan pelayanan terbaik bagi Anda.",
+    "featureTeaser": "Fitur canggih segera hadir!"
+  }
+}

@@ -1,18 +1,18 @@
 "use client";
-import type React from "react";
-import { useState } from "react";
-import {
-  Droplet,
-  Zap,
-  Leaf,
-  ShirtIcon,
-  ClipboardList,
-  Clock,
-  Sparkles,
-} from "lucide-react";
-import pricelistData from "@/data/pricelist.json"; // Adjust the path as necessary
+import React, { useState } from "react";
+import { Icon } from "@iconify/react";
+import { Button, Skeleton } from "@heroui/react";
+import { useLocale } from "next-intl";
+import { usePricing } from "@/services/publicService";
+import { Heading } from "@/components/ui/Heading";
+import { Text } from "@/components/ui/Text";
+import { PriceCardWrapper } from "@/components/ui/PriceCardWrapper";
+import { PriceItem } from "@/components/ui/PriceItem";
+import { CustomScrollbar } from "@/components/ui/CustomScrollbar";
+import LoadingScreen from "@/components/LoadingScreen";
+
 // Real data from user
-interface PriceItem {
+interface PriceItemType {
   name: string;
   price?: string;
   duration?: string;
@@ -27,98 +27,219 @@ interface PriceCategory {
   category: string;
   icon: React.ReactNode;
   description: string;
-  items: PriceItem[];
+  items: PriceItemType[];
 }
 
 const PriceList: React.FC = () => {
   const [activeCategory, setActiveCategory] =
     useState<string>("Tampilkan Semua");
+  const { data: apiResponse, isLoading, isError } = usePricing();
+  const locale = useLocale();
 
   const getIcon = (iconName: string) => {
-    switch (iconName) {
-      case "Droplet":
-        return <Droplet />;
-      case "Zap":
-        return <Zap />;
-      case "Leaf":
-        return <Leaf />;
-      case "ShirtIcon":
-        return <ShirtIcon />;
-      default:
-        return <Droplet />;
+    const lowerName = (iconName || "").toLowerCase();
+    if (lowerName.includes("droplet") || lowerName.includes("reguler")) {
+      return <Icon icon="lucide:droplet" width="24" height="24" />;
     }
+    if (lowerName.includes("zap") || lowerName.includes("express")) {
+      return <Icon icon="lucide:zap" width="24" height="24" />;
+    }
+    if (
+      lowerName.includes("shirt") ||
+      lowerName.includes("dry clean") ||
+      lowerName.includes("khusus")
+    ) {
+      return <Icon icon="lucide:shirt" width="24" height="24" />;
+    }
+    return <Icon icon="lucide:leaf" width="24" height="24" />;
   };
 
-  const pricelist: PriceCategory[] = pricelistData.map((category) => ({
-    ...category,
-    icon: getIcon(category.icon),
-  }));
+  const pricelist: PriceCategory[] = React.useMemo(() => {
+    if (!apiResponse?.data || !Array.isArray(apiResponse.data)) return [];
+
+    return apiResponse.data.map((category) => {
+      let items: PriceItemType[] = [];
+
+      // Get localized category name
+      const catName =
+        locale === "en"
+          ? category.categoryEn || category.category
+          : category.category;
+
+      const catDesc =
+        locale === "en"
+          ? category.descriptionEn || category.description
+          : category.description;
+
+      const isDryClean = category.category.toLowerCase().includes("dry clean");
+
+      if (isDryClean && Array.isArray(category.items)) {
+        // Handle Dry Clean category with both patterns:
+        // Pattern 1: Items with services array
+        // Pattern 2: Items with direct price/duration
+
+        items = category.items.map((item) => {
+          const itemName =
+            locale === "en" ? item.nameEn || item.name : item.name;
+
+          // Check if this item has services array (Pattern 1)
+          if (item.services && Array.isArray(item.services)) {
+            return {
+              name: itemName,
+              services: item.services.map((service) => ({
+                type:
+                  locale === "en"
+                    ? service.typeEn || service.type
+                    : service.type,
+                price:
+                  locale === "en"
+                    ? service.priceEn || service.price
+                    : service.price,
+                duration:
+                  locale === "en"
+                    ? service.durationEn || service.duration
+                    : service.duration,
+              })),
+            };
+          }
+
+          // Otherwise, it's a single service item (Pattern 2)
+          return {
+            name: itemName,
+            price: locale === "en" ? item.priceEn || item.price : item.price,
+            duration:
+              locale === "en"
+                ? item.durationEn || item.duration
+                : item.duration,
+          };
+        });
+      } else {
+        // Regular categories (non-Dry Clean)
+        if (Array.isArray(category.items)) {
+          items = category.items.map((item) => ({
+            name: locale === "en" ? item.nameEn || item.name : item.name,
+            price: locale === "en" ? item.priceEn || item.price : item.price,
+            duration:
+              locale === "en"
+                ? item.durationEn || item.duration
+                : item.duration,
+          }));
+        }
+      }
+
+      return {
+        category: catName || "Unknown Category",
+        icon: getIcon(category.icon),
+        description: catDesc || "",
+        items,
+      };
+    });
+  }, [apiResponse, locale]);
 
   const handleCategoryChange = (category: string): void => {
     setActiveCategory(category);
   };
 
+  if (isLoading) {
+    return <LoadingScreen message="Memuat Daftar Harga..." />;
+  }
+
+  if (isError) {
+    return (
+      <section className="py-16 bg-blue-600 text-white min-h-[400px] flex items-center justify-center">
+        <Text>Gagal memuat harga.</Text>
+      </section>
+    );
+  }
+
   return (
     <section
       id="daftar-harga"
-      className="py-16 bg-gradient-to-b from-gray-50 to-white"
+      className="py-16 bg-gradient-to-t from-blue-600 via-blue-600 to-blue-600 relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Background Pattern */}
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage: `
+            radial-gradient(circle, rgba(255, 255, 255, 0.2) 1px, transparent 1px),
+            radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: "25px 25px",
+          backgroundPosition: "0 0, 12px 12px",
+        }}
+      ></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-12">
-          <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+          <Heading
+            as="h2"
+            size="3xl"
+            align="center"
+            className="mb-4 text-white"
+          >
             Daftar Harga Laundry
-          </h2>
-          <div className="w-20 h-1 bg-blue-500 mx-auto mb-4 rounded"></div>
-          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+          </Heading>
+          <div className="w-20 h-1 bg-yellow-400 mx-auto mb-4 rounded"></div>
+          <Text
+            size="lg"
+            align="center"
+            className="max-w-2xl mx-auto text-white/90"
+          >
             Pilih layanan yang sesuai dengan kebutuhan Anda dengan harga
             terjangkau dan kualitas terbaik
-          </p>
+          </Text>
 
           <div className="mt-6">
-            <button
-              // onClick={() => {
-              //   const el = document.getElementById("perfume-selection");
-              //   if (el) {
-              //     el.scrollIntoView({ behavior: "smooth", block: "start" });
-              //   }
-              // }}
-              onClick={() => {
+            <Button
+              radius="full"
+              startContent={
+                <Icon icon="lucide:sparkles" width="16" height="16" />
+              }
+              className="bg-yellow-400 text-blue-900 font-bold hover:bg-yellow-300 shadow-lg"
+              onPress={() => {
                 window.location.href = "/#perfume-selection";
               }}
-              className="inline-flex items-center space-x-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full shadow transition-all duration-300"
             >
-              <Sparkles size={16} />
-              <span>Cek Parfum</span>
-            </button>
+              Cek Parfum
+            </Button>
           </div>
         </div>
 
         {/* Navigation Buttons */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
-          <button
-            className={`flex items-center space-x-2 px-5 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
+          <Button
+            variant={
+              activeCategory === "Tampilkan Semua" ? "solid" : "bordered"
+            }
+            className={
               activeCategory === "Tampilkan Semua"
-                ? "bg-blue-500 text-white shadow-md"
-                : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-50 hover:border-blue-300 shadow-sm"
-            }`}
+                ? "bg-white text-blue-600 font-semibold shadow-md"
+                : "border-white/30 text-white hover:bg-white/10"
+            }
+            startContent={
+              <Icon icon="lucide:clipboard-list" width="18" height="18" />
+            }
             onClick={() => handleCategoryChange("Tampilkan Semua")}
           >
-            <ClipboardList size={18} />
-            <span>Tampilkan Semua</span>
-          </button>
+            Tampilkan Semua
+          </Button>
           {pricelist.map((category, index) => (
-            <button
+            <Button
               key={index}
-              className={`flex items-center space-x-2 px-5 py-3 rounded-lg text-sm font-medium transition-all duration-300 ${
+              variant={
+                activeCategory === category.category ? "solid" : "bordered"
+              }
+              className={
                 activeCategory === category.category
-                  ? "bg-blue-500 text-white shadow-md"
-                  : "bg-white text-gray-700 border border-gray-300 hover:bg-blue-50 hover:border-blue-300 shadow-sm"
-              }`}
+                  ? "bg-white text-blue-600 font-semibold shadow-md"
+                  : "border-white/30 text-white hover:bg-white/10"
+              }
+              startContent={<span className="text-lg">{category.icon}</span>}
               onClick={() => handleCategoryChange(category.category)}
             >
-              <span className="text-lg">{category.icon}</span>
-              <span>{category.category}</span>
-            </button>
+              {category.category}
+            </Button>
           ))}
         </div>
 
@@ -138,117 +259,32 @@ const PriceList: React.FC = () => {
               } gap-6 max-w-6xl mx-auto`}
             >
               {filtered.map((category, index) => (
-                <div
+                <PriceCardWrapper
                   key={index}
-                  className={`bg-white rounded-xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300 overflow-hidden ${
-                    filtered.length === 1 ? "w-full md:w-[450px]" : ""
-                  }`}
+                  icon={category.icon}
+                  title={category.category}
+                  description={category.description}
+                  isSingleCard={filtered.length === 1}
                 >
-                  {/* Card Header */}
-                  <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-gray-100">
-                    <div className="flex items-center justify-center mb-4">
-                      <div className="p-3 bg-blue-500 rounded-lg shadow-sm">
-                        <span className="text-white text-xl">
-                          {category.icon}
-                        </span>
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2 text-center">
-                      {category.category}
-                    </h3>
-                    <p className="text-sm text-gray-600 text-center leading-relaxed">
-                      {category.description}
-                    </p>
-                  </div>
-
-                  {/* Card Content */}
-                  <div className="p-6">
-                    <div className="space-y-4 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+                  <CustomScrollbar>
+                    <div className="space-y-4">
                       {category.items.map((item, idx) => (
-                        <div
+                        <PriceItem
                           key={idx}
-                          className="p-4 bg-gray-50 rounded-lg border border-gray-100 hover:bg-gray-100 transition-colors duration-200"
-                        >
-                          <div className="text-gray-800 font-semibold text-sm mb-3">
-                            {item.name}
-                          </div>
-
-                          {item.price && (
-                            <div className="flex flex-col space-y-2">
-                              {item.duration && (
-                                <span className="text-xs text-blue-600 font-medium flex items-center">
-                                  <Clock size={12} className="mr-1" />
-                                  {item.duration}
-                                </span>
-                              )}
-                              <span className="text-green-600 font-bold text-sm">
-                                {item.price}
-                              </span>
-                            </div>
-                          )}
-
-                          {item.services && (
-                            <div className="space-y-2">
-                              {item.services.map((service, serviceIdx) => (
-                                <div
-                                  key={serviceIdx}
-                                  className="bg-white p-3 rounded border border-gray-200"
-                                >
-                                  <div className="flex justify-between items-start">
-                                    <div className="flex-1">
-                                      <div className="font-semibold text-gray-700 text-xs mb-1">
-                                        {service.type}
-                                      </div>
-                                      {service.duration && (
-                                        <span className="text-blue-600 font-medium flex items-center text-xs">
-                                          <Clock size={10} className="mr-1" />
-                                          {service.duration}
-                                        </span>
-                                      )}
-                                    </div>
-                                    <span className="text-green-600 font-bold text-xs ml-2">
-                                      {service.price}
-                                    </span>
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          )}
-                        </div>
+                          name={item.name}
+                          price={item.price}
+                          duration={item.duration}
+                          services={item.services}
+                        />
                       ))}
                     </div>
-                  </div>
-                </div>
+                  </CustomScrollbar>
+                </PriceCardWrapper>
               ))}
             </div>
           );
         })()}
       </div>
-
-      <style jsx>{`
-        .custom-scrollbar {
-          scrollbar-width: thin;
-          scrollbar-color: #cbd5e1 #f1f5f9;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar {
-          width: 4px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-track {
-          background: #f1f5f9;
-          border-radius: 4px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-          background: #3b82f6;
-          border-radius: 4px;
-        }
-
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-          background: #2563eb;
-        }
-      `}</style>
     </section>
   );
 };

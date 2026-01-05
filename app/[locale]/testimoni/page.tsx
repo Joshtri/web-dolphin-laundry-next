@@ -54,9 +54,9 @@ export const metadata: Metadata = {
 export default function TestimoniPage() {
   return (
     <>
-      <div className="pt-20">
+      <>
         <Testimonials />
-      </div>
+      </>
       <FloatingScrollToTop />
       <FloatingWhatsApp />
     </>

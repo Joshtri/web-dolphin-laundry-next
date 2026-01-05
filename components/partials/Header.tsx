@@ -1,309 +1,380 @@
 "use client";
-import { useState, useEffect } from "react";
-import type React from "react";
-
-import Image from "next/image";
-import Link from "next/link";
+import { useState, useEffect, useMemo } from "react";
+import NextLink from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X } from "lucide-react";
-import dlLogo from "@/public/assets/images/dl-logo.png";
-
-const navItems = [
-  { href: "#beranda", label: "Beranda", path: "/" },
-  { href: "#daftar-harga", label: "Daftar Harga", path: "/daftar-harga" },
-  {
-    href: "#perfume-selection",
-    label: "Pilihan Parfum",
-    path: "/pilihan-parfum",
-  },
-  { href: "#layanan", label: "Layanan", path: "/layanan" },
-  {
-    href: "#mengapa-memilih-kami",
-    label: "Mengapa Kami",
-    path: "/mengapa-memilih-kami",
-  },
-  { href: "#testimoni", label: "Testimoni", path: "/testimoni" },
-  { href: "", label: "FAQ", path: "/faq" },
-  { href: "#lokasi", label: "Lokasi", path: "/lokasi" },
-  { href: "", label: "Kontak", path: "/kontak-kami" },
-];
+import { Link, Button } from "@heroui/react";
+import { Icon } from "@iconify/react";
+import { Heading } from "../ui/Heading";
+import { Text } from "../ui/Text";
+import LanguageSwitcher from "../LanguageSwitcher";
+import { useLocale, useTranslations } from "next-intl";
 
 const Header = () => {
-  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const locale = useLocale();
+  const t = useTranslations("header");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Main menu items (visible in navbar center)
+  const mainMenuItems = useMemo(
+    () => [
+      { href: "#beranda", label: t("menu.home"), path: `/${locale}/` },
+
+      { href: `/${locale}/faq`, label: t("menu.faq"), path: `/${locale}/faq` },
+      {
+        href: "#testimoni",
+        label: t("menu.testimonial"),
+        path: `/${locale}/testimoni`,
+      },
+    ],
+    [locale, t]
+  );
+
+  // Additional menu items (hamburger overlay)
+  const additionalMenuItems = useMemo(
+    () => [
+      { href: "#beranda", label: t("menu.home"), path: `/${locale}/` },
+      {
+        href: "#layanan",
+        label: t("menu.services"),
+        path: `/${locale}/layanan`,
+      },
+      {
+        href: "#perfume-selection",
+        label: t("menu.perfume"),
+        path: `/${locale}/pilihan-parfum`,
+      },
+      {
+        href: "#mengapa-memilih-kami",
+        label: t("menu.whyUs"),
+        path: `/${locale}/mengapa-memilih-kami`,
+      },
+      { href: "#lokasi", label: t("menu.location"), path: `/${locale}/lokasi` },
+      { href: "", label: t("menu.contact"), path: `/${locale}/kontak-kami` },
+    ],
+    [locale, t]
+  );
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string>("#beranda");
   const pathname = usePathname();
+  const isHomepage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
-  // Check if we're on homepage
-  const isHomepage = pathname === "/";
-
-  // Handle navigation click
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    item: (typeof navItems)[0]
-  ) => {
-    if (
-      isHomepage &&
-      item.href &&
-      item.href.trim() !== "" &&
-      item.href.startsWith("#")
-    ) {
-      // If we're on homepage and clicking a section, scroll to it
-      e.preventDefault();
-      const section = document.querySelector(item.href);
+  const handleNavClick = (href: string, path: string, isHashLink: boolean) => {
+    if (isHomepage && isHashLink && href.startsWith("#")) {
+      const section = document.querySelector(href);
       if (section) {
         section.scrollIntoView({ behavior: "smooth" });
-        setMobileMenuOpen(false);
       }
-    } else {
-      // For all other cases, let Next.js handle the navigation
-      setMobileMenuOpen(false);
     }
+    setIsMenuOpen(false);
   };
 
-  // Handle scroll effect
   useEffect(() => {
-    if (!isHomepage) return; // Only track scroll on homepage
-
     const handleScroll = () => {
-      const sections = navItems
-        .filter(
-          (item) =>
-            item.href && item.href.trim() !== "" && item.href.startsWith("#")
-        )
-        .map((item) => ({
-          element: document.querySelector(item.href),
-          href: item.href,
-          index: navItems.findIndex((navItem) => navItem.href === item.href),
-        }));
+      setIsScrolled(window.scrollY > 20);
 
-      const scrollY = window.scrollY + 80; // Reduced offset for compact header
+      if (!isHomepage) return;
 
-      sections.forEach(({ element, href }) => {
-        if (element) {
-          const top = (element as HTMLElement).offsetTop;
-          const height = (element as HTMLElement).clientHeight;
-          if (scrollY >= top && scrollY < top + height) {
-            setActiveSection(href);
+      const scrollY = window.scrollY + 80;
+      [...mainMenuItems, ...additionalMenuItems]
+        .filter((item) => item.href && item.href.startsWith("#"))
+        .forEach((item) => {
+          const element = document.querySelector(item.href);
+          if (element) {
+            const top = (element as HTMLElement).offsetTop;
+            const height = (element as HTMLElement).clientHeight;
+            if (scrollY >= top && scrollY < top + height) {
+              setActiveSection(item.href);
+            }
           }
-        }
-      });
-    };
-
-    const handleScrolled = () => {
-      setIsScrolled(window.scrollY > 20); // Reduced threshold
+        });
     };
 
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("scroll", handleScrolled);
-    handleScroll(); // run on mount
-    handleScrolled(); // run on mount
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isHomepage, mainMenuItems, additionalMenuItems]);
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("scroll", handleScrolled);
-    };
-  }, [isHomepage]);
-
-  // Auto scroll to section if hash is present on homepage
   useEffect(() => {
-    if (isHomepage && typeof window !== "undefined") {
-      const hash = window.location.hash;
-      if (hash) {
-        setTimeout(() => {
-          const section = document.querySelector(hash);
-          if (section) {
-            section.scrollIntoView({ behavior: "smooth" });
-          }
-        }, 100);
-      }
+    if (isHomepage && window.location.hash) {
+      setTimeout(() => {
+        const section = document.querySelector(window.location.hash);
+        if (section) section.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     }
   }, [isHomepage]);
 
-  const toggleMobileMenu = () => {
-    setMobileMenuOpen(!isMobileMenuOpen);
-  };
+  const isActive = (href: string, path: string) =>
+    (isHomepage && activeSection === href) || pathname === path;
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-white/95 backdrop-blur-lg shadow-lg border-b border-blue-100"
-          : "bg-gradient-to-br from-blue-600 via-blue-500 to-blue-400"
-      }`}
-    >
-      {/* Compact decorative top border */}
-      <div
-        className={`h-0.5 bg-gradient-to-r from-blue-400 via-blue-300 to-blue-500 ${
-          isScrolled ? "opacity-100" : "opacity-0"
-        } transition-opacity duration-300`}
-      ></div>
+    <>
+      {/* ================= DESKTOP HEADER (MD+) ================= */}
+      <div className="hidden md:block absolute top-0 left-0 right-0 z-40 pt-4 px-8 md:px-12 lg:px-16 pointer-events-none">
+        <div className="max-w-full mx-auto pointer-events-none">
+          {/* Left: Brand Logo */}
+          <NextLink href="/" className="group pointer-events-auto inline-block">
+            <Heading
+              className="text-2xl md:text-3xl font-extrabold transition-all duration-300 group-hover:scale-105 mt-5 text-white"
+              style={{
+                fontFamily: "'Poppins', sans-serif",
+              }}
+            >
+              Dolphin Laundry
+            </Heading>
+          </NextLink>
+        </div>
+      </div>
 
-      <nav className="container mx-auto px-4 lg:px-6">
-        <div className="flex justify-between items-center py-2.5">
-          {/* Compact Logo Section */}
-          <Link
-            href="/"
-            className="flex items-center space-x-3 group cursor-pointer"
+      <header className="hidden md:block fixed top-0 left-0 right-0 z-50 pt-4 px-8 md:px-12 lg:px-16 pointer-events-none">
+        <div className="max-w-full mx-auto flex items-center justify-between pointer-events-none">
+          {/* Spacer for Logo */}
+          <div className="w-1 md:w-56" />
+
+          {/* Center: Floating Menu Links */}
+          <nav
+            className={`transition-all duration-300 pointer-events-auto ${
+              isScrolled ? "bg-white/95 shadow-xl" : "bg-white/90"
+            } backdrop-blur-3xl rounded-full px-6 py-4`}
           >
-            <div className="relative">
-              {/* Compact glow effect */}
-              <div
-                className={`absolute inset-0 rounded-xl blur-md transition-all duration-300 ${
-                  isScrolled ? "bg-blue-500/20" : "bg-white/20"
-                } group-hover:bg-yellow-400/30 group-hover:scale-105`}
-              ></div>
+            <div className="flex items-center gap-12">
+              {mainMenuItems.map((item) => (
+                <Link
+                  key={item.label}
+                  as={NextLink}
+                  href={item.href === "#beranda" ? "/" : item.path}
+                  onPress={() =>
+                    handleNavClick(
+                      item.href,
+                      item.path,
+                      item.href.startsWith("#")
+                    )
+                  }
+                  className={`text-lg font-medium transition-colors  ${
+                    isActive(item.href, item.path)
+                      ? "text-blue-600"
+                      : "text-blue-800 hover:text-blue-600"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </nav>
 
-              {/* Compact logo container */}
-              <div
-                className={`relative  p-1.5  transition-all duration-300  group-hover:scale-105 ${
-                  isScrolled ? "" : " "
-                }`}
-              >
-                <div className="w-12 h-12 bg-white rounded-xl overflow-hidden shadow-md p-0.5">
-                  <Image
-                    src={dlLogo || "/placeholder.svg"}
-                    alt="Dolphin Laundry Logo"
-                    width={120}
-                    height={120}
-                    className="w-full h-full object-contain"
-                  />
-                </div>
+          {/* Right: Language Switcher & Hamburger Button */}
+          <div className="flex items-center gap-4 pointer-events-auto">
+            {/* Language Switcher */}
+            <div
+              className={`transition-all duration-300 ${
+                isScrolled ? "bg-white/95 shadow-lg" : "bg-white/90"
+              } backdrop-blur-3xl rounded-full px-4 py-3`}
+            >
+              <LanguageSwitcher />
+            </div>
+
+            {/* Hamburger Button */}
+            <Button
+              isIconOnly
+              variant="flat"
+              onPress={() => setIsMenuOpen(true)}
+              className={`transition-all rounded-full w-16 h-16 min-w-16 ${
+                isScrolled ? "bg-white/95 shadow-lg" : "bg-white/90"
+              } backdrop-blur-3xl hover:bg-white`}
+              aria-label="Open menu"
+            >
+              <Icon
+                icon="lucide:menu"
+                className="text-blue-600"
+                width="28"
+                height="28"
+              />
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* ================= MOBILE HEADER (Solid Standard Bar) ================= */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white shadow-md border-b border-blue-100 flex items-center justify-between px-4 py-3">
+        <div className="flex items-center justify-between w-full">
+          {/* Mobile Logo */}
+          <NextLink href="/" className="z-50">
+            <Heading
+              className="text-xl font-extrabold text-blue-600"
+              style={{ fontFamily: "'Poppins', sans-serif" }}
+            >
+              Dolphin Laundry
+            </Heading>
+          </NextLink>
+
+          {/* Mobile Right Actions */}
+          <div className="flex items-center gap-3 z-50">
+            {/* Language Switcher */}
+            <div className="bg-blue-50 rounded-full px-1 py-0.5 border border-blue-100">
+              <div className="scale-90 origin-right">
+                <LanguageSwitcher />
               </div>
             </div>
 
-            <div className="transition-all duration-300">
-              <h1
-                className={`text-base sm:text-lg font-bold transition-all duration-300 ${
-                  isScrolled ? "text-gray-800" : "text-white"
-                } group-hover:text-blue-900 drop-shadow-sm`}
-              >
-                Dolphin Laundry
-              </h1>
-              <p
-                className={`text-xs font-medium transition-all duration-300 ${
-                  isScrolled ? "text-blue-900" : "text-blue-800"
-                } group-hover:text-blue-900`}
-              >
-                Dry Cleaning Kupang
-              </p>
-            </div>
-          </Link>
+            {/* Mobile Hamburger */}
+            <Button
+              isIconOnly
+              variant="flat"
+              onPress={() => setIsMenuOpen(true)} // Changed from toggle to strict true for opening overlay
+              className="rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100"
+            >
+              <Icon icon="lucide:menu" width="24" height="24" />
+            </Button>
+          </div>
+        </div>
+      </header>
 
-          {/* Compact Desktop Menu */}
-          <div className="hidden lg:flex items-center">
-            <ul className="flex space-x-4">
-              {navItems.map((item, index) => (
-                <li key={index}>
-                  <Link
-                    href={item.href === "#beranda" ? "/" : item.path}
-                    onClick={(e) => handleNavClick(e, item)}
-                    className={`relative text-xs font-semibold transition-all duration-300 hover:scale-105 group px-2.5 py-1.5 rounded-lg ${
-                      (isHomepage && activeSection === item.href) ||
-                      pathname === item.path
-                        ? isScrolled
-                          ? "text-blue-600 bg-blue-50"
-                          : "text-yellow-300 bg-white/10"
-                        : isScrolled
-                        ? "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-                        : "text-white hover:text-yellow-300 hover:bg-white/10"
-                    }`}
-                  >
-                    {item.label}
-                    <span
-                      className={`absolute -bottom-0.5 left-1/2 transform -translate-x-1/2 w-0 h-0.5 rounded-full transition-all duration-300 group-hover:w-2/3 ${
-                        isScrolled ? "bg-blue-600" : "bg-yellow-300"
-                      }`}
-                    ></span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
+      <div
+        className={`fixed inset-0 z-[100] transition-all duration-500 ${
+          isMenuOpen
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* Backdrop (outside menu area) */}
+        <div
+          className="fixed inset-0 bg-black/30 -z-10"
+          onClick={() => setIsMenuOpen(false)}
+        />
+
+        {/* Dropdown Panel with Curved Bottom */}
+        <div
+          className={`relative bg-gradient-to-r from-blue-400 via-blue-700 to-blue-800 transition-transform duration-500 origin-top ${
+            isMenuOpen ? "scale-y-100" : "scale-y-0"
+          }`}
+          style={{
+            borderBottomLeftRadius: "50% 8%",
+            borderBottomRightRadius: "50% 8%",
+          }}
+        >
+          {/* Close Button */}
+          <div className="absolute top-6 right-6 md:top-8 md:right-12 z-10">
+            <Button
+              isIconOnly
+              variant="flat"
+              onPress={() => setIsMenuOpen(false)}
+              className="bg-white/10 backdrop-blur-md hover:bg-white/20 transition-all rounded-full w-16 h-16 shadow-xl border border-white/10"
+              aria-label="Close menu"
+            >
+              <Icon
+                icon="lucide:x"
+                className="text-white"
+                width="32"
+                height="32"
+              />
+            </Button>
           </div>
 
-          {/* Compact Mobile Menu Button */}
-          <button
-            className={`lg:hidden p-2 rounded-lg transition-all duration-300 hover:scale-110 ${
-              isScrolled
-                ? "text-gray-700 hover:bg-blue-50 hover:text-blue-600"
-                : "text-white hover:bg-white/20"
-            }`}
-            type="button"
-            aria-expanded={isMobileMenuOpen}
-            aria-label="Toggle navigation"
-            onClick={toggleMobileMenu}
-          >
-            <div className="relative">
-              {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
-            </div>
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile Menu */}
-      <div
-        className={`lg:hidden transition-all duration-300 ease-out ${
-          isMobileMenuOpen
-            ? "max-h-screen opacity-100 visible"
-            : "max-h-0 opacity-0 invisible"
-        } overflow-hidden`}
-      >
-        <div
-          className={`backdrop-blur-lg border-t transition-all duration-300 ${
-            isScrolled
-              ? "bg-white/95 border-blue-100"
-              : "bg-blue-700/95 border-white/20"
-          }`}
-        >
-          <ul className="py-3 space-y-1">
-            {navItems.map((item, index) => (
-              <li
-                key={index}
-                className={`transform transition-all duration-300 ${
-                  isMobileMenuOpen
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-4 opacity-0"
-                }`}
-                style={{
-                  transitionDelay: isMobileMenuOpen ? `${index * 50}ms` : "0ms",
-                }}
-              >
+          {/* Menu Content - Centered */}
+          <div className="flex flex-col items-center justify-center px-6 py-20 md:py-16">
+            {/* Main Menu Items - Row */}
+            <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 mb-8">
+              {mainMenuItems.map((item) => (
                 <Link
+                  key={item.label}
+                  as={NextLink}
                   href={item.href === "#beranda" ? "/" : item.path}
-                  onClick={(e) => handleNavClick(e, item)}
-                  className={`block mx-3 px-3 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 hover:scale-[1.02] hover:translate-x-1 ${
-                    (isHomepage && activeSection === item.href) ||
-                    pathname === item.path
-                      ? isScrolled
-                        ? "text-blue-600 bg-blue-50 shadow-sm"
-                        : "text-yellow-300 bg-white/10 shadow-sm"
-                      : isScrolled
-                      ? "text-gray-700 hover:text-blue-600 hover:bg-blue-50"
-                      : "text-white hover:text-yellow-300 hover:bg-white/10"
+                  onPress={() =>
+                    handleNavClick(
+                      item.href,
+                      item.path,
+                      item.href.startsWith("#")
+                    )
+                  }
+                  className={`text-xl md:text-2xl font-bold transition-all hover:scale-110 ${
+                    isActive(item.href, item.path)
+                      ? "text-yellow-300"
+                      : "text-white hover:text-yellow-200"
                   }`}
                 >
-                  <span className="flex items-center">
-                    <span
-                      className={`w-2 h-2 rounded-full mr-3 transition-all duration-300 ${
-                        (isHomepage && activeSection === item.href) ||
-                        pathname === item.path
-                          ? isScrolled
-                            ? "bg-blue-600"
-                            : "bg-yellow-300"
-                          : isScrolled
-                          ? "bg-blue-400"
-                          : "bg-white/60"
-                      }`}
-                    ></span>
-                    {item.label}
-                  </span>
+                  {item.label}
                 </Link>
-              </li>
-            ))}
-          </ul>
+              ))}
+            </div>
+
+            {/* Divider */}
+            <div className="w-16 h-0.5 bg-white/50 mb-8" />
+
+            {/* Additional Menu Items - Row */}
+            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6 mb-10">
+              {additionalMenuItems.map((item) => (
+                <Link
+                  key={item.label}
+                  as={NextLink}
+                  href={item.href === "#beranda" ? "/" : item.path}
+                  onPress={() =>
+                    handleNavClick(
+                      item.href,
+                      item.path,
+                      item.href.startsWith("#")
+                    )
+                  }
+                  className={`text-sm md:text-base font-semibold transition-all hover:scale-105 ${
+                    isActive(item.href, item.path)
+                      ? "text-yellow-300"
+                      : "text-white/90 hover:text-yellow-200"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* Language Switcher for Mobile */}
+            <div className="mb-6 bg-white/45 backdrop-blur-md rounded-full px-6 py-3">
+              <LanguageSwitcher />
+            </div>
+
+            {/* Social Media Icons */}
+            <div className="flex gap-3">
+              <Link
+                href="https://www.instagram.com/dolphin.laundry_kupang"
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all hover:scale-110"
+              >
+                <Icon
+                  icon="lucide:instagram"
+                  className="text-white"
+                  width="20"
+                  height="20"
+                />
+              </Link>
+              <Link
+                href="https://www.facebook.com/rembo46"
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all hover:scale-110"
+              >
+                <Icon
+                  icon="lucide:facebook"
+                  className="text-white"
+                  width="20"
+                  height="20"
+                />
+              </Link>
+              <Link
+                href="https://goo.gl/maps/Tu5ijHJKQZAwYQiA6"
+                target="_blank"
+                rel="noreferrer"
+                className="p-3 bg-white/10 hover:bg-white/20 rounded-full transition-all hover:scale-110"
+              >
+                <Icon
+                  icon="lucide:map-pin"
+                  className="text-white"
+                  width="20"
+                  height="20"
+                />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
-    </header>
+    </>
   );
 };
 

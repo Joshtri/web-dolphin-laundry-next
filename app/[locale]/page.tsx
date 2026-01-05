@@ -82,14 +82,16 @@ export const metadata: Metadata = {
   },
 };
 
+import FloatingAiChat from "@/components/FloatingAiChat";
+
 export default function HomePage() {
   return (
     <>
       <AutoScrollHandler />
       <Hero />
+      <Services />
       <PriceList />
       <PerfumeSelection />
-      <Services />
       <WhyChooseUs />
       <Testimonials />
       {/* <FAQ />  */}
@@ -98,6 +100,7 @@ export default function HomePage() {
       <FloatingScrollToTop />
 
       <FloatingWhatsApp />
+      <FloatingAiChat />
     </>
   );
 }

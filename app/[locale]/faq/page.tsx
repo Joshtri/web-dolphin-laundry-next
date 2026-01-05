@@ -53,9 +53,9 @@ export const metadata: Metadata = {
 export default function FAQPage() {
   return (
     <>
-      <div className="pt-20">
+      {/* <div className="pt-20"> */}
         <FAQ />
-      </div>
+      {/* </div> */}
       <FloatingScrollToTop />
       <FloatingWhatsApp />
     </>

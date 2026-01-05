@@ -54,9 +54,7 @@ export const metadata: Metadata = {
 export default function LayananPage() {
   return (
     <>
-      <div className="pt-36 mb-10">
-        <Services />
-      </div>
+      <Services />
       <FloatingScrollToTop />
       <FloatingWhatsApp />
     </>
