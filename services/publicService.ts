@@ -1,33 +1,39 @@
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-export interface ServiceType {
-    type: string;
-    typeEn?: string;
-    price: string;
-    priceEn?: string;
-    duration: string;
-    durationEn?: string;
-}
 
 export interface PricingItem {
+    id: number;
+    categoryId: number;
     name: string;
-    nameEn?: string;
-    // For items with services array (grouped items)
-    services?: ServiceType[];
-    // For items without services (single service items)
-    price?: string;
-    priceEn?: string;
-    duration?: string;
-    durationEn?: string;
+    nameEn: string | null;
+    price: string;
+    unit: string;
+    unitEn: string | null;
+    durationText: string;
+    durationTextEn: string | null;
+    notes: string | null;
+    notesEn: string | null;
+    sortOrder: number;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface PricingCategory {
-    category: string;
-    categoryEn?: string;
-    icon: string;
+    id: number;
+    name: string;
+    nameEn: string | null;
     description: string;
-    descriptionEn?: string;
+    descriptionEn: string | null;
+    sortOrder: number;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt: string;
+}
+
+export interface PricingApiData {
+    categories: PricingCategory[];
     items: PricingItem[];
 }
 
@@ -71,13 +77,17 @@ export interface PerfumeCategory {
     isActive: boolean;
     createdAt: string;
     updatedAt: string;
-    perfumes: Perfume[];
+}
+
+export interface PerfumeApiData {
+    categories: PerfumeCategory[];
+    items: Perfume[];
 }
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const fetchPricing = async (): Promise<ApiResponse<PricingCategory[]>> => {
-    const response = await axios.get<ApiResponse<PricingCategory[]>>(`${API_URL}/pricing`);
+export const fetchPricing = async (): Promise<ApiResponse<PricingApiData>> => {
+    const response = await axios.get<ApiResponse<PricingApiData>>(`${API_URL}/pricing`);
     return response.data;
 };
 
@@ -86,8 +96,8 @@ export const fetchFaqs = async (): Promise<ApiResponse<FaqItem[]>> => {
     return response.data;
 };
 
-export const fetchPerfumes = async (): Promise<ApiResponse<PerfumeCategory[]>> => {
-    const response = await axios.get<ApiResponse<PerfumeCategory[]>>(`${API_URL}/perfumes`);
+export const fetchPerfumes = async (): Promise<ApiResponse<PerfumeApiData>> => {
+    const response = await axios.get<ApiResponse<PerfumeApiData>>(`${API_URL}/perfumes`);
     return response.data;
 };
 

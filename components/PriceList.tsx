@@ -55,85 +55,183 @@ const PriceList: React.FC = () => {
   };
 
   const pricelist: PriceCategory[] = React.useMemo(() => {
-    if (!apiResponse?.data || !Array.isArray(apiResponse.data)) return [];
+    if (!apiResponse?.data?.categories || !apiResponse?.data?.items) return [];
 
-    return apiResponse.data.map((category) => {
-      let items: PriceItemType[] = [];
+    // Create a map of categories
+    const categoriesMap = new Map(
+      apiResponse.data.categories.map((cat) => [cat.id, cat])
+    );
 
-      // Get localized category name
-      const catName =
-        locale === "en"
-          ? category.categoryEn || category.category
-          : category.category;
+    // Group items by category
+    const itemsByCategory = new Map<number, typeof apiResponse.data.items>();
+    apiResponse.data.items.forEach((item) => {
+      if (!itemsByCategory.has(item.categoryId)) {
+        itemsByCategory.set(item.categoryId, []);
+      }
+      itemsByCategory.get(item.categoryId)!.push(item);
+    });
 
-      const catDesc =
-        locale === "en"
-          ? category.descriptionEn || category.description
-          : category.description;
+    // Transform to PriceCategory format
+    return Array.from(categoriesMap.entries())
+      .map(([categoryId, category]) => {
+        const categoryItems = itemsByCategory.get(categoryId) || [];
 
-      const isDryClean = category.category.toLowerCase().includes("dry clean");
+        // Get localized category name
+        const catName =
+          locale === "en" ? category.nameEn || category.name : category.name;
 
-      if (isDryClean && Array.isArray(category.items)) {
-        // Handle Dry Clean category with both patterns:
-        // Pattern 1: Items with services array
-        // Pattern 2: Items with direct price/duration
+        const catDesc =
+          locale === "en"
+            ? category.descriptionEn || category.description
+            : category.description;
 
-        items = category.items.map((item) => {
-          const itemName =
-            locale === "en" ? item.nameEn || item.name : item.name;
+        // Check if this is a "Dry Clean" category (has items with notes indicating service type)
+        const isDryClean =
+          category.name.toLowerCase().includes("dry clean") ||
+          category.name.toLowerCase().includes("khusus");
 
-          // Check if this item has services array (Pattern 1)
-          if (item.services && Array.isArray(item.services)) {
+        let items: PriceItemType[] = [];
+
+        if (isDryClean) {
+          // Group items by name (e.g., "Kemeja Panjang" will have multiple service types)
+          const groupedByName = new Map<string, typeof categoryItems>();
+          categoryItems.forEach((item) => {
+            const itemName =
+              locale === "en" ? item.nameEn || item.name : item.name;
+            if (!groupedByName.has(itemName)) {
+              groupedByName.set(itemName, []);
+            }
+            groupedByName.get(itemName)!.push(item);
+          });
+
+          // Transform grouped items
+          items = Array.from(groupedByName.entries()).map(
+            ([itemName, variants]) => {
+              // If there are multiple variants (different service types), create services array
+              if (variants.length > 1) {
+                return {
+                  name: itemName,
+                  services: variants.map((variant) => {
+                    const serviceType =
+                      locale === "en"
+                        ? variant.notesEn || variant.notes || "Service"
+                        : variant.notes || "Layanan";
+
+                    const formattedPrice = new Intl.NumberFormat("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                      minimumFractionDigits: 0,
+                    }).format(parseFloat(variant.price));
+
+                    const unit =
+                      locale === "en"
+                        ? variant.unitEn || variant.unit
+                        : variant.unit;
+
+                    const duration =
+                      locale === "en"
+                        ? variant.durationTextEn || variant.durationText
+                        : variant.durationText;
+
+                    return {
+                      type: serviceType,
+                      price:
+                        variant.price === "0.00"
+                          ? "Hubungi Kami"
+                          : `${formattedPrice}/${unit}`,
+                      duration: duration || "-",
+                    };
+                  }),
+                };
+              }
+
+              // Single variant item
+              const item = variants[0];
+              const formattedPrice = new Intl.NumberFormat("id-ID", {
+                style: "currency",
+                currency: "IDR",
+                minimumFractionDigits: 0,
+              }).format(parseFloat(item.price));
+
+              const unit =
+                locale === "en" ? item.unitEn || item.unit : item.unit;
+
+              const duration =
+                locale === "en"
+                  ? item.durationTextEn || item.durationText
+                  : item.durationText;
+
+              return {
+                name: itemName,
+                price:
+                  item.price === "0.00"
+                    ? locale === "en"
+                      ? item.notesEn || "Contact Us"
+                      : item.notes || "Hubungi Kami"
+                    : `${formattedPrice}/${unit}`,
+                duration: duration || "-",
+              };
+            }
+          );
+        } else {
+          // Regular categories: transform items directly
+          items = categoryItems.map((item) => {
+            const itemName =
+              locale === "en" ? item.nameEn || item.name : item.name;
+
+            const formattedPrice = new Intl.NumberFormat("id-ID", {
+              style: "currency",
+              currency: "IDR",
+              minimumFractionDigits: 0,
+            }).format(parseFloat(item.price));
+
+            const unit = locale === "en" ? item.unitEn || item.unit : item.unit;
+
+            const duration =
+              locale === "en"
+                ? item.durationTextEn || item.durationText
+                : item.durationText;
+
+            // If price is 0, show notes instead
+            const priceDisplay =
+              item.price === "0.00"
+                ? locale === "en"
+                  ? item.notesEn || "Contact Us"
+                  : item.notes || "Hubungi Kami"
+                : `${formattedPrice}/${unit}`;
+
             return {
               name: itemName,
-              services: item.services.map((service) => ({
-                type:
-                  locale === "en"
-                    ? service.typeEn || service.type
-                    : service.type,
-                price:
-                  locale === "en"
-                    ? service.priceEn || service.price
-                    : service.price,
-                duration:
-                  locale === "en"
-                    ? service.durationEn || service.duration
-                    : service.duration,
-              })),
+              price: priceDisplay,
+              duration: duration || "-",
             };
-          }
-
-          // Otherwise, it's a single service item (Pattern 2)
-          return {
-            name: itemName,
-            price: locale === "en" ? item.priceEn || item.price : item.price,
-            duration:
-              locale === "en"
-                ? item.durationEn || item.duration
-                : item.duration,
-          };
-        });
-      } else {
-        // Regular categories (non-Dry Clean)
-        if (Array.isArray(category.items)) {
-          items = category.items.map((item) => ({
-            name: locale === "en" ? item.nameEn || item.name : item.name,
-            price: locale === "en" ? item.priceEn || item.price : item.price,
-            duration:
-              locale === "en"
-                ? item.durationEn || item.duration
-                : item.duration,
-          }));
+          });
         }
-      }
 
-      return {
-        category: catName || "Unknown Category",
-        icon: getIcon(category.icon),
-        description: catDesc || "",
-        items,
-      };
-    });
+        return {
+          category: catName || "Unknown Category",
+          icon: getIcon(catName),
+          description: catDesc || "",
+          items,
+        };
+      })
+      .sort((a, b) => {
+        const catA = categoriesMap.get(
+          Array.from(categoriesMap.entries()).find(
+            ([_, cat]) =>
+              (locale === "en" ? cat.nameEn || cat.name : cat.name) ===
+              a.category
+          )?.[0] ?? 0
+        );
+        const catB = categoriesMap.get(
+          Array.from(categoriesMap.entries()).find(
+            ([_, cat]) =>
+              (locale === "en" ? cat.nameEn || cat.name : cat.name) ===
+              b.category
+          )?.[0] ?? 0
+        );
+        return (catA?.sortOrder ?? 0) - (catB?.sortOrder ?? 0);
+      });
   }, [apiResponse, locale]);
 
   const handleCategoryChange = (category: string): void => {

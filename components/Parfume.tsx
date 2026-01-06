@@ -120,28 +120,32 @@ const PerfumeSelection: React.FC = () => {
 
   // Transform API data to flat perfumes array
   const perfumes = useMemo(() => {
-    if (!apiResponse?.data) return [];
+    if (!apiResponse?.data?.items || !apiResponse?.data?.categories) return [];
 
-    return apiResponse.data.flatMap((category) =>
-      (category.perfumes || []).map((perfume) => ({
-        name: locale === "en" ? perfume.nameEn || perfume.name : perfume.name,
-        category:
-          locale === "en" ? category.nameEn || category.name : category.name,
-        popular: perfume.popular,
-        fabricSafe: perfume.fabricSafe,
-        longLasting: perfume.longLasting,
-        premium: perfume.premium,
-      }))
+    const categoriesMap = new Map(
+      apiResponse.data.categories.map((cat) => [
+        cat.id,
+        locale === "en" ? cat.nameEn || cat.name : cat.name,
+      ])
     );
+
+    return apiResponse.data.items.map((perfume) => ({
+      name: locale === "en" ? perfume.nameEn || perfume.name : perfume.name,
+      category: categoriesMap.get(perfume.categoryId) || "",
+      popular: perfume.popular,
+      fabricSafe: perfume.fabricSafe,
+      longLasting: perfume.longLasting,
+      premium: perfume.premium,
+    }));
   }, [apiResponse, locale]);
 
   // Dynamic categories from API
   const allCategoryLabel = t("allCategory");
 
   const categories = useMemo(() => {
-    if (!apiResponse?.data) return [allCategoryLabel];
+    if (!apiResponse?.data?.categories) return [allCategoryLabel];
 
-    const cats = apiResponse.data
+    const cats = apiResponse.data.categories
       .filter((cat) => cat.isActive)
       .sort((a, b) => a.sortOrder - b.sortOrder)
       .map((cat) => (locale === "en" ? cat.nameEn || cat.name : cat.name));
