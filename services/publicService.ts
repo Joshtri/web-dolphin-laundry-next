@@ -74,7 +74,7 @@ export interface PerfumeCategory {
     perfumes: Perfume[];
 }
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export const fetchPricing = async (): Promise<ApiResponse<PricingCategory[]>> => {
     const response = await axios.get<ApiResponse<PricingCategory[]>>(`${API_URL}/pricing`);
