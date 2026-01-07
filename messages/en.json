@@ -127,9 +127,15 @@
   },
   "pricing": {
     "title": "Price List",
+    "headerTitle": "Laundry Price List",
     "subtitle": "Affordable prices with the best quality",
+    "headerDescription": "Choose the service that fits your needs with affordable prices and the best quality",
+    "checkPerfume": "Check Perfume",
+    "showAll": "Show All",
     "perKg": "per kg",
-    "startingFrom": "Starting from"
+    "startingFrom": "Starting from",
+    "loading": "Loading Price List...",
+    "error": "Failed to load prices."
   },
   "parfume": {
     "title": "FREE Choose Your Perfume",

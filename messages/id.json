@@ -127,9 +127,15 @@
   },
   "pricing": {
     "title": "Daftar Harga",
+    "headerTitle": "Daftar Harga Laundry",
     "subtitle": "Harga terjangkau dengan kualitas terbaik",
+    "headerDescription": "Pilih layanan yang sesuai dengan kebutuhan Anda dengan harga terjangkau dan kualitas terbaik",
+    "checkPerfume": "Cek Parfum",
+    "showAll": "Tampilkan Semua",
     "perKg": "per kg",
-    "startingFrom": "Mulai dari"
+    "startingFrom": "Mulai dari",
+    "loading": "Memuat Daftar Harga...",
+    "error": "Gagal memuat harga."
   },
   "parfume": {
     "title": "FREE Parfum Dipilih Sendiri",

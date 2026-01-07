@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Icon } from "@iconify/react";
 import { Button, Skeleton } from "@heroui/react";
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { usePricing } from "@/services/publicService";
 import { Heading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
@@ -31,14 +31,18 @@ interface PriceCategory {
 }
 
 const PriceList: React.FC = () => {
-  const [activeCategory, setActiveCategory] =
-    useState<string>("Tampilkan Semua");
+  const [activeCategory, setActiveCategory] = useState<string>("ALL");
   const { data: apiResponse, isLoading, isError } = usePricing();
   const locale = useLocale();
+  const t = useTranslations("pricing");
 
   const getIcon = (iconName: string) => {
     const lowerName = (iconName || "").toLowerCase();
-    if (lowerName.includes("droplet") || lowerName.includes("reguler")) {
+    if (
+      lowerName.includes("droplet") ||
+      lowerName.includes("reguler") ||
+      lowerName.includes("regular")
+    ) {
       return <Icon icon="lucide:droplet" width="24" height="24" />;
     }
     if (lowerName.includes("zap") || lowerName.includes("express")) {
@@ -137,7 +141,9 @@ const PriceList: React.FC = () => {
                       type: serviceType,
                       price:
                         variant.price === "0.00"
-                          ? "Hubungi Kami"
+                          ? locale === "en"
+                            ? "Contact Us"
+                            : "Hubungi Kami"
                           : `${formattedPrice}/${unit}`,
                       duration: duration || "-",
                     };
@@ -239,13 +245,13 @@ const PriceList: React.FC = () => {
   };
 
   if (isLoading) {
-    return <LoadingScreen message="Memuat Daftar Harga..." />;
+    return <LoadingScreen message={t("loading")} />;
   }
 
   if (isError) {
     return (
       <section className="py-16 bg-blue-600 text-white min-h-[400px] flex items-center justify-center">
-        <Text>Gagal memuat harga.</Text>
+        <Text>{t("error")}</Text>
       </section>
     );
   }
@@ -276,7 +282,7 @@ const PriceList: React.FC = () => {
             align="center"
             className="mb-4 text-white"
           >
-            Daftar Harga Laundry
+            {t("headerTitle")}
           </Heading>
           <div className="w-20 h-1 bg-yellow-400 mx-auto mb-4 rounded"></div>
           <Text
@@ -284,8 +290,7 @@ const PriceList: React.FC = () => {
             align="center"
             className="max-w-2xl mx-auto text-white/90"
           >
-            Pilih layanan yang sesuai dengan kebutuhan Anda dengan harga
-            terjangkau dan kualitas terbaik
+            {t("headerDescription")}
           </Text>
 
           <div className="mt-6">
@@ -299,7 +304,7 @@ const PriceList: React.FC = () => {
                 window.location.href = "/#perfume-selection";
               }}
             >
-              Cek Parfum
+              {t("checkPerfume")}
             </Button>
           </div>
         </div>
@@ -307,20 +312,18 @@ const PriceList: React.FC = () => {
         {/* Navigation Buttons */}
         <div className="flex flex-wrap justify-center gap-3 mb-10">
           <Button
-            variant={
-              activeCategory === "Tampilkan Semua" ? "solid" : "bordered"
-            }
+            variant={activeCategory === "ALL" ? "solid" : "bordered"}
             className={
-              activeCategory === "Tampilkan Semua"
+              activeCategory === "ALL"
                 ? "bg-white text-blue-600 font-semibold shadow-md"
                 : "border-white/30 text-white hover:bg-white/10"
             }
             startContent={
               <Icon icon="lucide:clipboard-list" width="18" height="18" />
             }
-            onClick={() => handleCategoryChange("Tampilkan Semua")}
+            onClick={() => handleCategoryChange("ALL")}
           >
-            Tampilkan Semua
+            {t("showAll")}
           </Button>
           {pricelist.map((category, index) => (
             <Button
@@ -345,8 +348,7 @@ const PriceList: React.FC = () => {
         {(() => {
           const filtered = pricelist.filter(
             (category) =>
-              activeCategory === "Tampilkan Semua" ||
-              category.category === activeCategory
+              activeCategory === "ALL" || category.category === activeCategory
           );
           return (
             <div
