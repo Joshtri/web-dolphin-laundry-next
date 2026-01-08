@@ -288,7 +288,7 @@ const Hero: React.FC = () => {
           {/* Text Column (Right) */}
           <div className="text-center lg:text-left order-1 lg:order-2">
             {/* Main Heading */}
-            <div className="mb-4 sm:mb-6 md:mb-8">
+            <div className="mb-0 sm:mb-6 md:mb-8">
               <Heading
                 ref={titleRef}
                 as="h1"
@@ -299,21 +299,31 @@ const Hero: React.FC = () => {
                 {t("welcome")}
               </Heading>
               <Heading as="h2" size="4xl" weight="extrabold">
-                <span
-                  ref={textSwitchRef}
-                  className="inline-block bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent leading-tight"
-                  style={{ display: "inline-block" }}
-                >
-                  {texts[currentText]}
-                </span>
+                <div className="grid grid-cols-1 grid-rows-1 items-start justify-items-center lg:justify-items-start">
+                  {texts.map((text, index) => (
+                    <span
+                      key={index}
+                      className="col-start-1 row-start-1 invisible select-none leading-tight"
+                      aria-hidden="true"
+                    >
+                      {text}
+                    </span>
+                  ))}
+                  <span
+                    ref={textSwitchRef}
+                    className="col-start-1 row-start-1 inline-block bg-gradient-to-r from-yellow-300 to-yellow-500 bg-clip-text text-transparent leading-tight"
+                  >
+                    {texts[currentText]}
+                  </span>
+                </div>
               </Heading>
             </div>
 
             {/* Mobile Image (Visible only on mobile, between Title and Description) */}
-            <div className="lg:hidden w-full flex justify-center items-center mb-8">
+            <div className="lg:hidden w-full flex justify-center items-center mb-0 -mt-12">
               <div
                 ref={mobileImageRef}
-                className="relative w-full h-[500px] sm:h-[600px] max-w-[500px]"
+                className="relative w-full h-[350px] sm:h-[500px] max-w-[500px]"
               >
                 <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-110 -z-10 animate-pulse" />
                 <Image
@@ -321,7 +331,7 @@ const Hero: React.FC = () => {
                   alt="Happy customer with clean laundry"
                   fill
                   sizes="(max-width: 768px) 100vw, 500px"
-                  className="object-contain drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]"
+                  className="object-contain object-top drop-shadow-[0_0_20px_rgba(255,255,255,0.6)]"
                   priority
                   quality={100}
                   unoptimized={false}
@@ -381,7 +391,7 @@ const Hero: React.FC = () => {
                 color="success"
                 size="lg"
                 radius="lg"
-                className=" font-semibold shadow-lg sm:shadow-xl w-full sm:w-auto max-w-xs text-white"
+                className=" font-semibold shadow-lg sm:shadow-xl w-full sm:w-auto max-w-xs text-white "
                 startContent={
                   <Icon icon="ic:baseline-whatsapp" width="20" height="20" />
                 }

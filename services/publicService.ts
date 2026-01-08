@@ -84,7 +84,7 @@ export interface PerfumeApiData {
     items: Perfume[];
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = "/api"; // Use local proxy to hide external API URL
 
 export const fetchPricing = async (): Promise<ApiResponse<PricingApiData>> => {
     const response = await axios.get<ApiResponse<PricingApiData>>(`${API_URL}/pricing`);
