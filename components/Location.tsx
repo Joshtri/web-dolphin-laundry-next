@@ -141,7 +141,7 @@ const Location: React.FC = () => {
                   onPress={() =>
                     window.open(
                       "https://goo.gl/maps/Tu5ijHJKQZAwYQiA6",
-                      "_blank"
+                      "_blank",
                     )
                   }
                   className="w-full bg-yellow-400 text-blue-900 font-bold shadow-lg hover:bg-white hover:text-blue-600 transition-all duration-300"
@@ -161,7 +161,7 @@ const Location: React.FC = () => {
           <Card className="overflow-hidden bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl hover:shadow-blue-900/50 transition-all duration-300 flex flex-col h-full">
             <CardBody className="p-8 flex-1 flex flex-col">
               <div className="flex items-center space-x-3 mb-6">
-                <div className="p-3 bg-white/10 rounded-xl text-green-400 border border-white/10">
+                <div className="p-3 text-white ring-1 ring-gray-400/50 rounded-full  bg-white/20">
                   <Icon icon="lucide:map" width="24" height="24" />
                 </div>
                 <Heading as="h3" size="xl" weight="bold" className="text-white">
@@ -208,17 +208,17 @@ const Location: React.FC = () => {
           {[
             {
               icon: "lucide:map-pin",
-              color: "text-red-400 bg-red-400/20 ring-1 ring-red-400/50",
+              color: "text-white ring-1 ring-gray-400/50 bg-white/20",
               key: "strategic",
             },
             {
               icon: "lucide:clock",
-              color: "text-amber-400 bg-amber-400/20 ring-1 ring-amber-400/50",
+              color: "text-white ring-1 ring-gray-400/50 bg-white/20",
               key: "openDaily",
             },
             {
               icon: "lucide:map",
-              color: "text-blue-400 bg-blue-400/20 ring-1 ring-blue-400/50",
+              color: "text-white ring-1 ring-gray-400/50 bg-white/20",
               key: "easyToFind",
             },
           ].map((item, index) => (

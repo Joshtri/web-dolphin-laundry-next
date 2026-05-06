@@ -249,8 +249,21 @@
   },
   "aiChat": {
     "title": "Dolphin Asisten",
-    "status": "Coming Soon",
-    "description": "Kami sedang melatih asisten cerdas ini untuk memberikan pelayanan terbaik bagi Anda.",
-    "featureTeaser": "Fitur canggih segera hadir!"
+    "online": "Online",
+    "welcome": "Hai! Saya Dolphin Asisten. Saya bisa bantu kamu soal rekomendasi parfum, info harga, layanan, dan lainnya. Mau tanya apa?",
+    "popularPerfumes": "Parfum Populer",
+    "freshScents": "Aroma Segar & Sejuk",
+    "fastestService": "Layanan Tercepat",
+    "chipPricing": "Daftar Harga?",
+    "chipLocation": "Lokasi Laundry?",
+    "chipPerfume": "Parfumnya apa saja?",
+    "inputPlaceholder": "Tanya apa saja...",
+    "askPopularPerfumes": "Apa parfum paling populer di Dolphin Laundry?",
+    "askFreshScents": "Bisa rekomendasikan parfum beraroma segar dan sejuk?",
+    "askExpressService": "Layanan laundry tercepat apa yang tersedia dan berapa harganya?",
+    "askPricing": "Berapa harga laundry?",
+    "askLocation": "Di mana lokasi Dolphin Laundry dan jam operasionalnya?",
+    "askPerfume": "Ceritakan tentang pilihan parfum yang tersedia",
+    "errorMessage": "Maaf, terjadi kesalahan. Silakan coba lagi nanti."
   }
 }

@@ -321,7 +321,7 @@ const PriceList: React.FC = () => {
             startContent={
               <Icon icon="lucide:clipboard-list" width="18" height="18" />
             }
-            onClick={() => handleCategoryChange("ALL")}
+            onPress={() => handleCategoryChange("ALL")}
           >
             {t("showAll")}
           </Button>

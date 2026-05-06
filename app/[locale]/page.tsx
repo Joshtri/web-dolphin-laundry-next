@@ -11,10 +11,10 @@ import PerfumeSelection from "@/components/Parfume";
 import FloatingScrollToTop from "@/components/ui/FloatingScrollToTop";
 import FAQ from "@/components/FAQ";
 import AutoScrollHandler from "@/components/ui/AutoScrollHandler";
+import FloatingAiChat from "@/features/artificial-intelligent/floating-helper";
 
 export const metadata: Metadata = {
-  title:
-    "Dolphin Laundry Kupang - Laundry Express 3 Jam & Dry Cleaning Terbaik di NTT",
+  title: "Dolphin Laundry & Dry Cleaning Kupang",
   description:
     "🏆 TERPERCAYA! Laundry Express 3 jam, Dry Cleaning Premium, 34+ Pilihan Parfum Import. Harga mulai Rp 11.000/kg. Layanan antar jemput tersedia. ☎️ 082144500030 - 081529500130",
   keywords: [
@@ -81,8 +81,6 @@ export const metadata: Metadata = {
     ICBM: "-10.1772, 123.6070",
   },
 };
-
-import FloatingAiChat from "@/components/FloatingAiChat";
 
 export default function HomePage() {
   return (

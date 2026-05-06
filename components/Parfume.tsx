@@ -314,27 +314,27 @@ const PerfumeSelection: React.FC = () => {
 
               {/* Floating badges */}
               <motion.div
-                animate={{ y: [0, -10, 0] }}
-                transition={{
-                  duration: 3,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                }}
+                // animate={{ y: [0, -10, 0] }}
+                // transition={{
+                //   duration: 3,
+                //   repeat: Infinity,
+                //   ease: "easeInOut",
+                // }}
                 className="absolute -top-4 -right-4 bg-yellow-400 text-blue-900 font-bold px-4 py-2 rounded-full shadow-lg text-sm"
               >
                 Make your laundry fresh
               </motion.div>
               <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: "easeInOut",
-                  delay: 1,
-                }}
+                // animate={{ y: [0, 10, 0] }}
+                // transition={{
+                //   duration: 4,
+                //   repeat: Infinity,
+                //   ease: "easeInOut",
+                //   delay: 1,
+                // }}
                 className="absolute -bottom-4 -left-4 bg-white text-blue-600 font-bold px-4 py-2 rounded-full shadow-lg text-sm flex items-center gap-1"
               >
-                <Icon icon="lucide:sparkles" className="w-4 h-4" /> 100% Free
+                100% Free
               </motion.div>
             </div>
           </motion.div>
@@ -388,7 +388,7 @@ const PerfumeSelection: React.FC = () => {
                 fullWidth
                 variant="bordered"
                 className="text-white border-white/30"
-                onClick={() => setShowFeatureDropdown(!showFeatureDropdown)}
+                onPress={() => setShowFeatureDropdown(!showFeatureDropdown)}
                 endContent={
                   <Icon
                     icon={

@@ -12,9 +12,21 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.config({
     extends: ["next"],
+    plugins: ["unused-imports"],
+
     rules: {
-      "react/no-unescaped-entities": "off",
-      "@next/next/no-page-custom-font": "off",
+      ...reactHooks.configs.recommended.rules,
+      "react-refresh/only-export-components": [
+        "warn",
+        { allowConstantExport: true },
+      ],
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+        },
+      ],
     },
   }),
 ];

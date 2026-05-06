@@ -3,7 +3,11 @@
     "allow": [
       "Bash(npm run build:*)",
       "Bash(npm run dev:*)",
-      "Bash(timeout /t 5 /nobreak)"
+      "Bash(timeout /t 5 /nobreak)",
+      "Bash(xargs cat:*)",
+      "Bash(npx tsc:*)",
+      "Bash(node -e \"const pkg = require\\('./node_modules/ai/package.json'\\); console.log\\('ai:', pkg.version\\);\")",
+      "Bash(node -e \"const pkg = require\\('./node_modules/@ai-sdk/react/package.json'\\); console.log\\('@ai-sdk/react:', pkg.version\\);\")"
     ]
   }
 }

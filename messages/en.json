@@ -249,8 +249,21 @@
   },
   "aiChat": {
     "title": "Dolphin Assistant",
-    "status": "Coming Soon 🚀",
-    "description": "We are currently training this smart assistant to provide the best service for you.",
-    "featureTeaser": "Advanced features coming soon!"
+    "online": "Online",
+    "welcome": "Hi! 👋 I'm Dolphin Assistant. I can help you with perfume recommendations, pricing info, services, and more. What would you like to know?",
+    "popularPerfumes": "Popular Perfumes",
+    "freshScents": "Fresh & Cool Scents",
+    "fastestService": "Fastest Service",
+    "chipPricing": "Pricing List",
+    "chipLocation": "Laundry Location",
+    "chipPerfume": "What perfumes do you have available?",
+    "inputPlaceholder": "Ask me anything...",
+    "askPopularPerfumes": "What are the most popular perfumes at Dolphin Laundry?",
+    "askFreshScents": "Can you recommend fresh and cool scented perfumes?",
+    "askExpressService": "What's the fastest laundry service you offer and how much does it cost?",
+    "askPricing": "What are the laundry prices?",
+    "askLocation": "Where is Dolphin Laundry located and what are the operating hours?",
+    "askPerfume": "Tell me about the perfume options available",
+    "errorMessage": "Sorry, something went wrong. Please try again later."
   }
 }
