@@ -58,7 +58,7 @@ const Header = () => {
   const pathname = usePathname();
   const isHomepage = pathname === `/${locale}` || pathname === `/${locale}/`;
 
-  const handleNavClick = (href: string, path: string, isHashLink: boolean) => {
+  const handleNavClick = (href: string, isHashLink: boolean) => {
     if (isHomepage && isHashLink && href.startsWith("#")) {
       const section = document.querySelector(href);
       if (section) {
@@ -145,7 +145,6 @@ const Header = () => {
                   onPress={() =>
                     handleNavClick(
                       item.href,
-                      item.path,
                       item.href.startsWith("#")
                     )
                   }
@@ -281,7 +280,6 @@ const Header = () => {
                   onPress={() =>
                     handleNavClick(
                       item.href,
-                      item.path,
                       item.href.startsWith("#")
                     )
                   }
@@ -309,7 +307,6 @@ const Header = () => {
                   onPress={() =>
                     handleNavClick(
                       item.href,
-                      item.path,
                       item.href.startsWith("#")
                     )
                   }

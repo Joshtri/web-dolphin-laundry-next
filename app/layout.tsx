@@ -1,5 +1,8 @@
 import {routing} from '@/i18n/routing';
 import {ReactNode} from 'react';
+import './globals.css';
+import '../public/assets/css/bubble.css';
+import '../public/assets/css/clock.css';
 
 type Props = {
   children: ReactNode;

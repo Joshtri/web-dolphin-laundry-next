@@ -1,8 +1,5 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Plus_Jakarta_Sans } from "next/font/google";
-import "../globals.css";
-import "../../public/assets/css/bubble.css";
-import "../../public/assets/css/clock.css";
 import Header from "@/components/partials/Header";
 import Footer from "@/components/partials/Footer";
 import ClientProviders from "@/components/ClientProviders";

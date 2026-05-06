@@ -130,6 +130,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({
               <div className="w-2 h-2 bg-white rounded-full dot-2" />
               <div className="w-2 h-2 bg-white rounded-full dot-3" />
             </div>
+            <p className="text-white text-sm mt-4">{message}</p>
           </div>
 
           {/* Shadow under logo */}
